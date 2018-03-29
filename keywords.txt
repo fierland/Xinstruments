@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map For XpUDP
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Xinstruments	KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+SetNewValue		KEYWORD2
+Initiate		KEYWORD2
+Calibrate		KEYWORD2
+SwitchOfff	KEYWORD2
+SwitchOn	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+ 
