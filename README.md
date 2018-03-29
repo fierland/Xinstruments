@@ -1,11 +1,9 @@
 NOT DONE YET
 
 
-This is the Arduino AccelStepper library. It provides an object-oriented interface for 2, 3 or 4 pin stepper motors and motor drivers.
+This is the code library for my Cessna 172 Cockpit project. Just starting will add the print layouts, sketchuo and other files later. I'm just stating :-)
 
-The standard Arduino IDE includes the Stepper library (http://arduino.cc/en/Reference/Stepper) for stepper motors. It is perfectly adequate for simple, single motor applications.
 
-AccelStepper significantly improves on the standard Arduino Stepper library in several ways:
 
-  - Supports ...
+ 
 ---

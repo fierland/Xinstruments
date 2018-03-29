@@ -3,11 +3,10 @@
 #######################################
 
 #######################################
-# Datatypes (KEYWORD1)
+# Instrument specific
 #######################################
 
 Xinstruments	KEYWORD1
-
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -16,10 +15,45 @@ Xinstruments	KEYWORD1
 SetNewValue		KEYWORD2
 Initiate		KEYWORD2
 Calibrate		KEYWORD2
-SwitchOfff	KEYWORD2
-SwitchOn	KEYWORD2
+SwitchOfff		KEYWORD2
+SwitchOn		KEYWORD2
 
 #######################################
-# Constants (LITERAL1)
+# Steppers and servos
+#######################################
+RangeStepper	KEYWORD1
+Stepper360		KEYWORD1
+
+StepperPie		KEYWORD1
+ServoPie		KEYWORD1
+
+moveTo			KEYWORD2
+runToNewPosition	KEYWORD2
+
+calibrate		KEYWORD2
+setZero			KEYWORD2
+run				KEYWORD2
+powerState		KEYWORD2
+powerOn			KEYWORD2
+powerOff		KEYWORD2
+
+
+#######################################
+# XPUtils
+#######################################
+
+XPUtils			KEYWORD1
+
+xint2uint32		KEYWORD2
+xflt2float		KEYWORD2
+
+#######################################
+# XpUDP
 #######################################
  
+XpUDP			KEYWORD1
+
+GetBeacon		KEYWORD2
+start			KEYWORD2
+dataReader		KEYWORD2
+registerDataRef	KEYWORD2
