@@ -12,7 +12,7 @@
 #ifndef ServoPie_h_
 #define ServoPie_h_
 
-#include <mydebug.h>
+#include "mydebug.h"
 
 #include <stdlib.h>
 // include the Servo library
@@ -37,14 +37,16 @@
 class ServoPie {
 public:
 
-// declare constructor baased on accelstepper
-	ServoPie( float rangeMax = 300, float rangeMin = 0, uint8_t pieMin = 0,uint8_t pieMax = 180,  uint8_t pin1 = 2 ) ;
+// declare constructor based on accelstepper
+	ServoPie(float rangeMin = 0, float rangeMax = 300,  uint8_t pieMin = 0,uint8_t pieMax = 180,  uint8_t pin1 = 2 ) ;
 
 	~ServoPie();
 
 	// ...
 	
-	virtual int moveTo(float absolute);
+	virtual void moveTo(float absolute);
+	virtual void moveMin();
+	virtual void moveMax();
 	
 	virtual void powerOn();
 	
@@ -62,6 +64,7 @@ protected:
 	int 	_pieMin	=	0;
 	int		_pieMax	=	0;
 	bool	_powerOn = true;
+	int		_pinPWM = 2;
 	
 
 

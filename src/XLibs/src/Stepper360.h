@@ -26,14 +26,19 @@
 
 #include <limits.h>
 
+// define type of control in my project all steppers will now be controled by a VID66-0x controler
+#define _USE_STEP_DRIVER
 			
 		
 class Stepper360 : public AccelStepper {
 public:
 	// bool powerState = false;
 
+
+	Stepper360(float rangeMax = 360, uint8_t pinZero = 6, uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, bool enable = true);
 	// declare constructor baased on accelstepper
-	Stepper360( float rangeMax = 360, uint8_t pinZero = 6, uint16_t stepsCircle = 900, uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
+	Stepper360( float rangeMax = 360, uint8_t pinZero = 6, uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
+
 	
 	~Stepper360();
 

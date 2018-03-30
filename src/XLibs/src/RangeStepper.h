@@ -14,8 +14,9 @@
 
 #include <stdlib.h>
 #include <QList.h>
-#include <mydebug.h>
+#include "mydebug.h"
 #include <AccelStepper.h>
+
 
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -26,10 +27,10 @@
 
 #include <limits.h>
 
-			
+// define type of control in my project all steppers will now be controled by a VID66-0x controler
+//#define _USE_STEP_DRIVER
 		
-class RangeStepper 
-{
+class RangeStepper : public AccelStepper {
 public:
 	bool _powerState = false;
 	// typedef to declare the type of stepper motor to use
@@ -38,12 +39,11 @@ public:
 			type28BYJ	= 4096
 	} MotorType;
 			
- 
-	// declare same 
-	RangeStepper (uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, float RangeMax, float RangeMin = 0, uint8_t stepperType = RangeStepper::typeVID27);
-	
-	RangeStepper (uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, float RangeMax, float RangeMin = 0, float wedgeSize =90 , uint8_t stepperType = RangeStepper::typeVID27);
-	
+	RangeStepper(uint8_t pin1 = 2, uint8_t pin2 = 3, float RangeMax, float RangeMin = 0, uint8_t stepperType = RangeStepper::typeVID27);
+	RangeStepper(uint8_t pin1 = 2, uint8_t pin2 = 3, float RangeMax, float RangeMin = 0, float wedgeSize = 90, uint8_t stepperType = RangeStepper::typeVID27);
+
+	RangeStepper(uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, float RangeMax, float RangeMin = 0, uint8_t stepperType = RangeStepper::typeVID27);
+	RangeStepper(uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, float RangeMax, float RangeMin = 0, float wedgeSize = 90, uint8_t stepperType = RangeStepper::typeVID27);
 	
 	// start connection
 	int calibrate() ;
@@ -69,7 +69,7 @@ protected:
 	bool	_isOn		 = false;
 	
 private:
-	void constructAll(int8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, uint8_t stepperType );
+	void _constructAll(int8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, uint8_t stepperType );
+	void _initStepper(uint8_t stepperType);
 
 #endif
-

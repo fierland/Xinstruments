@@ -1,13 +1,46 @@
 // setting up the UPD stuff
-#include <Stepper360.h>
-#include <mydebug.h>
+#include "stepper360.h"
+#include "mydebug.h"
 
 bool _atZero = false;
 
 //
 // constructor for segmented dails
+
+Stepper360::Stepper360(float rangeMax, uint8_t pinZero, uint16_t stepsCircle, uint8_t stepType, uint8_t pin1, uint8_t pin2, bool enable) : AccelStepper(stepType, pin1, pin2, 0, 0, enable) {
+
+	DPRINTLN("Start Stepper360 wedge constructor");
+
+
+	// set internal params
+	_rangeMin = 0;
+	_rangeMax = rangeMax;
+	_totalRange = rangeMax;
+	_stepsPerRotation = stepsCircle;
+
+	// define step size for later calculations
+	/// first define part of circle used
+	_stepsPerItem = _stepsPerRotation / _totalRange;
+
+
+	DPRINT("New 360 dail (");
+	DPRINT(_rangeMin);
+	DPRINT("->");
+	DPRINT(_rangeMax);
+	DPRINT(") stepsize:");
+	DPRINTLN(_stepsPerItem);
+
+	// set some defaults
+	_currentPos = 0;
+	_newPos = 0;
+	_moveSize = 0;
+
+
+
+	DPRINTLN("End Stepper360 wedge constructor");
+}
 //
-Stepper360::	Stepper360( float rangeMax , uint8_t pinZero , uint16_t stepsCircle , uint8_t interface , uint8_t pin1 , uint8_t pin2 , uint8_t pin3 , uint8_t pin4 , bool enable  ): AccelStepper( interface ,  pin1 ,  pin2 , pin3 ,pin4 , enable) {
+Stepper360::Stepper360( float rangeMax , uint8_t pinZero , uint16_t stepsCircle , uint8_t stepType, uint8_t pin1 , uint8_t pin2 , uint8_t pin3 , uint8_t pin4 , bool enable  ): AccelStepper(stepType,  pin1 ,  pin2 , pin3 ,pin4 , enable) {
 	
 	DPRINTLN("Start Stepper360 wedge constructor");
 			
@@ -39,6 +72,7 @@ Stepper360::	Stepper360( float rangeMax , uint8_t pinZero , uint16_t stepsCircle
 	
 	DPRINTLN("End Stepper360 wedge constructor");	
 }
+
 
 //
 // deconstructor

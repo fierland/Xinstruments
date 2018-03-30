@@ -1,12 +1,12 @@
 // setting up the UPD stuff
-#include <ServoPie.h>
-#include <mydebug.h>
+#include "ServoPie.h"
+
 
 
 //
 //	constructor
 //
-ServoPie::ServoPie( float rangeMax, float rangeMin, uint8_t pieMin, uint8_t pieMax, uint8_t pin1 ) {
+ServoPie::ServoPie(float rangeMin, float rangeMax, uint8_t pieMin, uint8_t pieMax, uint8_t pin1 ) {
 	
 	DPRINTLN("Start ServoPie constructor");
 	
@@ -16,6 +16,7 @@ ServoPie::ServoPie( float rangeMax, float rangeMin, uint8_t pieMin, uint8_t pieM
 	_totalRange		= rangeMax - rangeMin;
 	_pieMin		 	= (pieMin<0) ? 0: pieMin;;
 	_pieMax			= (pieMax>180) ? 180 : pieMax;;	
+	_pinPWM			= pin1;
 	//TODO: range checking
 
 
@@ -61,6 +62,23 @@ void ServoPie::moveTo0(void){
 	DPRINTLN("End ServoPie moveTo0");	
 }
 
+
+//
+// move to main position
+//
+void ServoPie::moveMin(void) {
+	moveTo(_pieMin);
+
+}
+
+//
+// move to max position
+//
+void ServoPie::moveMax(void) {
+	moveTo(_pieMax);
+}
+
+
 //
 // deconstructor
 //
@@ -72,7 +90,7 @@ ServoPie::~ServoPie(){
 //
 // set the dail to new value_comp
 //
-int ServoPie::moveTo(float newPos){	
+void ServoPie::moveTo(float newPos){	
 	DPRINTLN("Start ServoPie moveTo");
   	_myServo->write(map(newPos,_rangeMin,_rangeMax,_pieMin,_pieMax));
 	DPRINTLN("End ServoPie moveTo");
@@ -85,6 +103,7 @@ void ServoPie::powerOn(){
 	
 	DPRINTLN("Start ServoPie powerOn");
 	_powerOn=true;
+	_myServo->attach(_pinPWM);
 	DPRINTLN("End ServoPie powerOn");
 }
 
@@ -94,9 +113,8 @@ void ServoPie::powerOn(){
 void ServoPie::powerOff(){
 	
 	DPRINTLN("Start ServoPie powerOff");  
-	_currentPos =0;
 	_powerOn = false;
-	moveTo0();
+	_myServo->detach();
 	DPRINTLN("End ServoPie powerOff");
 
 }

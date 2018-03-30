@@ -1,57 +1,101 @@
 // setting up the UPD stuff
-#include <RangeStepper.h>
-#include <XPUtils.h>
+#include "RangeStepper.h"
+#include "XPUtils.h""
 
 //
 //	constructor
 //
-RangeStepper::constructAll(int8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, uint8_t stepperType ){
-	uint8_t tmpType;
-	
-	DPRINTLN("Start RangeStepper construct-all");
-	// create the stepper itself
-	case (stepperType) {
 
-		switch RangeStepper::typeVID27 :	
-			tmpType	= AccelStepper::FULL4WIRE;
-			break;
-		switch RangeStepper::type28BYJ :	
-			tmpType	= AccelStepper::HALF4WIRE;
-			break;
-	}
-    // create the stepper itself
-	_stepper = new AccelStepper(tmpType,pin1,pin2,pin3,pin4,true); 
-	
+void _initStepper(uint8_t stepperType) {
 	// set some defaults
-	_CurrentPos 	= 0 ;	
-	_NewPos 		= 0 ;
-	_moveSize 		= 0 ;
-	_isOn		 	= false;
-	
-	
+	_CurrentPos = 0;
+	_NewPos = 0;
+	_moveSize = 0;
+	_isOn = false;
+
+
 	case (stepperType) {
 		switch RangeStepper::typeVID27 :
-			// set the speed at 60 rpm:
-			// myStepper.setSpeed(500);
-			_rotationSteps = RangeStepper::typeVID27;
-			_stepper.setMaxSpeed(10000);
-			_stepper.setAcceleration(1000.0);
-			_stepper.setSpeed(5000); 
-			_stepper.setMinPulseWidth(1);
-			break;
+		// set the speed at 60 rpm:
+		// myStepper.setSpeed(500);
+		_rotationSteps = RangeStepper::typeVID27;
+		_stepper.setMaxSpeed(5000);
+		_stepper.setAcceleration(300.0);
+		_stepper.setSpeed(1000);
+		_stepper.setMinPulseWidth(1);
+		break;
 		switch RangeStepper::type28BYJ :
-			_rotationSteps = RangeStepper::type28BYJ;
-			_stepper.setMaxSpeed(5000);
-			_stepper.setAcceleration(300.0);
-			_stepper.setSpeed(3000); 
-			_stepper.setMinPulseWidth(4);
-			break;
+		_rotationSteps = RangeStepper::type28BYJ;
+		_stepper.setMaxSpeed(5000);
+		_stepper.setAcceleration(300.0);
+		_stepper.setSpeed(3000);
+		_stepper.setMinPulseWidth(4);
+		break;
 	}
 	// TODO include code to calibrate dail seek 0
-	
-	DPRINTLN("End RangeStepper construct-all");
+
+}
+
+
+
+//
+//	constructor
+//
+void _constructAll(int8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, uint8_t stepperType) {
+	uint8_t tmpType;
+
+	DPRINTLN("Start RangeStepper construct-all");
+	// create the stepper itself
+	if (pin3 == 0 && pin4 == 0)
+	{
+		tmpType = AccelStepper::DRIVER;
+	}
+	else {
+		switch (stepperType) {
+
+			case RangeStepper::typeVID27 :
+			tmpType = AccelStepper::FULL4WIRE;
+			break;
+			case RangeStepper::type28BYJ :
+			tmpType = AccelStepper::HALF4WIRE;
+			break;
+		}
 		
+	};
+
+	_stepper = new AccelStepper(tmpType, pin1, pin2, pin3, pin4, true);
+	// create the stepper itself
+	
+	// set some defaults
+	_CurrentPos = 0;
+	_NewPos = 0;
+	_moveSize = 0;
+	_isOn = false;
+
+
+	case (stepperType) {
+		switch RangeStepper::typeVID27 :
+		// set the speed at 60 rpm:
+		// myStepper.setSpeed(500);
+		_rotationSteps = RangeStepper::typeVID27;
+		_stepper.setMaxSpeed(5000);
+		_stepper.setAcceleration(300.0);
+		_stepper.setSpeed(1000);
+		_stepper.setMinPulseWidth(1);
+		break;
+		switch RangeStepper::type28BYJ :
+		_rotationSteps = RangeStepper::type28BYJ;
+		_stepper.setMaxSpeed(5000);
+		_stepper.setAcceleration(300.0);
+		_stepper.setSpeed(3000);
+		_stepper.setMinPulseWidth(4);
+		break;
+	}
+	// TODO include code to calibrate dail seek 0
+	DPRINTLN("End RangeStepper construct-all");
+
 };
+
 
 //
 // constructor for segmented dails
@@ -79,13 +123,44 @@ RangeStepper::RangeStepper (uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4
 	DPRINT(") stepsize:");
 	DPRINTLN(_stepsPerItem);	
 	
-	constructAll(pin1, pin2, pin3, pin4, stepperType );
+	_constructAll(pin1, pin2, pin3, pin4, stepperType );
+	
 	
 	DPRINTLN("End RangeStepper wedge constructor");	
 }
 
+int RangeStepper::calibrate()
+{
+	return 0;
+}
 
+RangeStepper::RangeStepper(uint8_t pin1 = 2, uint8_t pin2 = 3, float RangeMax, float RangeMin = 0, float wedgeSize, uint8_t stepperType = RangeStepper::typeVID27) {
 
+	DPRINTLN("Start RangeStepper wedge constructor");
+
+	// set internal params
+	_rangeMin = RangeMin;
+	_rangeMax = RangeMax;
+	_totalRange = RangeMax - RangeMin;
+	_isContinious = false;
+	_stepsPerRotation = stepperType;
+
+	// define step size for later calculations
+	/// first define part of circle used
+
+	_stepsPerItem = (stepperType * 360 / wedgeSize) / _totalRange;
+
+	DPRINT("New wedge dail (");
+	DPRINT(_rangeMin);
+	DPRINT("->");
+	DPRINT(_rangeMax);
+	DPRINT(") stepsize:");
+	DPRINTLN(_stepsPerItem);
+
+	_constructAll(pin1, pin2, 0,0, stepperType);
+
+	DPRINTLN("End RangeStepper wedge constructor");
+}
 
 //
 // constructor for continious dails 
@@ -111,10 +186,42 @@ RangeStepper::RangeStepper (uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4
 	DPRINT(") stepsize:");
 	DPRINTLN(_stepsPerItem);	
 	
-	constructAll(pin1, pin2, pin3, pin4, stepperType );
+	_constructAll(pin1, pin2, pin3, pin4, stepperType );
 	
 	DPRINTLN("End RangeStepper continiuos constructor");	
 }
+//
+// constructor for continious dails 
+//
+RangeStepper::RangeStepper(uint8_t pin1 = 2, uint8_t pin2 = 3, float RangeMax, float RangeMin = 0, uint8_t stepperType = RangeStepper::typeVID27) {
+
+	DPRINTLN("Start RangeStepper continiuos constructor");
+
+	// set internal params
+
+	_rangeMin = RangeMin;
+	_rangeMax = RangeMax;
+	_totalRange = RangeMax - RangeMin;
+	_isContinious = true;
+
+	// define step size for later calculations
+	_stepsPerItem = stepperType / _totalRange;
+
+	DPRINT("New continius dail (");
+	DPRINT(_rangeMin);
+	DPRINT("->");
+	DPRINT(_rangeMax);
+	DPRINT(") stepsize:");
+	DPRINTLN(_stepsPerItem);
+
+	constructAll(pin1, pin2, 0, 0, stepperType);
+
+
+	DPRINTLN("End RangeStepper continiuos constructor");
+}
+
+
+
 
 //
 //
