@@ -12,7 +12,7 @@
 #ifndef StepperPie_h_
 #define StepperPie_h_
 
-#include <mydebug.h>
+#include "mydebug.h"
 
 #include <stdlib.h>
 #include <AccelStepper.h>

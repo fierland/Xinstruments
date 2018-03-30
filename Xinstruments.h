@@ -13,7 +13,11 @@
 #ifndef XINSTRUMENTS_H_
 #define XINSTRUMENTS_H_
 
-#include <mydebug.h>
+#include "src\XLibs\src\mydebug.h"
+#include "src\XLibs\src\ServoPie.h"
+#include "src\XLibs\src\StepperPie.h"
+#include "src\XLibs\src\Stepper360.h"
+
 
 //-------------------------------------------------------------------------------------------------------------------
 // define all hardware interfaces for the pins
@@ -108,6 +112,12 @@
 
 #endif
 
+// specs voor quad stepper board
+#define XI_STEP1_STEPS_CIRCLE 900
+#define XI_STEP2_STEPS_CIRCLE 900
+#define XI_STEP3_STEPS_CIRCLE 900
+#define XI_STEP4_STEPS_CIRCLE 900
+
 //-------------------------------------------------------------------------------------------------------------------
 //Instrument specific settings
 //-------------------------------------------------------------------------------------------------------------------
@@ -119,7 +129,41 @@
 #define PWR_FLAG_SERVO_PIN		XI_SERVO1_PIN
 #define PWR_FLAG_SERVO_MAXPOS	50
 
+// define # of steppers used in this instrument
+#define XI_STEPPERS_USED	2
 
+// define type of stepper range and info item they display
+#define XI_STEP1_360
+//#define XI_STEP1_PIE
+//#define XI_STEP1_MIN_PIE 0
+//#define XI_STEP1_MAX_PIE 180
+#define XI_STEP1_MIN_RANGE 0
+#define XI_STEP1_MAX_RANGE 360
+#define XI_STEP1_ITEM "GYRO_COMPAS"
+
+#define XI_STEP2_360
+//#define XI_STEP2_PIE
+//#define XI_STEP2_MIN_PIE 0
+//#define XI_STEP2_MAX_PIE 180
+#define XI_STEP2_MIN_RANGE 0
+#define XI_STEP2_MAX_RANGE 360
+#define XI_STEP2_ITEM "GYRO_HEADING"
+
+//#define XI_STEP3_360
+//#define XI_STEP3_PIE
+//#define XI_STEP3_MIN_PIE 0
+//#define XI_STEP3_MAX_PIE 180
+//#define XI_STEP3_MIN_RANGE 0
+//#define XI_STEP3_MAX_RANGE 360
+//#define XI_STEP3_ITEM "GYRO_HEADING"
+
+//#define XI_STEP4_360
+//#define XI_STEP4_PIE
+//#define XI_STEP4_MIN_PIE 0
+//#define XI_STEP4_MAX_PIE 180
+//#define XI_STEP4_MIN_RANGE 0
+//#define XI_STEP4_MAX_RANGE 360
+//#define XI_STEP4_ITEM "GYRO_HEADING"
 
 
 #endif
