@@ -12,7 +12,7 @@
 #ifndef Stepper360_h_
 #define Stepper360_h_
 
-#include <mydebug.h>
+#include "mydebug.h"
 
 #include <stdlib.h>
 #include <AccelStepper.h>
@@ -35,9 +35,9 @@ public:
 	// bool powerState = false;
 
 
-	Stepper360(float rangeMax = 360, uint8_t pinZero = 6, uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, bool enable = true);
+	Stepper360(float rangeMax = 360,  uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, bool enable = true);
 	// declare constructor baased on accelstepper
-	Stepper360( float rangeMax = 360, uint8_t pinZero = 6, uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
+	Stepper360( float rangeMax = 360,  uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
 
 	
 	~Stepper360();

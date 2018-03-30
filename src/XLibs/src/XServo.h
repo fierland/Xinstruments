@@ -1,4 +1,4 @@
-// ServoPie.h
+// XServo.h
 //
 // author: Frank van Ierland
 // version: 0.1
@@ -9,8 +9,8 @@
 /// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2018 Frank van Ierland
 
-#ifndef ServoPie_h_
-#define ServoPie_h_
+#ifndef XServo_h_
+#define XServo_h_
 
 #include "mydebug.h"
 
@@ -34,13 +34,13 @@
 
 			
 		
-class ServoPie {
+class XServo {
 public:
 
 // declare constructor based on accelstepper
-	ServoPie(float rangeMin = 0, float rangeMax = 300,  uint8_t pieMin = 0,uint8_t pieMax = 180,  uint8_t pin1 = 2 ) ;
+	XServo(float rangeMin = 0, float rangeMax = 300, uint8_t pieMin = 0, uint8_t pieMax = 180, uint8_t pin1 = 2 ) ;
 
-	~ServoPie();
+	~XServo();
 
 	// ...
 	

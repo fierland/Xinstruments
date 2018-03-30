@@ -1,14 +1,13 @@
 // setting up the UPD stuff
-#include "ServoPie.h"
-
+#include "XServo.h"
 
 
 //
 //	constructor
 //
-ServoPie::ServoPie(float rangeMin, float rangeMax, uint8_t pieMin, uint8_t pieMax, uint8_t pin1 ) {
+XServo::XServo(float rangeMin, float rangeMax, uint8_t pieMin, uint8_t pieMax, uint8_t pin1 ) {
 	
-	DPRINTLN("Start ServoPie constructor");
+	DPRINTLN("Start XServo constructor");
 	
 	// set internal params
 	_rangeMin 		= rangeMin;
@@ -39,15 +38,15 @@ ServoPie::ServoPie(float rangeMin, float rangeMax, uint8_t pieMin, uint8_t pieMa
 
 	moveTo0();
 
-	DPRINTLN("End ServoPie constructor");	
+	DPRINTLN("End XServo constructor");	
 }
 
 //
 // reset dail to zero position
 //
-void ServoPie::moveTo0(void){
+void XServo::moveTo0(void){
 
-	DPRINTLN("Start ServoPie moveTo0");	
+	DPRINTLN("Start XServo moveTo0");	
 // set to scale zero
 	if (_rangeMin>0 && _rangeMax>0) {
 		_myServo->write(_pieMin);
@@ -59,14 +58,14 @@ void ServoPie::moveTo0(void){
 	else {
 		_myServo->write(map(0,_rangeMin,_rangeMax,_pieMin,_pieMax));
 	}
-	DPRINTLN("End ServoPie moveTo0");	
+	DPRINTLN("End XServo moveTo0");	
 }
 
 
 //
 // move to main position
 //
-void ServoPie::moveMin(void) {
+void XServo::moveMin(void) {
 	moveTo(_pieMin);
 
 }
@@ -74,7 +73,7 @@ void ServoPie::moveMin(void) {
 //
 // move to max position
 //
-void ServoPie::moveMax(void) {
+void XServo::moveMax(void) {
 	moveTo(_pieMax);
 }
 
@@ -82,7 +81,7 @@ void ServoPie::moveMax(void) {
 //
 // deconstructor
 //
-ServoPie::~ServoPie(){
+XServo::~XServo(){
 	powerOff();
 	delete _myServo;
 }
@@ -90,32 +89,32 @@ ServoPie::~ServoPie(){
 //
 // set the dail to new value_comp
 //
-void ServoPie::moveTo(float newPos){	
-	DPRINTLN("Start ServoPie moveTo");
+void XServo::moveTo(float newPos){	
+	DPRINTLN("Start XServo moveTo");
   	_myServo->write(map(newPos,_rangeMin,_rangeMax,_pieMin,_pieMax));
-	DPRINTLN("End ServoPie moveTo");
+	DPRINTLN("End XServo moveTo");
 };
 
 //
 // power on actions;
 //
-void ServoPie::powerOn(){
+void XServo::powerOn(){
 	
-	DPRINTLN("Start ServoPie powerOn");
+	DPRINTLN("Start XServo powerOn");
 	_powerOn=true;
 	_myServo->attach(_pinPWM);
-	DPRINTLN("End ServoPie powerOn");
+	DPRINTLN("End XServo powerOn");
 }
 
 //
 // power off actions;
 //
-void ServoPie::powerOff(){
+void XServo::powerOff(){
 	
-	DPRINTLN("Start ServoPie powerOff");  
+	DPRINTLN("Start XServo powerOff");  
 	_powerOn = false;
 	_myServo->detach();
-	DPRINTLN("End ServoPie powerOff");
+	DPRINTLN("End XServo powerOff");
 
 }
 

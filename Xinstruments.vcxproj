@@ -48,7 +48,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Xinstruments;$(ProjectDir)..\libraries\AccelStepper\src;$(ProjectDir)..\libraries\QList\src;C:\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\mega;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Xinstruments;$(ProjectDir)..\libraries\AccelStepper\src;$(ProjectDir)..\libraries\QList\src;C:\Program Files (x86)\Arduino\libraries\Servo\src;C:\Program Files (x86)\Arduino\libraries;$(ProjectDir)..\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\mega;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr\;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.Xinstruments.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_ATmega2560__;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_MEGA2560;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -82,10 +82,10 @@
   <ItemGroup>
     <ClInclude Include="src\XLibs\src\mydebug.h" />
     <ClInclude Include="src\XLibs\src\RangeStepper.h" />
-    <ClInclude Include="src\XLibs\src\ServoPie.h" />
+    <ClInclude Include="src\XLibs\src\XServo.h" />
     <ClInclude Include="src\XLibs\src\Stepper360.h" />
     <ClInclude Include="src\XLibs\src\StepperPie.h" />
-    <ClInclude Include="src\XLibs\src\Xinstruments.h" />
+    <ClInclude Include="src\XLibs\src\Xcomm.h" />
     <ClInclude Include="src\XLibs\src\XpUDP.h" />
     <ClInclude Include="src\XLibs\src\XPUtils.h" />
     <ClInclude Include="Xinstruments.h" />
@@ -93,10 +93,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\XLibs\src\RangeStepper.cpp" />
-    <ClCompile Include="src\XLibs\src\ServoPie.cpp" />
+    <ClCompile Include="src\XLibs\src\XServo.cpp" />
     <ClCompile Include="src\XLibs\src\Stepper360.cpp" />
     <ClCompile Include="src\XLibs\src\StepperPie.cpp" />
-    <ClCompile Include="src\XLibs\src\Xinstruments.cpp" />
+    <ClCompile Include="src\XLibs\src\Xcomm.cpp" />
     <ClCompile Include="src\XLibs\src\XpUDP.cpp" />
     <ClCompile Include="src\XLibs\src\XPUtils.cpp" />
   </ItemGroup>
