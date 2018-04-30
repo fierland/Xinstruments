@@ -1,4 +1,6 @@
 // setting up the UPD stuff
+/*******
+ * 
 #include <XpUDP.h>
 #include <debug.h>
 #include <XPUtils.h>
@@ -26,7 +28,7 @@ int XpUDP::start(IPAddress ipOwn) {
 	if (_Udp.beginMulticast(XpMulticastAdress, XpMulticastPort)){
 #else
 	if (_Udp.beginMulticast(ipOwn, XpMulticastAdress, XpMulticastPort)){
-#endif		
+#endif
 		DPRINTLN("Udp start ok");	
 		do {
 			result = GetBeacon();
@@ -329,8 +331,8 @@ int XpUDP::sendRREF(_DataRefs* newRef){
 
 	//_arrDataRefs[_newDataRef].setdata = 
 #if defined(ARDUINO_ARCH_ESP8266)
-		ESP.wdtFeed();
-#endif
+	ESP.wdtFeed();
+#endif	
 	sendUDPdata(XPMSG_RREF,(byte *)&_dref_struct_in,sizeof(_dref_struct_in),_Xp_dref_in_msg_size);	
 	
 }
@@ -367,3 +369,4 @@ void XpUDP::sendUDPdata(const char *header,const byte *dataArr,const int arrSize
 	
 	
 }
+*/
