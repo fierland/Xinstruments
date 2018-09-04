@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src\\XLibs",
+    "\\src\\XLibs\\src",
+    "\\__vm"
   ],
-  "SelectedNode": "\\Xinstrument.ino",
+  "SelectedNode": "\\Xinstruments.ino",
   "PreviewInSolutionExplorer": false
 }

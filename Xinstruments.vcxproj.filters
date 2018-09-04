@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Xinstruments.ino" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.Xinstruments.vsarduino.h">
@@ -24,16 +25,10 @@
     <ClInclude Include="src\XLibs\src\mydebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\XLibs\src\RangeStepper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\XLibs\src\Stepper360.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\XLibs\src\StepperPie.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\XLibs\src\XpUDP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\XLibs\src\XPUtils.h">
@@ -48,18 +43,15 @@
     <ClInclude Include="src\XLibs\src\Xcomm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VidStepper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\XLibs\src\RangeStepper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\XLibs\src\Stepper360.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\XLibs\src\StepperPie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\XLibs\src\XpUDP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\XLibs\src\XPUtils.cpp">
@@ -69,6 +61,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\XLibs\src\Xcomm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VidStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

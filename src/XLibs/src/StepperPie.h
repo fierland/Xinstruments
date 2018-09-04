@@ -16,6 +16,7 @@
 
 #include <stdlib.h>
 #include <AccelStepper.h>
+#include "XComm.h"
 
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -27,21 +28,24 @@
 #include <limits.h>
 
 			
+
 		
 class StepperPie : public AccelStepper {
 public:
 
 // declare constructor baased on accelstepper
-	StepperPie( float rangeMax = 360, float rangeMin = 0, uint8_t pieSize = 90, uint16_t stepsCircle = 900, uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
+	StepperPie( float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
 
 	~StepperPie();
 
 	// ...
 	virtual void calibrate();
-	
+	// calibarate and set position of backstop
+	virtual void calibrate(float backstopPos);
 	//virtual int runToNewPosition(float absolute);
 	virtual void runToNewPosition(float newPos);
 	virtual int moveTo(float absolute);
+	virtual void setNewValue(float newValue=0);
 	
 	virtual void powerOn();
 	
@@ -58,6 +62,7 @@ protected:
 	float	_stepsPerItem = 1;
 	float	_stepsPerRotation = 360;
 	bool	_powerOn = true;
+	float	_backstop_pos = 0;
 
 
 private:
