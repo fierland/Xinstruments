@@ -36,7 +36,7 @@ StepperPie::StepperPie( float rangeMax , float rangeMin, uint8_t pieSize , uint1
 	setMaxSpeed(10000);
 	setAcceleration(1000.0);
 	setSpeed(5000); 
-	setMinPulseWidth(1);
+	setMinPulseWidth(200);
 	
 	DPRINTLN("End StepperPie constructor");	
 }
@@ -62,42 +62,7 @@ void StepperPie::runToNewPosition(float newPos){
 	runToPosition();
 };
 
-//
-// set the dail to new value_comp
-//
-int StepperPie::moveTo(float newPos){	
-	int dir = 1;
-	int moveSteps = 0;
-	long stepsPos;
-	long diffPos;
-	
-	DPRINTLN("Start StepperPie moveTO");
-	
-	// check if in range and dail is on
-	if (!_powerOn || newPos > _rangeMax || newPos < _rangeMin)	{
-		DPRINT("ERR: OutOfRange (");
-		DPRINT(_rangeMin);
-		DPRINT("->");
-		DPRINT(_rangeMax);
-		DPRINT("):");
-		DPRINTLN(newPos);
-		
-		return 1;
-	}		
-	
-	_newPos = newPos ;
-	_moveSize = newPos - _currentPos;
-	
-	
-	DPRINT("Move wedge to new pos:");
-	DPRINTLN(newPos);
-	AccelStepper::moveTo(newPos * _stepsPerItem);   
-	_currentPos = newPos ;
-	
-	return 0;
-	
-	DPRINTLN("End StepperPie moveTo");
-};
+
 
 //
 // set dail to 0 position
@@ -122,6 +87,7 @@ void StepperPie::powerOn(){
 	
 	DPRINTLN("Start StepperPie powerOn");
 	_powerOn=true;
+	setValue(_currentValue);
 	DPRINTLN("End StepperPie powerOn");
 }
 //
@@ -130,11 +96,70 @@ void StepperPie::powerOn(){
 void StepperPie::powerOff(){
 	
 	DPRINTLN("Start StepperPie powerOff");
-	AccelStepper::moveTo(0);   
-	_currentPos =0;
+	
+	_currentPos = (_offValue - _rangeMin)/_totalRange * _stepsPerItem;
+	moveTo(_currentPos);   
+	runToPosition();
 	_powerOn = false;
 	
 	DPRINTLN("End StepperPie powerOff");
 	
 }
+//
+// power off actions;
+//
+float StepperPie::setValue(float newValue){
+	
+	float oldValue = _currentValue;
+	
+	DPRINTLN("Start StepperPie setValue");
+	
+		// check if in range and dail is on
+	if ( newValue > _rangeMax || newValue < _rangeMin)	{
+		DPRINT("ERR: OutOfRange (");
+		DPRINT(_rangeMin);
+		DPRINT("->");
+		DPRINT(_rangeMax);
+		DPRINT("):");
+		DPRINTLN(newValue);
+		
+		return 1;
+	}		
 
+	_currentValue = newValue;
+	_currentPos = (_currentValue - _rangeMin)/_totalRange * _stepsPerItem;
+	
+	moveTo(_currentPos);   
+	
+	DPRINTLN("End StepperPie setValue");
+	return (oldValue);
+	
+}
+//
+// power off actions;
+//
+float StepperPie::setOffPosition(float newValue){
+	
+	float oldValue = _offValue;
+	
+	DPRINTLN("Start StepperPie setOffPosition");
+	
+		// check if in range and dail is on
+	if ( newValue > _rangeMax || newValue < _rangeMin)	{
+		DPRINT("ERR: OutOfRange (");
+		DPRINT(_rangeMin);
+		DPRINT("->");
+		DPRINT(_rangeMax);
+		DPRINT("):");
+		DPRINTLN(newValue);
+		
+		return -1;
+	}		
+
+	_offValue = newValue;
+	  
+	
+	DPRINTLN("End StepperPie setOffPosition");
+	return (oldValue);
+	
+}

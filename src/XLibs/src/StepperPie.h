@@ -32,24 +32,23 @@ class StepperPie : public AccelStepper {
 public:
 
 // declare constructor baased on accelstepper
-	StepperPie( float rangeMax = 360, float rangeMin = 0, uint8_t pieSize = 90, uint16_t stepsCircle = 900, uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
+	StepperPie( float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, uint16_t stepsCircle = 900, uint8_t interface = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
 
 	~StepperPie();
 
 	// ...
 	virtual void calibrate();
 	
-	//virtual int runToNewPosition(float absolute);
-	virtual void runToNewPosition(float newPos);
-	virtual int moveTo(float absolute);
-	
+	virtual void runToNewPosition(float newPos);	
+	virtual float setValue(float newValue);	
+	virtual float setOffPosition(float newValue);
 	virtual void powerOn();
-	
 	virtual void powerOff();
 
 
 protected:
 	float 	_currentPos = 0;
+	float 	_currentValue = 0;
 	float 	_newPos = 0;
 	float 	_moveSize = 0;
 	float	_rangeMin = 0;
@@ -58,6 +57,7 @@ protected:
 	float	_stepsPerItem = 1;
 	float	_stepsPerRotation = 360;
 	bool	_powerOn = true;
+	float	_offValue =0;
 
 
 private:
