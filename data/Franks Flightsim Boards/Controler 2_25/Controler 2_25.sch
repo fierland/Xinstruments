@@ -159,58 +159,57 @@
 <library name="Franks">
 <packages>
 <package name="LOLIN32LITE">
-<pad name="13" x="-10.16" y="20.32" drill="1.016"/>
-<pad name="12" x="-10.16" y="17.78" drill="1.016"/>
-<pad name="11" x="-10.16" y="15.24" drill="1.016"/>
-<pad name="10" x="-10.16" y="12.7" drill="1.016"/>
-<pad name="9" x="-10.16" y="10.16" drill="1.016"/>
-<pad name="8" x="-10.16" y="7.62" drill="1.016"/>
-<pad name="7" x="-10.16" y="5.08" drill="1.016"/>
-<pad name="6" x="-10.16" y="2.54" drill="1.016"/>
-<pad name="5" x="-10.16" y="0" drill="1.016"/>
-<pad name="4" x="-10.16" y="-2.54" drill="1.016"/>
-<pad name="3" x="-10.16" y="-5.08" drill="1.016"/>
-<pad name="2" x="-10.16" y="-7.62" drill="1.016"/>
-<pad name="1" x="-10.16" y="-10.16" drill="1.016" diameter="1.9304" shape="square"/>
-<pad name="14" x="10.16" y="20.32" drill="1.016" diameter="1.9304" shape="square"/>
-<pad name="15" x="10.16" y="17.78" drill="1.016"/>
-<pad name="16" x="10.16" y="15.24" drill="1.016"/>
-<pad name="17" x="10.16" y="12.7" drill="1.016"/>
-<pad name="18" x="10.16" y="10.16" drill="1.016"/>
-<pad name="19" x="10.16" y="7.62" drill="1.016"/>
-<pad name="20" x="10.16" y="5.08" drill="1.016"/>
-<pad name="21" x="10.16" y="2.54" drill="1.016"/>
-<pad name="22" x="10.16" y="0" drill="1.016"/>
-<pad name="23" x="10.16" y="-2.54" drill="1.016"/>
-<pad name="24" x="10.16" y="-5.08" drill="1.016"/>
-<pad name="25" x="10.16" y="-7.62" drill="1.016"/>
-<pad name="26" x="10.16" y="-10.16" drill="1.016"/>
-<wire x1="-11.43" y1="-21.59" x2="-11.43" y2="-15.24" width="0.1524" layer="21"/>
-<wire x1="-11.43" y1="-15.24" x2="-11.43" y2="26.67" width="0.1524" layer="21"/>
-<wire x1="-8.89" y1="29.21" x2="8.89" y2="29.21" width="0.1524" layer="21"/>
-<wire x1="11.43" y1="26.67" x2="11.43" y2="-21.59" width="0.1524" layer="21"/>
-<wire x1="11.43" y1="-21.59" x2="10.16" y2="-21.59" width="0.1524" layer="21"/>
+<pad name="13" x="-11.43" y="20.32" drill="1.016"/>
+<pad name="12" x="-11.43" y="17.78" drill="1.016"/>
+<pad name="11" x="-11.43" y="15.24" drill="1.016"/>
+<pad name="10" x="-11.43" y="12.7" drill="1.016"/>
+<pad name="9" x="-11.43" y="10.16" drill="1.016"/>
+<pad name="8" x="-11.43" y="7.62" drill="1.016"/>
+<pad name="7" x="-11.43" y="5.08" drill="1.016"/>
+<pad name="6" x="-11.43" y="2.54" drill="1.016"/>
+<pad name="5" x="-11.43" y="0" drill="1.016"/>
+<pad name="4" x="-11.43" y="-2.54" drill="1.016"/>
+<pad name="3" x="-11.43" y="-5.08" drill="1.016"/>
+<pad name="2" x="-11.43" y="-7.62" drill="1.016"/>
+<pad name="1" x="-11.43" y="-10.16" drill="1.016" diameter="1.9304" shape="square"/>
+<pad name="14" x="11.43" y="20.32" drill="1.016" diameter="1.9304" shape="square"/>
+<pad name="15" x="11.43" y="17.78" drill="1.016"/>
+<pad name="16" x="11.43" y="15.24" drill="1.016"/>
+<pad name="17" x="11.43" y="12.7" drill="1.016"/>
+<pad name="18" x="11.43" y="10.16" drill="1.016"/>
+<pad name="19" x="11.43" y="7.62" drill="1.016"/>
+<pad name="20" x="11.43" y="5.08" drill="1.016"/>
+<pad name="21" x="11.43" y="2.54" drill="1.016"/>
+<pad name="22" x="11.43" y="0" drill="1.016"/>
+<pad name="23" x="11.43" y="-2.54" drill="1.016"/>
+<pad name="24" x="11.43" y="-5.08" drill="1.016"/>
+<pad name="25" x="11.43" y="-7.62" drill="1.016"/>
+<pad name="26" x="11.43" y="-10.16" drill="1.016"/>
+<wire x1="-12.7" y1="-21.59" x2="-12.7" y2="-15.24" width="0.1524" layer="21"/>
+<wire x1="-12.7" y1="-15.24" x2="-12.7" y2="26.67" width="0.1524" layer="21"/>
+<wire x1="-10.16" y1="29.21" x2="8.89" y2="29.21" width="0.1524" layer="21"/>
+<wire x1="12.7" y1="26.67" x2="12.7" y2="-21.59" width="0.1524" layer="21"/>
+<wire x1="12.7" y1="-21.59" x2="10.16" y2="-21.59" width="0.1524" layer="21"/>
 <wire x1="10.16" y1="-21.59" x2="2.54" y2="-21.59" width="0.1524" layer="21"/>
 <wire x1="2.54" y1="-21.59" x2="-5.08" y2="-21.59" width="0.1524" layer="21"/>
-<wire x1="-5.08" y1="-21.59" x2="-11.43" y2="-21.59" width="0.1524" layer="21"/>
-<wire x1="-11.43" y1="26.67" x2="-8.89" y2="29.21" width="0.1524" layer="21" curve="-90"/>
-<wire x1="8.89" y1="29.21" x2="11.43" y2="26.67" width="0.1524" layer="21" curve="-90"/>
+<wire x1="-5.08" y1="-21.59" x2="-12.7" y2="-21.59" width="0.1524" layer="21"/>
+<wire x1="-12.7" y1="26.67" x2="-10.16" y2="29.21" width="0.1524" layer="21" curve="-90"/>
+<wire x1="8.89" y1="29.21" x2="12.7" y2="26.67" width="0.1524" layer="21" curve="-90"/>
 <wire x1="10.16" y1="-21.59" x2="10.16" y2="-17.78" width="0.1524" layer="21"/>
 <wire x1="10.16" y1="-17.78" x2="2.54" y2="-17.78" width="0.1524" layer="21"/>
 <wire x1="2.54" y1="-17.78" x2="2.54" y2="-21.59" width="0.1524" layer="21"/>
 <wire x1="-5.08" y1="-21.59" x2="-5.08" y2="-15.24" width="0.1524" layer="21"/>
-<wire x1="-5.08" y1="-15.24" x2="-11.43" y2="-15.24" width="0.1524" layer="21"/>
+<wire x1="-5.08" y1="-15.24" x2="-12.7" y2="-15.24" width="0.1524" layer="21"/>
 <text x="-11" y="-23.5" size="1.27" layer="25" font="vector" ratio="9">&gt;NAME</text>
-<text x="-2" y="-23" size="1.016" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <text x="4.826" y="-20.447" size="1.27" layer="21" font="vector">USB</text>
 <text x="-9.525" y="-18.288" size="1.27" layer="21" font="vector">BAT</text>
 <text x="-10.541" y="-20.447" size="1.778" layer="21" font="vector">+  -</text>
-<wire x1="-11.5" y1="24" x2="-5" y2="24" width="0.127" layer="21"/>
+<wire x1="-12.77" y1="24.13" x2="-5.08" y2="24.13" width="0.127" layer="21"/>
 <circle x="-9" y="27" radius="1.4142125" width="0.127" layer="21"/>
-<wire x1="-5" y1="24" x2="8" y2="24" width="0.127" layer="21"/>
-<wire x1="8" y1="24" x2="11.5" y2="24" width="0.127" layer="21"/>
-<wire x1="8" y1="24" x2="8" y2="28" width="0.127" layer="21"/>
-<wire x1="8" y1="28" x2="6" y2="28" width="0.127" layer="21"/>
+<wire x1="-5.08" y1="24.13" x2="8" y2="24.13" width="0.127" layer="21"/>
+<wire x1="8" y1="24.13" x2="12.77" y2="24.13" width="0.127" layer="21"/>
+<wire x1="8" y1="24.13" x2="8" y2="27.94" width="0.127" layer="21"/>
+<wire x1="8" y1="27.94" x2="6" y2="28" width="0.127" layer="21"/>
 <wire x1="6" y1="28" x2="6" y2="25" width="0.127" layer="21"/>
 <wire x1="6" y1="25" x2="4" y2="25" width="0.127" layer="21"/>
 <wire x1="4" y1="25" x2="4" y2="28" width="0.127" layer="21"/>
@@ -222,10 +221,11 @@
 <wire x1="-2" y1="28" x2="-2" y2="25" width="0.127" layer="21"/>
 <wire x1="-2" y1="25" x2="-4" y2="25" width="0.127" layer="21"/>
 <wire x1="-4" y1="25" x2="-4" y2="28" width="0.127" layer="21"/>
-<wire x1="-4" y1="28" x2="-5" y2="28" width="0.127" layer="21"/>
-<wire x1="-5" y1="28" x2="-5" y2="24" width="0.127" layer="21"/>
-<text x="6.5" y="19.5" size="1.27" layer="21" font="vector">3V</text>
-<text x="-8.5" y="-10.5" size="1.27" layer="21" font="vector">GND</text>
+<wire x1="-4" y1="28" x2="-5.08" y2="27.94" width="0.127" layer="21"/>
+<wire x1="-5.08" y1="27.94" x2="-5.08" y2="24.13" width="0.127" layer="21"/>
+<text x="13.358" y="19.627" size="1.27" layer="21" font="vector">3V</text>
+<text x="-16.12" y="-10.5" size="1.27" layer="21" font="vector">GND</text>
+<text x="-5.08" y="-12.7" size="1.27" layer="21">LOLIN32 Lite</text>
 </package>
 <package name="SO08">
 <wire x1="1.9" y1="-2.4" x2="-1.4" y2="-2.4" width="0.127" layer="21"/>
@@ -259,32 +259,32 @@
 <symbols>
 <symbol name="LOLIN32LITE">
 <description>LOLIN32 Lite ESP32 board</description>
-<pin name="VP" x="-17.78" y="20.32" length="middle"/>
-<pin name="VN" x="-17.78" y="17.78" length="middle"/>
+<pin name="VP" x="-17.78" y="20.32" length="middle" swaplevel="1"/>
+<pin name="VN" x="-17.78" y="17.78" length="middle" swaplevel="1"/>
 <pin name="EN" x="-17.78" y="15.24" length="middle"/>
-<pin name="P34" x="-17.78" y="12.7" length="middle"/>
-<pin name="P35" x="-17.78" y="10.16" length="middle"/>
-<pin name="P32" x="-17.78" y="7.62" length="middle"/>
-<pin name="P33" x="-17.78" y="5.08" length="middle"/>
-<pin name="P25/R6/DAC1" x="-17.78" y="2.54" length="middle"/>
-<pin name="P26/R2/DAC1" x="-17.78" y="0" length="middle"/>
-<pin name="P27" x="-17.78" y="-2.54" length="middle"/>
-<pin name="P14" x="-17.78" y="-5.08" length="middle"/>
-<pin name="P12" x="-17.78" y="-7.62" length="middle"/>
+<pin name="P34" x="-17.78" y="12.7" length="middle" swaplevel="1"/>
+<pin name="P35" x="-17.78" y="10.16" length="middle" swaplevel="1"/>
+<pin name="P32" x="-17.78" y="7.62" length="middle" swaplevel="1"/>
+<pin name="P33" x="-17.78" y="5.08" length="middle" swaplevel="1"/>
+<pin name="P25/R6/DAC1" x="-17.78" y="2.54" length="middle" swaplevel="1"/>
+<pin name="P26/R2/DAC1" x="-17.78" y="0" length="middle" swaplevel="1"/>
+<pin name="P27" x="-17.78" y="-2.54" length="middle" swaplevel="1"/>
+<pin name="P14" x="-17.78" y="-5.08" length="middle" swaplevel="1"/>
+<pin name="P12" x="-17.78" y="-7.62" length="middle" swaplevel="1"/>
 <pin name="GND" x="-17.78" y="-10.16" length="middle" direction="pwr"/>
 <pin name="VCC" x="17.78" y="20.32" length="middle" direction="pwr" rot="R180"/>
-<pin name="P22" x="17.78" y="17.78" length="middle" rot="R180"/>
-<pin name="P19" x="17.78" y="15.24" length="middle" rot="R180"/>
-<pin name="P23" x="17.78" y="12.7" length="middle" rot="R180"/>
-<pin name="P18" x="17.78" y="10.16" length="middle" rot="R180"/>
-<pin name="P5" x="17.78" y="7.62" length="middle" rot="R180"/>
-<pin name="P17" x="17.78" y="5.08" length="middle" rot="R180"/>
-<pin name="P16" x="17.78" y="2.54" length="middle" rot="R180"/>
-<pin name="P4/R10" x="17.78" y="0" length="middle" rot="R180"/>
-<pin name="P0/R11" x="17.78" y="-2.54" length="middle" rot="R180"/>
-<pin name="P2/R12" x="17.78" y="-5.08" length="middle" rot="R180"/>
-<pin name="P15/R13" x="17.78" y="-7.62" length="middle" rot="R180"/>
-<pin name="P13/R14" x="17.78" y="-10.16" length="middle" rot="R180"/>
+<pin name="P22" x="17.78" y="17.78" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P19" x="17.78" y="15.24" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P23" x="17.78" y="12.7" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P18" x="17.78" y="10.16" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P5" x="17.78" y="7.62" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P17" x="17.78" y="5.08" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P16" x="17.78" y="2.54" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P4/R10" x="17.78" y="0" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P0/R11" x="17.78" y="-2.54" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P2/R12" x="17.78" y="-5.08" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P15/R13" x="17.78" y="-7.62" length="middle" swaplevel="1" rot="R180"/>
+<pin name="P13/R14" x="17.78" y="-10.16" length="middle" swaplevel="1" rot="R180"/>
 <text x="-12.3" y="23.7" size="1.778" layer="95">&gt;NAME</text>
 <wire x1="-12.7" y1="22.86" x2="-12.7" y2="-12.7" width="0.1524" layer="94"/>
 <wire x1="-12.7" y1="-12.7" x2="12.7" y2="-12.7" width="0.1524" layer="94"/>
@@ -310,7 +310,7 @@
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="LOLIN32LITE" prefix="IC$">
+<deviceset name="LOLIN32LITE" prefix="IC">
 <gates>
 <gate name="G$1" symbol="LOLIN32LITE" x="0" y="0"/>
 </gates>
@@ -350,7 +350,7 @@
 </device>
 </devices>
 </deviceset>
-<deviceset name="SN65HVD230" prefix="IC$">
+<deviceset name="SN65HVD230" prefix="IC">
 <gates>
 <gate name="G$1" symbol="SN65HVD230" x="0" y="0"/>
 </gates>
@@ -17833,6 +17833,7 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <class number="0" name="default" width="0" drill="0">
 </class>
 <class number="1" name="GND" width="0.508" drill="0">
+<clearance class="1" value="0.254"/>
 </class>
 <class number="2" name="12V" width="0.762" drill="0">
 </class>
@@ -17853,14 +17854,14 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <part name="R1" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="R-EU_" device="M1206" package3d_urn="urn:adsk.eagle:package:26088/1" value="10k"/>
 <part name="IC2" library="SparkFun-IC-Power" library_urn="urn:adsk.eagle:library:526" deviceset="V_REG_LM1117" device="SOT223" package3d_urn="urn:adsk.eagle:package:39069/1" value="5V"/>
 <part name="C2" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="CPOL-EU" device="CT3528" package3d_urn="urn:adsk.eagle:package:25815/1" value="47uF"/>
-<part name="C1" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:26137/1" value="100nF"/>
+<part name="C1" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="C-EU" device="C1206" package3d_urn="urn:adsk.eagle:package:26140/1" value="100nF"/>
 <part name="C4" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="CPOL-EU" device="CT3528" package3d_urn="urn:adsk.eagle:package:25815/1" value="47uF"/>
 <part name="C3" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:26137/1" value="100nF"/>
 <part name="J2" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_16" device="" package3d_urn="urn:adsk.eagle:package:38258/1"/>
 <part name="J3" library="con-molex" library_urn="urn:adsk.eagle:library:165" deviceset="22-?-05" device="27-2051" value="External"/>
 <part name="J1" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_03" device="" package3d_urn="urn:adsk.eagle:package:38063/1"/>
 <part name="J4" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_03X2" device="FEMALE" package3d_urn="urn:adsk.eagle:package:38016/1" value="FEMALE 2x3"/>
-<part name="C5" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="CPOL-EU" device="153CLV-0505" package3d_urn="urn:adsk.eagle:package:25890/1" value="47uF"/>
+<part name="C5" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="CPOL-EU" device="153CLV-0605" package3d_urn="urn:adsk.eagle:package:25889/1" value="47uF"/>
 <part name="C6" library="resistor" library_urn="urn:adsk.eagle:library:348" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:26137/1" value="100nF"/>
 </parts>
 <sheets>
@@ -18268,11 +18269,11 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <label x="111.76" y="69.85" size="1.27" layer="95" ratio="7" xref="yes"/>
 </segment>
 </net>
-<net name="P15" class="0">
+<net name="SRV3" class="0">
 <segment>
-<pinref part="IC$1" gate="G$1" pin="P15/R13"/>
-<wire x1="38.1" y1="104.14" x2="33.02" y2="104.14" width="0.1524" layer="91"/>
-<label x="33.02" y="104.14" size="1.27" layer="95" ratio="7" rot="R180" xref="yes"/>
+<pinref part="IC$1" gate="G$1" pin="P13/R14"/>
+<wire x1="38.1" y1="106.68" x2="33.02" y2="106.68" width="0.1524" layer="91"/>
+<label x="33.02" y="106.68" size="1.27" layer="95" ratio="7" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="J4" gate="G$1" pin="2"/>
@@ -18280,11 +18281,11 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <label x="10.16" y="58.42" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="P13" class="0">
+<net name="SRV2" class="0">
 <segment>
-<pinref part="IC$1" gate="G$1" pin="P13/R14"/>
-<wire x1="38.1" y1="106.68" x2="33.02" y2="106.68" width="0.1524" layer="91"/>
-<label x="33.02" y="106.68" size="1.27" layer="95" ratio="7" rot="R180" xref="yes"/>
+<pinref part="IC$1" gate="G$1" pin="P15/R13"/>
+<wire x1="38.1" y1="104.14" x2="33.02" y2="104.14" width="0.1524" layer="91"/>
+<label x="33.02" y="104.14" size="1.27" layer="95" ratio="7" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <label x="-10.16" y="58.42" size="1.27" layer="95" rot="MR0" xref="yes"/>
@@ -18292,7 +18293,7 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <wire x1="-10.16" y1="58.42" x2="-7.62" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="P12" class="0">
+<net name="SRV1" class="0">
 <segment>
 <pinref part="IC$1" gate="G$1" pin="P12"/>
 <wire x1="73.66" y1="104.14" x2="78.74" y2="104.14" width="0.1524" layer="91"/>
@@ -18371,7 +18372,7 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <approved hash="106,1,73.66,99.06,P27,,,,,"/>
 <approved hash="106,1,73.66,76.2,P36,,,,,"/>
 <approved hash="106,1,73.66,78.74,P39,,,,,"/>
-<approved hash="113,1,106.765,87.7926,J2,,,,,"/>
+<approved hash="113,1,105.495,87.7926,J2,,,,,"/>
 <approved hash="113,1,4.40267,36.6674,J1,,,,,"/>
 </errors>
 </schematic>

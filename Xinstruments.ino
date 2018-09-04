@@ -11,19 +11,26 @@
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-#include <Servo.h>
+#include <CommandLine.h>
+#include <dummy.h>
 #include <QList.h>
 #include <MultiStepper.h>
 #include <AccelStepper.h>
-
-#include <Xinstruments.h>
-
+#include "Xinstruments.h"
 
 //#ifdef USE_PWR_FLAG_SERVO
 //#include <ESP32_Servo.h>
 //#endif  
 
 Xcomm *dataConnection;
+
+#ifdef DEBUG_CLI
+// CommandLine instance.
+CommandLine commandLine(Serial, "> ");
+Command cmdUpdate = Command("set", &handleSet);
+Command cmdReset = Command("reset", &handleReset);
+Command cmdStatus = Command("status", &handleStatus);
+#endif
 
 #ifdef USE_PWR_FLAG_SERVO         
 boolean _powerIsOn = false;
@@ -115,6 +122,10 @@ void _UpdateFlagStatus() {
 // initiate all used steppers 
 //===================================================================================================================
 void _InitiateSteppers() {
+  int (*funcPointer)(float);
+  
+  DPRINTLN("Start Initiate steppers");
+
 	// for full 360 steppers
 #ifdef XI_STEP1_360
 	_stepper_360_1 = new Stepper360(XI_STEP1_MAX_RANGE,  XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0,true);
@@ -137,18 +148,27 @@ void _InitiateSteppers() {
 	// for pie type steppers
 	//-------------------------------------------------------------------------------------------------------------------
 
-
 #ifdef XI_STEP1_PIE
 	_stepper_Pie_1 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
-#endif
+	_stepper_Pie_1->calibrate(XI_STEP1_MAX_BACKSTOP);
+	dataConnection->addElement(XI_STEP1_ITEM, _stepper_Pie_1, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
+  _stepper_Pie_1->moveTo(100);
+  _stepper_Pie_1->moveTo(5000);
+ #endif
 #ifdef XI_STEP2_PIE
 	_stepper_Pie_2 = new StepperPie(XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP2_STP, XI_STEP2_DIR, 0, 0, true);
+	_stepper_Pie_2->calibrate(XI_STEP2_MAX_BACKSTOP);
+	dataConnection->addElement(XI_STEP2_ITEM, _stepper_Pie_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true); 
+  _stepper_Pie_2->moveTo(100);
+  _stepper_Pie_2->moveTo(5000);
 #endif
-#ifdef XI_STEP1_PIE
+#ifdef XI_STEP3_PIE
 	_stepper_Pie_3 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
+	_stepper_Pie_3->calibrate(XI_STEP3_MAX_BACKSTOP);
 #endif
 #ifdef XI_STEP4_PIE
 	_stepper_Pie_4 = new StepperPie(XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, XI_STEP4_MAX_PIE, XI_STEP4_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP4_STP, XI_STEP4_DIR, 0, 0, true);
+	_stepper_Pie_4->calibrate(XI_STEP4_MAX_BACKSTOP);
 #endif
 
 }
@@ -161,6 +181,7 @@ void _InitiateCommunication(){
 
 	// TODO: write init comm code
 	dataConnection = new Xcomm(XI_INSTRUMENT_CODE,XI_INSTRUMENT_MAX_ELEMENTS);
+
 }
 
 
@@ -169,8 +190,18 @@ void _InitiateCommunication(){
 // MAIN SETUP PROC
 //===================================================================================================================
 void setup() {
+	DPRINT("***START SETUP***");
 	Serial.begin(115200);
 	// start communication with master
+#ifdef DEBUG_CLI
+	// CommandLine instance.
+	commandLine.add(cmdUpdate);
+	commandLine.add(cmdReset);	
+	commandLine.add(cmdStatus);
+	// On-the-fly commands -- instance is allocated dynamically
+	commandLine.add("help", handleHelp);
+#endif
+
 	_InitiateCommunication();
 
 
@@ -180,7 +211,7 @@ void setup() {
 #endif
 
 	_InitiateSteppers();
-
+	DPRINT("***END SETUP***");
 }
 
 //===================================================================================================================
@@ -192,6 +223,12 @@ void loop() {
 //
 // check for new commands ad set instrument to latest values
 //
+//DPRINT("***LOOP***");
+
+
+#ifdef DEBUG_CLI
+	commandLine.update();
+#endif
 	dataConnection->checkQueue();
 
 	// section to control a power/ready flag by a servo
@@ -223,7 +260,7 @@ void loop() {
 #ifdef XI_STEP2_PIE
 	_stepper_Pie_2->run();
 #endif
-#ifdef XI_STEP1_PIE
+#ifdef XI_STEP3_PIE
 	_stepper_Pie_3->run();
 #endif
 #ifdef XI_STEP4_PIE
@@ -232,3 +269,58 @@ void loop() {
 
 }
 
+/**
+* Handle the count command. The command has one additional argument that can be the integer to set the count to.
+*
+* @param tokens The rest of the input command.
+*/
+
+#ifdef DEBUG_CLI
+void handleSet(char* tokens)
+{
+	char item[32];
+	float value;
+
+DPRINT("*in set function:");
+DPRINT(tokens);
+DPRINTLN(":");
+
+	char* token = strtok(NULL, " ");
+
+	if (token != NULL) {
+		strcpy(item, token);		 
+	}
+	
+	token = strtok(NULL, " ");
+
+	if (token != NULL) {
+		value = atof(token);
+
+	}
+	DPRINT("Command Update Item:");
+	DPRINT(item);
+	DPRINT(":");
+	DPRINT(value);
+	DPRINTLN(":");
+
+	// call update
+	dataConnection->processInput(item, value);
+
+}
+
+void handleReset(char* tokens)
+{
+	Serial.println("RESET DONE");
+}
+
+void handleStatus(char* tokens)
+{
+	Serial.println("STATUS DONE");
+}
+
+void handleHelp(char* tokens)
+{
+	Serial.println("Use the commands 'help', 'update <item> <value>', or 'reset'.");
+}
+
+#endif
