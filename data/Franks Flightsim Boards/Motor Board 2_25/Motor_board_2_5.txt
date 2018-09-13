@@ -1,0 +1,14 @@
+Partlist exported from H:/Users/Frank/Documents/Arduino/Xinstruments/data/Franks Flightsim Boards/Motor Board 2_25/Motor_board_2_5.sch at 11-9-2018 17:16
+
+Part     Value         Device             Package     Description                                                                                                     SPICEPREFIX
+C1       22uF          CPOL-EU153CLV-0605 153CLV-0605 POLARIZED CAPACITOR, European symbol                                                                            C          
+C3       100nF         C-EUC1206K         C1206K      CAPACITOR, European symbol                                                                                      C          
+C4       100nF         C-EUC1206K         C1206K      CAPACITOR, European symbol                                                                                      C          
+D1                     LED-3MM-NO_SILK    LED_3MM-NS  LED (Generic)                                                                                                              
+D2                     LED-3MM-NO_SILK    LED_3MM-NS  LED (Generic)                                                                                                              
+IC1      VID66-08      VID66-08           SO16                                                                                                                                   
+R1       220           R-EU_0204/7        0204/7      RESISTOR, European symbol                                                                                                  
+R9       1k            R-EU_M0805         M0805       RESISTOR, European symbol                                                                                                  
+STEPPER1 VID29BKA30-R5 VID29BKA30-R5      BKA30-R5                                                                                                                               
+STEPPER2 VID29BKA30-R5 VID29BKA30-R5      BKA30-R5                                                                                                                               
+SV1                    CONN_16            1X16        Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections            

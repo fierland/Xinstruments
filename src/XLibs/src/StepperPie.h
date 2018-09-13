@@ -15,7 +15,7 @@
 #include "mydebug.h"
 
 #include <stdlib.h>
-#include <AccelStepper.h>
+#include "InstrumentStepper.h"
 #include "XComm.h"
 
 
@@ -27,57 +27,24 @@
 
 #include <limits.h>
 
-			
-
 		
-class StepperPie : public AccelStepper {
+class StepperPie : public InstrumentStepper {
 public:
 
 // declare constructor baased on accelstepper
-<<<<<<< HEAD
-	StepperPie( float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, uint16_t stepsCircle = 900, uint8_t interface = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
-=======
-	StepperPie( float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, uint16_t stepsCircle = 900, uint8_t stepType = AccelStepper::DRIVER, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true ) ;
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
+
+	StepperPie( float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, bool reverse = false, uint8_t pinStep = 3, uint8_t pinDir = 2, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30) ;
 
 	~StepperPie();
 
-	// ...
+	// calibrate, move to backrest and set to 0
 	virtual void calibrate();
-<<<<<<< HEAD
-	
-	virtual void runToNewPosition(float newPos);	
-	virtual float setValue(float newValue);	
-	virtual float setOffPosition(float newValue);
-=======
 	// calibarate and set position of backstop
 	virtual void calibrate(float backstopPos);
-	//virtual int runToNewPosition(float absolute);
-	virtual void runToNewPosition(float newPos);
-	virtual int moveTo(float absolute);
-	virtual void setNewValue(float newValue=0);
-	
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
-	virtual void powerOn();
-	virtual void powerOff();
-
+	virtual float setValue(float newValue);	
+	void powerOff();
 
 protected:
-	float 	_currentPos = 0;
-	float 	_currentValue = 0;
-	float 	_newPos = 0;
-	float 	_moveSize = 0;
-	float	_rangeMin = 0;
-	float	_rangeMax = 360;
-	float	_totalRange = 360;
-	float	_stepsPerItem = 1;
-	float	_stepsPerRotation = 360;
-	bool	_powerOn = true;
-<<<<<<< HEAD
-	float	_offValue =0;
-=======
-	float	_backstop_pos = 0;
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
 
 
 private:

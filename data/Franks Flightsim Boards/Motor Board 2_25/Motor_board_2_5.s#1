@@ -18794,9 +18794,9 @@ LED</description>
 <nets>
 <net name="OUT_3A" class="0">
 <segment>
-<pinref part="STEPPER1" gate="G$1" pin="M1A"/>
-<wire x1="21.59" y1="50.8" x2="17.78" y2="50.8" width="0.1524" layer="91"/>
-<label x="17.78" y="50.8" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
+<pinref part="STEPPER1" gate="G$1" pin="M2A"/>
+<wire x1="21.59" y1="40.64" x2="17.78" y2="40.64" width="0.1524" layer="91"/>
+<label x="17.78" y="40.64" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="OUT3A"/>
@@ -18806,9 +18806,9 @@ LED</description>
 </net>
 <net name="OUT_4A" class="0">
 <segment>
-<pinref part="STEPPER1" gate="G$1" pin="M2A"/>
-<wire x1="21.59" y1="40.64" x2="17.78" y2="40.64" width="0.1524" layer="91"/>
-<label x="17.78" y="40.64" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
+<pinref part="STEPPER1" gate="G$1" pin="M1A"/>
+<wire x1="21.59" y1="50.8" x2="17.78" y2="50.8" width="0.1524" layer="91"/>
+<label x="17.78" y="50.8" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="OUT4A"/>
@@ -18818,10 +18818,10 @@ LED</description>
 </net>
 <net name="OUT_1A" class="0">
 <segment>
-<pinref part="STEPPER1" gate="G$1" pin="M3A"/>
-<wire x1="29.21" y1="53.34" x2="29.21" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="29.21" y1="58.42" x2="27.94" y2="58.42" width="0.1524" layer="91"/>
-<label x="27.94" y="58.42" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
+<pinref part="STEPPER1" gate="G$1" pin="M4A"/>
+<wire x1="39.37" y1="53.34" x2="39.37" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="39.37" y1="66.04" x2="38.1" y2="66.04" width="0.1524" layer="91"/>
+<label x="38.1" y="66.04" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
 </segment>
 <segment>
 <pinref part="IC1" gate="G$1" pin="OUT1A"/>
@@ -19088,15 +19088,32 @@ LED</description>
 <label x="43.18" y="91.44" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
 </segment>
 <segment>
-<pinref part="STEPPER1" gate="G$1" pin="M4A"/>
-<wire x1="39.37" y1="53.34" x2="39.37" y2="58.42" width="0.1524" layer="91"/>
-<wire x1="39.37" y1="58.42" x2="38.1" y2="58.42" width="0.1524" layer="91"/>
-<label x="38.1" y="58.42" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
+<pinref part="STEPPER1" gate="G$1" pin="M3A"/>
+<wire x1="29.21" y1="53.34" x2="29.21" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="29.21" y1="60.96" x2="27.94" y2="60.96" width="0.1524" layer="91"/>
+<label x="27.94" y="60.96" size="1.27" layer="95" ratio="7" rot="MR0" xref="yes"/>
 </segment>
 </net>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,1,45.72,81.28,IC1,VCC,5V,,,"/>
+<approved hash="104,1,76.2,99.06,IC1,VCC2,5V,,,"/>
+<approved hash="106,1,-17.78,109.22,3_3V,,,,,"/>
+<approved hash="106,1,-17.78,76.2,N$4,,,,,"/>
+<approved hash="106,1,-17.78,73.66,N$5,,,,,"/>
+<approved hash="106,1,-17.78,96.52,N$6,,,,,"/>
+<approved hash="106,1,-17.78,99.06,N$7,,,,,"/>
+<approved hash="106,1,-17.78,101.6,N$8,,,,,"/>
+<approved hash="106,1,-17.78,81.28,N$9,,,,,"/>
+<approved hash="106,1,-17.78,78.74,N$10,,,,,"/>
+<approved hash="106,1,-17.78,83.82,N$11,,,,,"/>
+<approved hash="108,1,76.2,96.52,N$15,,,,,"/>
+<approved hash="113,1,-20.9973,91.6026,SV1,,,,,"/>
+<approved hash="113,1,5.56514,85.09,D1,,,,,"/>
+<approved hash="113,1,13.1851,85.09,D2,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>

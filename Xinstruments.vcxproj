@@ -81,23 +81,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\XLibs\src\InstrumentStepper.h" />
     <ClInclude Include="src\XLibs\src\mydebug.h" />
+    <ClInclude Include="src\XLibs\src\VidStepper.h" />
     <ClInclude Include="src\XLibs\src\XServo.h" />
     <ClInclude Include="src\XLibs\src\Stepper360.h" />
     <ClInclude Include="src\XLibs\src\StepperPie.h" />
     <ClInclude Include="src\XLibs\src\Xcomm.h" />
     <ClInclude Include="src\XLibs\src\XPUtils.h" />
-    <ClInclude Include="VidStepper.h" />
     <ClInclude Include="Xinstruments.h" />
     <ClInclude Include="__vm\.Xinstruments.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\XLibs\src\InstrumentStepper.cpp" />
+    <ClCompile Include="src\XLibs\src\VidStepper.cpp" />
     <ClCompile Include="src\XLibs\src\XServo.cpp" />
     <ClCompile Include="src\XLibs\src\Stepper360.cpp" />
     <ClCompile Include="src\XLibs\src\StepperPie.cpp" />
     <ClCompile Include="src\XLibs\src\Xcomm.cpp" />
     <ClCompile Include="src\XLibs\src\XPUtils.cpp" />
-    <ClCompile Include="VidStepper.cpp" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>

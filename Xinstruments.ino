@@ -30,6 +30,11 @@ CommandLine commandLine(Serial, "> ");
 Command cmdUpdate = Command("set", &handleSet);
 Command cmdReset = Command("reset", &handleReset);
 Command cmdStatus = Command("status", &handleStatus);
+Command cmdPulse = Command("pulse", &handlePulse);
+Command cmdReverse = Command("reverse", &handleReverse);
+Command cmdForward = Command("forward", &handleForward);
+Command cmdOff = Command("off", &handleOff);
+Command cmdOn = Command("on", &handleOn);
 #endif
 
 #ifdef USE_PWR_FLAG_SERVO         
@@ -149,26 +154,29 @@ void _InitiateSteppers() {
 	//-------------------------------------------------------------------------------------------------------------------
 
 #ifdef XI_STEP1_PIE
-	_stepper_Pie_1 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
+	_stepper_Pie_1 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED,  XI_STEP1_STP,XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
 	_stepper_Pie_1->calibrate(XI_STEP1_MAX_BACKSTOP);
 	dataConnection->addElement(XI_STEP1_ITEM, _stepper_Pie_1, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
-  _stepper_Pie_1->moveTo(100);
-  _stepper_Pie_1->moveTo(5000);
+	_stepper_Pie_1->setValue(26);	
  #endif
 #ifdef XI_STEP2_PIE
-	_stepper_Pie_2 = new StepperPie(XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP2_STP, XI_STEP2_DIR, 0, 0, true);
+	_stepper_Pie_2 = new StepperPie(XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED,  XI_STEP2_STP,XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
 	_stepper_Pie_2->calibrate(XI_STEP2_MAX_BACKSTOP);
 	dataConnection->addElement(XI_STEP2_ITEM, _stepper_Pie_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true); 
-  _stepper_Pie_2->moveTo(100);
-  _stepper_Pie_2->moveTo(5000);
+	_stepper_Pie_2->setValue(26);
+	_stepper_Pie_2->runToPosition();
+  _stepper_Pie_2->setValue(10);
+  _stepper_Pie_2->runToPosition();
 #endif
 #ifdef XI_STEP3_PIE
-	_stepper_Pie_3 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
+	_stepper_Pie_3 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP3_MOTORTYPE);
 	_stepper_Pie_3->calibrate(XI_STEP3_MAX_BACKSTOP);
+	dataConnection->addElement(XI_STEP3_ITEM, _stepper_Pie_3, XI_STEP3_MAX_RANGE, XI_STEP3_MIN_RANGE, true);
 #endif
 #ifdef XI_STEP4_PIE
-	_stepper_Pie_4 = new StepperPie(XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, XI_STEP4_MAX_PIE, XI_STEP4_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP4_STP, XI_STEP4_DIR, 0, 0, true);
+	_stepper_Pie_4 = new StepperPie(XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, XI_STEP4_MAX_PIE,  XI_STEP4_STP, XI_STEP4_DIR, XI_STEP4_MOTORTYPE);
 	_stepper_Pie_4->calibrate(XI_STEP4_MAX_BACKSTOP);
+	dataConnection->addElement(XI_STEP4_ITEM, _stepper_Pie_4, XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, true);
 #endif
 
 }
@@ -198,6 +206,12 @@ void setup() {
 	commandLine.add(cmdUpdate);
 	commandLine.add(cmdReset);	
 	commandLine.add(cmdStatus);
+	commandLine.add(cmdPulse);
+  commandLine.add(cmdReverse);
+  commandLine.add(cmdForward);
+  commandLine.add(cmdOff);
+  commandLine.add(cmdOn);
+  
 	// On-the-fly commands -- instance is allocated dynamically
 	commandLine.add("help", handleHelp);
 #endif
@@ -270,6 +284,7 @@ void loop() {
 }
 
 /**
+* EXTRA DEBUG CODE 
 * Handle the count command. The command has one additional argument that can be the integer to set the count to.
 *
 * @param tokens The rest of the input command.
@@ -308,6 +323,34 @@ DPRINTLN(":");
 
 }
 
+void handlePulse(char* tokens)
+{
+	float value;
+
+	DPRINT("*in set function:");
+	DPRINT(tokens);
+	DPRINTLN(":");
+
+	char* token = strtok(NULL, " ");
+
+
+	if (token != NULL) {
+		value = atof(token);
+	}
+	DPRINT("Pulse Update Item:");
+
+	DPRINT(value);
+	DPRINTLN(":");
+
+	// call update
+#ifdef XI_STEP1_PIE
+	_stepper_Pie_1->setMinPulseWidth(value);
+#endif
+#ifdef XI_STEP2_PIE
+	_stepper_Pie_2->setMinPulseWidth(value);
+#endif
+}
+
 void handleReset(char* tokens)
 {
 	Serial.println("RESET DONE");
@@ -321,6 +364,33 @@ void handleStatus(char* tokens)
 void handleHelp(char* tokens)
 {
 	Serial.println("Use the commands 'help', 'update <item> <value>', or 'reset'.");
+}
+
+void handleReverse(char* tokens)
+{
+  _stepper_Pie_2->setDirectionInverse(true);
+  Serial.println("Reverse DONE");
+}
+
+void handleForward(char* tokens)
+{
+  _stepper_Pie_2->setDirectionInverse(false);
+  Serial.println("Forward DONE");
+}
+
+void handleOff(char* tokens)
+{
+  _stepper_Pie_1->powerOff();
+  _stepper_Pie_2->powerOff();
+  Serial.println("PowerOFF DONE");
+}
+
+void handleOn(char* tokens)
+{
+  _stepper_Pie_1->powerOn();
+  _stepper_Pie_2->powerOn();
+ 
+  Serial.println("PowerON DONE");
 }
 
 #endif

@@ -174,8 +174,8 @@
 <wire x1="14.9" y1="4.396" x2="-14.8" y2="4.196" width="0.127" layer="21" curve="-165.418325"/>
 <text x="-2.46" y="6.206" size="1.27" layer="25">&gt;NAME</text>
 <text x="-4" y="-5.904" size="1.27" layer="21">BKA30-R5</text>
-<hole x="8.5" y="-2.5" drill="2.3"/>
-<hole x="-8.5" y="-2.5" drill="2.3"/>
+<hole x="8.5" y="-2.5" drill="3.2"/>
+<hole x="-8.5" y="-2.5" drill="3.2"/>
 </package>
 <package name="SO16">
 <wire x1="-1.9" y1="-4.94" x2="-1.9" y2="4.94" width="0.127" layer="21"/>
@@ -2663,7 +2663,7 @@ http://www.bccomponents.com/</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="C0805" urn="urn:adsk.eagle:package:23617/2" type="model" library_version="3">
+<package3d name="C0805" urn="urn:adsk.eagle:package:23617@1/2" type="model" library_version="3">
 <description>CAPACITOR</description>
 </package3d>
 <package3d name="153CLV-0605" urn="urn:adsk.eagle:package:23398/1" type="box" library_version="3">
@@ -2677,6 +2677,9 @@ http://www.bccomponents.com/</description>
 <package3d name="C1206K" urn="urn:adsk.eagle:package:23682/2" type="model" library_version="3">
 <description>Ceramic Chip Capacitor KEMET 1206 reflow solder
 Metric Code Size 3216</description>
+<packageinstances>
+<packageinstance name="C1206K"/>
+</packageinstances>
 </package3d>
 </packages3d>
 </library>
@@ -2743,6 +2746,9 @@ You are welcome to use this library for commercial purposes. For attribution, we
 Silkscreen logo for open-source hardware designs.
 Devices using:
 OSHW_LOGO</description>
+<packageinstances>
+<packageinstance name="OSHW-LOGO-L"/>
+</packageinstances>
 </package3d>
 </packages3d>
 </library>
@@ -3030,7 +3036,7 @@ design rules under a new name.
 <element name="C4" library="rcl" library_urn="urn:adsk.eagle:library:334" package="C1206K" package3d_urn="urn:adsk.eagle:package:23682/2" value="100nF" x="30.9372" y="34.6456">
 <attribute name="SPICEPREFIX" value="C" x="30.9372" y="34.6456" size="1.778" layer="27" display="off"/>
 </element>
-<element name="U$9" library="SparkFun-Aesthetics" library_urn="urn:adsk.eagle:library:507" package="OSHW-LOGO-L" package3d_urn="urn:adsk.eagle:package:37097/1" value="" x="10.4288" y="11.8508" smashed="yes" rot="R357.2"/>
+<element name="U$9" library="SparkFun-Aesthetics" library_urn="urn:adsk.eagle:library:507" package="OSHW-LOGO-L" package3d_urn="urn:adsk.eagle:package:37097/1" value="" x="30.1392" y="18.5564" smashed="yes" rot="R357.2"/>
 <element name="D1" library="SparkFun-LED" library_urn="urn:adsk.eagle:library:529" package="LED_3MM-NS" package3d_urn="urn:adsk.eagle:package:39356/1" value="" x="15.75" y="5.328" smashed="yes" rot="R150">
 <attribute name="NAME" x="14.4038" y="2.941865625" size="1.016" layer="25" font="vector" ratio="11" rot="R150" align="bottom-center"/>
 <attribute name="VALUE" x="16.893" y="7.30773125" size="0.6096" layer="27" font="vector" ratio="20" rot="R150" align="top-center"/>
@@ -3045,44 +3051,42 @@ design rules under a new name.
 </element>
 </elements>
 <signals>
-<signal name="OUT1A">
-<contactref element="STEPPER1" pad="M1A"/>
+<signal name="OUT_3A">
 <contactref element="IC1" pad="6"/>
-<wire x1="27.4" y1="41.275" x2="25.4" y2="41.2496" width="0.2032" layer="1"/>
-<wire x1="18.8976" y1="34.7472" x2="18.8976" y2="19.1008" width="0.2032" layer="1"/>
-<wire x1="18.8976" y1="19.1008" x2="18.85" y2="18.575" width="0.2032" layer="1" curve="-26.864003"/>
-<wire x1="25.4" y1="41.2496" x2="18.8976" y2="34.7472" width="0.2032" layer="1"/>
-</signal>
-<signal name="OUT2A">
 <contactref element="STEPPER1" pad="M2A"/>
+<wire x1="27.4" y1="41.275" x2="25.8318" y2="41.275" width="0.2032" layer="1"/>
+<wire x1="21.1328" y1="36.576" x2="20.32" y2="36.576" width="0.2032" layer="1"/>
+<via x="20.32" y="36.576" extent="1-16" drill="0.35"/>
+<wire x1="20.32" y1="36.576" x2="17.8816" y2="36.576" width="0.2032" layer="16"/>
+<via x="17.8816" y="36.576" extent="1-16" drill="0.35"/>
+<wire x1="17.8816" y1="36.576" x2="17.8816" y2="25.3066" width="0.2032" layer="1"/>
+<wire x1="17.8816" y1="25.3066" x2="11.15" y2="18.575" width="0.2032" layer="1"/>
+<wire x1="25.8318" y1="41.275" x2="21.1328" y2="36.576" width="0.2032" layer="1"/>
+</signal>
+<signal name="OUT_4A">
 <contactref element="IC1" pad="5"/>
-<wire x1="27.4" y1="42.545" x2="26.6192" y2="42.4688" width="0.2032" layer="1"/>
-<wire x1="26.6192" y1="42.4688" x2="26.0096" y2="42.4688" width="0.2032" layer="1"/>
-<wire x1="18.4912" y1="34.9504" x2="18.4912" y2="26.0096" width="0.2032" layer="1"/>
-<wire x1="26.0096" y1="42.4688" x2="18.4912" y2="34.9504" width="0.2032" layer="1"/>
-<wire x1="18.4912" y1="26.0096" x2="11.12" y2="18.6652" width="0.2032" layer="1"/>
-<wire x1="11.12" y1="18.6652" x2="11.15" y2="18.575" width="0.2032" layer="1"/>
+<contactref element="STEPPER1" pad="M1A"/>
+<wire x1="27.4" y1="42.545" x2="27.3238" y2="42.4688" width="0.2032" layer="1"/>
+<wire x1="27.3238" y1="42.4688" x2="25.6032" y2="42.4688" width="0.2032" layer="1"/>
+<wire x1="25.6032" y1="42.4688" x2="21.5392" y2="38.4048" width="0.2032" layer="1"/>
+<wire x1="21.5392" y1="38.4048" x2="20.7264" y2="38.4048" width="0.2032" layer="1"/>
+<wire x1="20.7264" y1="38.4048" x2="19.304" y2="36.9824" width="0.2032" layer="1"/>
+<wire x1="19.304" y1="19.029" x2="18.85" y2="18.575" width="0.2032" layer="1"/>
+<wire x1="19.304" y1="36.9824" x2="19.304" y2="19.029" width="0.2032" layer="1"/>
 </signal>
-<signal name="OUT3A">
-<contactref element="STEPPER1" pad="M3A"/>
+<signal name="OUT_1A">
 <contactref element="IC1" pad="3"/>
-<wire x1="27.4" y1="45.085" x2="26.6192" y2="45.1104" width="0.2032" layer="1"/>
-<wire x1="26.6192" y1="45.1104" x2="25.8064" y2="44.2976" width="0.2032" layer="1"/>
-<wire x1="20.9296" y1="44.2976" x2="19.1008" y2="42.4688" width="0.2032" layer="1"/>
-<wire x1="25.8064" y1="44.2976" x2="20.9296" y2="44.2976" width="0.2032" layer="1"/>
-<wire x1="19.1008" y1="42.4688" x2="17.8816" y2="42.4688" width="0.2032" layer="1"/>
-<wire x1="17.8816" y1="42.4688" x2="16.4592" y2="41.0464" width="0.2032" layer="1"/>
-<wire x1="16.4592" y1="41.0464" x2="11.3792" y2="41.0464" width="0.2032" layer="1"/>
-<wire x1="11.3792" y1="41.0464" x2="11.2954" y2="41.2496" width="0.2032" layer="1"/>
-<wire x1="11.2954" y1="41.2496" x2="11.15" y2="41.425" width="0.2032" layer="1"/>
-</signal>
-<signal name="OUT4A">
 <contactref element="STEPPER1" pad="M4A"/>
-<contactref element="IC1" pad="4"/>
-<wire x1="27.4" y1="43.815" x2="21.21" y2="43.815" width="0.2032" layer="1"/>
-<wire x1="21.21" y1="43.815" x2="18.85" y2="41.425" width="0.2032" layer="1"/>
+<wire x1="18.85" y1="41.425" x2="22.9338" y2="41.425" width="0.2032" layer="1"/>
+<wire x1="23.5712" y1="42.0624" x2="23.5712" y2="42.672" width="0.1524" layer="1"/>
+<via x="23.5712" y="42.672" extent="1-16" drill="0.35"/>
+<wire x1="23.5712" y1="42.672" x2="23.5712" y2="44.704" width="0.2032" layer="16"/>
+<via x="23.5712" y="44.704" extent="1-16" drill="0.35"/>
+<wire x1="23.5712" y1="44.704" x2="23.9522" y2="45.085" width="0.2032" layer="1"/>
+<wire x1="23.9522" y1="45.085" x2="27.4" y2="45.085" width="0.2032" layer="1"/>
+<wire x1="22.9338" y1="41.425" x2="23.5712" y2="42.0624" width="0.2032" layer="1"/>
 </signal>
-<signal name="OUT3B">
+<signal name="OUT_1B">
 <contactref element="IC1" pad="11"/>
 <contactref element="STEPPER2" pad="M4A"/>
 <wire x1="32.6" y1="41.275" x2="32.6254" y2="41.2496" width="0.2032" layer="1"/>
@@ -3091,7 +3095,7 @@ design rules under a new name.
 <wire x1="41.0464" y1="18.8976" x2="41.15" y2="18.575" width="0.2032" layer="1"/>
 <wire x1="41.0464" y1="34.7472" x2="41.0464" y2="18.8976" width="0.2032" layer="1"/>
 </signal>
-<signal name="OUT4B">
+<signal name="OUT_2B">
 <contactref element="IC1" pad="12"/>
 <contactref element="STEPPER2" pad="M3A"/>
 <wire x1="32.6" y1="42.545" x2="33.528" y2="42.4688" width="0.2032" layer="1"/>
@@ -3101,7 +3105,7 @@ design rules under a new name.
 <wire x1="48.88" y1="18.7348" x2="48.85" y2="18.575" width="0.2032" layer="1"/>
 <wire x1="33.528" y1="42.4688" x2="33.9344" y2="42.4688" width="0.2032" layer="1"/>
 </signal>
-<signal name="OUT1B">
+<signal name="OUT_3B">
 <contactref element="IC1" pad="14"/>
 <contactref element="STEPPER2" pad="M2A"/>
 <wire x1="32.6" y1="45.085" x2="34.1376" y2="45.1104" width="0.2032" layer="1"/>
@@ -3111,7 +3115,7 @@ design rules under a new name.
 <wire x1="43.688" y1="41.0464" x2="48.3616" y2="41.0464" width="0.2032" layer="1"/>
 <wire x1="42.2656" y1="42.4688" x2="43.688" y2="41.0464" width="0.2032" layer="1"/>
 </signal>
-<signal name="OUT2B">
+<signal name="OUT_4B">
 <contactref element="IC1" pad="13"/>
 <contactref element="STEPPER2" pad="M1A"/>
 <wire x1="32.6" y1="43.815" x2="34.8234" y2="43.815" width="0.2032" layer="1"/>
@@ -3263,6 +3267,15 @@ design rules under a new name.
 <wire x1="35.8962" y1="4.693" x2="44.650146875" y2="4.693" width="0.8128" layer="16"/>
 <wire x1="33.0708" y1="7.5184" x2="30.4486" y2="4.693" width="0.8128" layer="16"/>
 <wire x1="30.4486" y1="4.693" x2="16.84985" y2="4.693" width="0.8128" layer="16"/>
+</signal>
+<signal name="OUT_2A">
+<contactref element="IC1" pad="4"/>
+<wire x1="27.4" y1="43.815" x2="26.416" y2="43.688" width="0.2032" layer="1"/>
+<contactref element="STEPPER1" pad="M3A"/>
+<wire x1="26.416" y1="43.688" x2="19.304" y2="43.688" width="0.2032" layer="1"/>
+<wire x1="12.3414" y1="40.2336" x2="11.15" y2="41.425" width="0.2032" layer="1"/>
+<wire x1="19.304" y1="43.688" x2="15.8496" y2="40.2336" width="0.2032" layer="1"/>
+<wire x1="15.8496" y1="40.2336" x2="12.3414" y2="40.2336" width="0.2032" layer="1"/>
 </signal>
 </signals>
 <errors>

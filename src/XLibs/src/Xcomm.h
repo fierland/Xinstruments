@@ -14,7 +14,7 @@
 
 #include <stdlib.h>
 #include <QList.h>
-#include <AccelStepper.h>
+#include "InstrumentStepper.h"
 #include "mydebug.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -37,8 +37,8 @@ public:
 
 		//int registerDataRef(int iFreq, const char *sCode );
 	
-	int addElement(char* type, AccelStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin = 0, boolean readOnly =true);
-	int setValue(char* type, uint32_t value);
+	int addElement(char* type, InstrumentStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin = 0, boolean readOnly =true);
+	int setValue(char* type, float value);
 	int processInput(char* type, float value);
 	
 	void checkQueue();
@@ -56,7 +56,7 @@ protected:
 		boolean readOnly = true;
 		bool subscribed = false;
 		unsigned long timestamp = 0;	// last read time
-		AccelStepper* myStepper = NULL ;		// link to linked stepper driver
+		InstrumentStepper* myStepper = NULL ;		// link to linked stepper driver
 	};
 
 	//struct _DataRefs 
@@ -102,7 +102,7 @@ private:
 
 	
 	int _findInList(char* toFind);
-	int _updateValue(char * type, uint32_t value);
+	int _updateValue(char * type, float value);
 
 };
 #endif

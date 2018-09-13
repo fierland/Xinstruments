@@ -51,7 +51,7 @@ int Xcomm::dataReader()
 
 
 
-int Xcomm::addElement(char * type, AccelStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin, boolean readOnly)
+int Xcomm::addElement(char * type, InstrumentStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin, boolean readOnly)
 {
 
 	DPRINTLN("XCOMM:addElement");
@@ -106,7 +106,7 @@ int Xcomm::addElement(char * type, AccelStepper *stepObject, uint32_t rangeMax, 
 }
 
 
-int Xcomm::setValue(char * type, uint32_t value)
+int Xcomm::setValue(char * type, float value)
 {
 	int curRecord = -1;
 	_DataLinks* newRef;
@@ -140,7 +140,7 @@ int Xcomm::processInput(char * type, float value)
 
 // internal call if new value from master then update n internal array and call to update physical instrument.
 
-int Xcomm::_updateValue(char * type, uint32_t value)
+int Xcomm::_updateValue(char * type, float value)
 {
 	int curRecord = -1;
 	_DataLinks* newRef;
@@ -161,7 +161,7 @@ int Xcomm::_updateValue(char * type, uint32_t value)
 			DPRINTLN("Check for stepper");
 			if (newRef->myStepper != NULL)
 				DPRINTLN("Call update function");
-				newRef->myStepper->moveTo(value);
+				newRef->myStepper->setValue(value);
 		}
 	}
 	

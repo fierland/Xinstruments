@@ -15,6 +15,7 @@
 
 #include "src\XLibs\src\mydebug.h"
 #include "src\XLibs\src\XServo.h"
+#include "src\XLibs\src\InstrumentStepper.h"
 #include "src\XLibs\src\StepperPie.h"
 #include "src\XLibs\src\Stepper360.h"
 #include "src\XLibs\src\XPUtils.h"
@@ -201,6 +202,7 @@
 #define XI_STEP4_DIR -1
 #define XI_STEP4_STP -1
 
+
 #define XI_SERVO1_PIN 12
 #define XI_SERVO2_PIN 25
 #define XI_SERVO3_PIN 26
@@ -225,101 +227,36 @@
 
 // generic hardware settings
 
-// for VID29 and BKA30 steppers using a vid66 driver
-// theorecticlay 360*12
-<<<<<<< HEAD
-#define XI_BKA30_STEPS_CIRCLE 4320
-#define XI_BKA30_STEPS_MAXSPEED 5000
-#define XI_BKA30_STEPS_ACCELERATION 300
-#define XI_BKA30_STEPS_MINPULSEWIDTH 200
-=======
-#define XI_BKA30_STEPS_CIRCLE 900
-#define XI_BKA30_STEPS_MAXSPEED 1000
-#define XI_BKA30_STEPS_ACCELERATION 100
-#define XI_BKA30_STEPS_MINPULSEWIDTH 4
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
-
-// for 28BYJ steppers
-#define XI_28BYJ_STEPS_CIRCLE 2400
-#define XI_28BYJ_STEPS_MAXSPEED 5000
-#define XI_28BYJ_STEPS_ACCELERATION 300
-<<<<<<< HEAD
-#define XI_28BYJ_STEPS_MINPULSEWIDTH 200
-=======
-#define XI_28BYJ_STEPS_MINPULSEWIDTH 4
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
-
-
 
 
 #ifdef XI_QUAD_STEPPER_35
 // specs voor quad stepper board
-#define XI_STEP1_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-#define XI_STEP2_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-#define XI_STEP3_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-#define XI_STEP4_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-
-#define XI_STEP1_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-#define XI_STEP2_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-#define XI_STEP3_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-#define XI_STEP4_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-
-#define XI_STEP1_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP2_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP3_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP4_ACCEL XI_BKA30_STEPS_ACCELERATION
-
-#define XI_STEP1_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-#define XI_STEP2_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-#define XI_STEP3_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-#define XI_STEP4_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-
+#define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP2_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP3_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP4_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define XI_STEP1_REVERSED false
+#define XI_STEP2_REVERSED false
+#define XI_STEP3_REVERSED false
+#define XI_STEP4_REVERSED false
 #endif
 
 #ifdef XI_DUAL_STEPPER_35
 // specs voor quad stepper board
-#define XI_STEP1_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-#define XI_STEP2_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-
-#define XI_STEP1_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-#define XI_STEP2_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-
-<<<<<<< HEAD
-#define XI_STEP1_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP2_ACCEL XI_BKA30_STEPS_ACCELERATION
-
-#define XI_STEP1_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-#define XI_STEP2_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-=======
-
-#define XI_STEP1_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP2_ACCEL XI_BKA30_STEPS_ACCELERATION
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
+#define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP2_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define XI_STEP1_REVERSED false
+#define XI_STEP2_REVERSED false
 
 #endif
 
 #ifdef XI_DUAL_STEPPER_25
 // specs voor 2'5" dual stepper board
-#define XI_STEP1_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
-#define XI_STEP2_STEPS_CIRCLE XI_BKA30_STEPS_CIRCLE
+#define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP2_MOTORTYPE InstrumentStepper::TYPE_BKA30
 
-#define XI_STEP1_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-#define XI_STEP2_MAX_SPEED XI_BKA30_STEPS_MAXSPEED
-
-#define XI_STEP1_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP2_ACCEL XI_BKA30_STEPS_ACCELERATION
-
-<<<<<<< HEAD
-#define XI_STEP1_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-#define XI_STEP2_MINPULSEWIDTH XI_BKA30_STEPS_MINPULSEWIDTH
-=======
-#define XI_STEP1_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP2_ACCEL XI_BKA30_STEPS_ACCELERATION
-
-#define XI_STEP1_ACCEL XI_BKA30_STEPS_ACCELERATION
-#define XI_STEP2_ACCEL XI_BKA30_STEPS_ACCELERATION
-
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
+#define XI_STEP1_REVERSED false
+#define XI_STEP2_REVERSED true
 #endif
 
 //===================================================================================================================
@@ -342,18 +279,18 @@
 #define XI_STEP1_MIN_PIE 0
 #define XI_STEP1_MAX_PIE 120
 #define XI_STEP1_MIN_RANGE 0
-#define XI_STEP1_MAX_RANGE 32
+#define XI_STEP1_MAX_RANGE 26
 #define XI_STEP1_MAX_BACKSTOP -10
-#define XI_STEP1_ITEM XP_FUEL_LEFT
+#define XI_STEP1_ITEM XP_FUEL_RIGHT
 
 //#define XI_STEP2_360
 #define XI_STEP2_PIE
 #define XI_STEP2_MIN_PIE 0
 #define XI_STEP2_MAX_PIE 120
 #define XI_STEP2_MIN_RANGE 0
-#define XI_STEP2_MAX_RANGE 32
+#define XI_STEP2_MAX_RANGE 26
 #define XI_STEP2_MAX_BACKSTOP -10
-#define XI_STEP2_ITEM XP_FUEL_RIGHT
+#define XI_STEP2_ITEM XP_FUEL_LEFT
 
 #endif
 
@@ -399,18 +336,6 @@
 
 //define XI_RE1_ITEM "GYRO_HEADING"
 //define XI_RE2_ITEM "GYRO_HEADING"
-
-<<<<<<< HEAD
-//===================================================================================================================
-// data emlement definitions for communication
-//===================================================================================================================
-#define XP_WET_COMPASS		="CMPWET"
-#define XP_GYRO_DIRECTION	="GYRDIR"
-#define XP_GYRO_HEADING		="GIRHEA"
-#define XP_ALTITUTE			="ALTITU"
-#define XP_ALT_BARO			="ALTBAR"
-=======
->>>>>>> 9ae1e597c7d566f0290c51dd73e4281a1b8a47df
 
 //===================================================================================================================
 // VALIDATION SECTION

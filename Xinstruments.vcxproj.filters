@@ -43,7 +43,10 @@
     <ClInclude Include="src\XLibs\src\Xcomm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VidStepper.h">
+    <ClInclude Include="src\XLibs\src\VidStepper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XLibs\src\InstrumentStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,7 +66,10 @@
     <ClCompile Include="src\XLibs\src\Xcomm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VidStepper.cpp">
+    <ClCompile Include="src\XLibs\src\VidStepper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XLibs\src\InstrumentStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,7 +7,7 @@ VidStepper::VidStepper(uint8_t pinDir, uint8_t pinStep, bool is360, bool isRever
 	_pinDir = pinDir;
 	_is360 = is360;
 	_isReverse = isReverse;
- _stepsPerDegree = _stepsPerRotation/360;
+    _stepsPerDegree = _stepsPerRotation/360;
 
 	pinMode(_pinStep, OUTPUT);     // set Stepper step pin mode  
 	pinMode(_pinDir, OUTPUT);      // set Stepper direction pin mode

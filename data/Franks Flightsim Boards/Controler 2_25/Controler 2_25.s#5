@@ -17833,6 +17833,7 @@ Standard adjustable voltage regulator but in SMD form. Spark Fun Electronics SKU
 <class number="0" name="default" width="0" drill="0">
 </class>
 <class number="1" name="GND" width="0.508" drill="0">
+<clearance class="1" value="0.254"/>
 </class>
 <class number="2" name="12V" width="0.762" drill="0">
 </class>
