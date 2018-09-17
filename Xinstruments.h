@@ -139,9 +139,10 @@
 
 //set the max numbers of stepper motors and servos in the instrument
 #define XI_MAX_STEPPERS 4
-#define XI_MAX_SERVO	3
-#define XI_MAX_HAL		2
-#define XI_MAX_RE		2
+#define XI_MAX_SERVO	  2
+#define XI_MAX_HAL		  2
+#define XI_MAX_RE		    2
+#define XI_LED_PIN    GPIO_NUM_12
 
 // set the pin mappings for the stepper motors
 	#define XI_STEP1_DIR 1
@@ -180,32 +181,32 @@
 
 //set the max numbers of stepper motors and servos in the instrument
 #define XI_MAX_STEPPERS 2
-#define XI_MAX_SERVO	3
-#define XI_MAX_HAL		0
-#define XI_MAX_RE		0
+#define XI_MAX_SERVO	  2
+#define XI_MAX_HAL		  0
+#define XI_MAX_RE		    0
 
+#define XI_LED_PIN      GPIO_NUM_12
 // set the pin mappings for the stepper motors
 // step A - 7 - 23
 // dir A - 8 - 19
 //step b - 9 - 25
 //dir b - 10 - 33
 /*connector pin 8*/
-#define XI_STEP1_DIR 19
+#define XI_STEP1_DIR GPIO_NUM_19
 //connector pin 7
-#define XI_STEP1_STP 23
+#define XI_STEP1_STP GPIO_NUM_23
 //connector pin 10
-#define XI_STEP2_DIR 33
+#define XI_STEP2_DIR GPIO_NUM_33
 //connector pin 9
-#define XI_STEP2_STP 25
+#define XI_STEP2_STP GPIO_NUM_25
 #define XI_STEP3_DIR -1
 #define XI_STEP3_STP -1
 #define XI_STEP4_DIR -1
 #define XI_STEP4_STP -1
 
-
-#define XI_SERVO1_PIN 12
-#define XI_SERVO2_PIN 25
-#define XI_SERVO3_PIN 26
+#define XI_SERVO1_PIN GPIO_NUM_25
+#define XI_SERVO2_PIN GPIO_NUM_26
+#define XI_SERVO3_PIN -1
 
 #define XI_HAL1_PIN	-1
 #define XI_HAL2_PIN -1

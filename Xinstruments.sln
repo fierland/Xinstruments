@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xinstruments", "Xinstrument
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XinstrumentsMaster", "..\XinstrumentsMaster\XinstrumentsMaster.vcxproj", "{2541CDCA-C3D2-408A-9881-8F1271F36FED}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esp32_can", "..\libraries\esp32_can\esp32_can.vcxitems", "{8E062620-504F-4A0B-8215-FD15AAD6AD02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

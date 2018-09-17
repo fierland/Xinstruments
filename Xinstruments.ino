@@ -11,6 +11,7 @@
 //
 //-------------------------------------------------------------------------------------------------------------------
 
+#include <esp32_can.h>
 #include <CommandLine.h>
 #include <dummy.h>
 #include <QList.h>
@@ -24,17 +25,22 @@
 
 Xcomm *dataConnection;
 
+// data to control the leds
+int freq = 5000;
+int ledChannel = 0;
+int resolution = 8;
+
 #ifdef DEBUG_CLI
 // CommandLine instance.
 CommandLine commandLine(Serial, "> ");
-Command cmdUpdate = Command("set", &handleSet);
-Command cmdReset = Command("reset", &handleReset);
-Command cmdStatus = Command("status", &handleStatus);
-Command cmdPulse = Command("pulse", &handlePulse);
-Command cmdReverse = Command("reverse", &handleReverse);
-Command cmdForward = Command("forward", &handleForward);
-Command cmdOff = Command("off", &handleOff);
-Command cmdOn = Command("on", &handleOn);
+Command cmdUpdate	= Command("set",		&handleSet);
+Command cmdReset	= Command("reset",		&handleReset);
+Command cmdStatus	= Command("status",		&handleStatus);
+Command cmdPulse	= Command("pulse",		&handlePulse);
+Command cmdReverse	= Command("reverse",	&handleReverse);
+Command cmdForward	= Command("forward",	&handleForward);
+Command cmdOff		= Command("off",		&handleOff);
+Command cmdOn		= Command("on",			&handleOn);
 #endif
 
 #ifdef USE_PWR_FLAG_SERVO         
@@ -156,17 +162,22 @@ void _InitiateSteppers() {
 #ifdef XI_STEP1_PIE
 	_stepper_Pie_1 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED,  XI_STEP1_STP,XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
 	_stepper_Pie_1->calibrate(XI_STEP1_MAX_BACKSTOP);
+
 	dataConnection->addElement(XI_STEP1_ITEM, _stepper_Pie_1, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
-	_stepper_Pie_1->setValue(26);	
- #endif
+	#ifdef DEBUG
+		_stepper_Pie_1->setValue(26);	
+	#endif
+
+#endif
 #ifdef XI_STEP2_PIE
 	_stepper_Pie_2 = new StepperPie(XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED,  XI_STEP2_STP,XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
 	_stepper_Pie_2->calibrate(XI_STEP2_MAX_BACKSTOP);
 	dataConnection->addElement(XI_STEP2_ITEM, _stepper_Pie_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true); 
-	_stepper_Pie_2->setValue(26);
-	_stepper_Pie_2->runToPosition();
-  _stepper_Pie_2->setValue(10);
-  _stepper_Pie_2->runToPosition();
+	#ifdef DEBUG
+		_stepper_Pie_2->setValue(26);
+		_stepper_Pie_2->runToPosition();
+		_stepper_Pie_2->setValue(10);
+	#endif
 #endif
 #ifdef XI_STEP3_PIE
 	_stepper_Pie_3 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP3_MOTORTYPE);
@@ -214,6 +225,11 @@ void setup() {
   
 	// On-the-fly commands -- instance is allocated dynamically
 	commandLine.add("help", handleHelp);
+  // set up control of leds
+  ledcSetup(ledChannel, freq, resolution);
+  ledcAttachPin(XI_LED_PIN, ledChannel);
+  ledcWrite(ledChannel, 255);
+  
 #endif
 
 	_InitiateCommunication();
@@ -382,6 +398,7 @@ void handleOff(char* tokens)
 {
   _stepper_Pie_1->powerOff();
   _stepper_Pie_2->powerOff();
+  ledcWrite(ledChannel, 0);
   Serial.println("PowerOFF DONE");
 }
 
@@ -389,7 +406,7 @@ void handleOn(char* tokens)
 {
   _stepper_Pie_1->powerOn();
   _stepper_Pie_2->powerOn();
- 
+ ledcWrite(ledChannel, 255);
   Serial.println("PowerON DONE");
 }
 

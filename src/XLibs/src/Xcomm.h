@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <QList.h>
 #include "InstrumentStepper.h"
+#include <esp32_can.h>	
+#include "CanOpen.h"
 #include "mydebug.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -39,13 +41,13 @@ public:
 	
 	int addElement(char* type, InstrumentStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin = 0, boolean readOnly =true);
 	int setValue(char* type, float value);
-	int processInput(char* type, float value);
-	
+	int processInput(char* type, float value);	
 	void checkQueue();
 
 protected:
 /*
 */
+	CanOpen * _canOpenBus = null;
 
 	struct _DataLinks {
 		int linkId;

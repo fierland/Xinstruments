@@ -174,8 +174,8 @@
 <wire x1="14.9" y1="4.396" x2="-14.8" y2="4.196" width="0.127" layer="21" curve="-165.418325"/>
 <text x="-2.46" y="6.206" size="1.27" layer="25">&gt;NAME</text>
 <text x="-4" y="-5.904" size="1.27" layer="21">BKA30-R5</text>
-<hole x="8.5" y="-2.5" drill="2.3"/>
-<hole x="-8.5" y="-2.5" drill="2.3"/>
+<hole x="8.5" y="-2.5" drill="3.2"/>
+<hole x="-8.5" y="-2.5" drill="3.2"/>
 </package>
 <package name="SO16">
 <wire x1="-1.9" y1="-4.94" x2="-1.9" y2="4.94" width="0.127" layer="21"/>
@@ -2663,7 +2663,7 @@ http://www.bccomponents.com/</description>
 </package>
 </packages>
 <packages3d>
-<package3d name="C0805" urn="urn:adsk.eagle:package:23617/2" type="model" library_version="3">
+<package3d name="C0805" urn="urn:adsk.eagle:package:23617@1/2" type="model" library_version="3">
 <description>CAPACITOR</description>
 </package3d>
 <package3d name="153CLV-0605" urn="urn:adsk.eagle:package:23398/1" type="box" library_version="3">
@@ -2677,6 +2677,9 @@ http://www.bccomponents.com/</description>
 <package3d name="C1206K" urn="urn:adsk.eagle:package:23682/2" type="model" library_version="3">
 <description>Ceramic Chip Capacitor KEMET 1206 reflow solder
 Metric Code Size 3216</description>
+<packageinstances>
+<packageinstance name="C1206K"/>
+</packageinstances>
 </package3d>
 </packages3d>
 </library>
@@ -2743,6 +2746,9 @@ You are welcome to use this library for commercial purposes. For attribution, we
 Silkscreen logo for open-source hardware designs.
 Devices using:
 OSHW_LOGO</description>
+<packageinstances>
+<packageinstance name="OSHW-LOGO-L"/>
+</packageinstances>
 </package3d>
 </packages3d>
 </library>

@@ -2818,7 +2818,7 @@ LED</description>
 </libraries>
 <attributes>
 <attribute name="CPROJECT" value="Franks Flightsim Boards"/>
-<attribute name="CREVISION" value="v0.2"/>
+<attribute name="CREVISION" value="v0.3"/>
 </attributes>
 <variantdefs>
 </variantdefs>

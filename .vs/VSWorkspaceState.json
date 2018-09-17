@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\XLibs",
-    "\\src\\XLibs\\src",
-    "\\__vm"
+    "\\src\\XLibs\\src"
   ],
-  "SelectedNode": "\\Xinstruments.sln",
+  "SelectedNode": "\\src\\XLibs\\src\\CANdriver.h",
   "PreviewInSolutionExplorer": false
 }
