@@ -9,9 +9,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
  * CAN ID masks
@@ -53,7 +50,17 @@ typedef struct
     uint32_t mask;
 } CanasCanFilterConfig;
 
-#ifdef __cplusplus
+class CANdriver : public CAN {
+public:
+	CANdriver();
+	~CANdriver();
+	
+	int writeMsg();
+	int setFilter();
+	int timeStamp();
+	
+private:
+protected:
 }
 #endif
 #endif
