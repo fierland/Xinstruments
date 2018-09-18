@@ -78,7 +78,7 @@ typedef struct CanasInstanceStruct CanasInstance;
  * @param [in] pmsg  Pointer to the message to be sent
  * @return           Number of messages sent (0 or 1), negative on failure
  */
-typedef int(*CanasCanSendFn)(CanasInstance*, int, const CanasCanFrame*);
+typedef int(*CanasCanSendFn)(int, const CanasCanFrame*);
 
 /**
  * Configure acceptance filters.
@@ -88,7 +88,7 @@ typedef int(*CanasCanSendFn)(CanasInstance*, int, const CanasCanFrame*);
  * @param [in] len      Length of the config array
  * @return              0 if ok, negative on failure
  */
-typedef int(*CanasCanFilterFn)(CanasInstance*, int, const CanasCanFilterConfig*, int);
+typedef int(*CanasCanFilterFn)( int, const CanasCanFilterConfig*, int);
 
 /**
  * Allocates a chunk of memory.
@@ -205,30 +205,7 @@ typedef struct
 	int8_t interlacing_next_iface;
 } CanasParamAdvertisement;
 
-typedef struct
-{
-	CanasCanSendFn fn_send;         ///< Required
-	CanasCanFilterFn fn_filter;     ///< May be null if filters are not available
 
-	CanasTimestampFn fn_timestamp;  ///< Required
-
-	CanasMallocFn fn_malloc;        ///< Required; read the notes @ref CanasMallocFn
-	CanasFreeFn fn_free;            ///< Optional, may be NULL. Read the notes @ref CanasFreeFn
-
-	CanasHookCallbackFn fn_hook;    ///< Should be null if not used
-
-	uint8_t iface_count;            ///< Number of interfaces available
-	uint8_t filters_per_iface;      ///< Number of filters per interface. May be 0 if no filters available.
-
-	uint32_t service_request_timeout_usec;///< Time to wait for response from remote node. Default is okay.
-	uint16_t service_poll_interval_usec;  ///< Do not change
-	uint8_t service_frame_hist_len;       ///< Do not change
-	uint8_t service_channel;              ///< Service channel of the Local Node. May be of high or low priority.
-	uint32_t repeat_timeout_usec;         ///< Largest interval of repeated messages (default should be good enough)
-
-	uint8_t node_id;                ///< Local Node ID
-	uint8_t redund_channel_id;      ///< Local Node Redundancy Channel ID
-} CanasConfig;
 
 struct CanasInstanceStruct
 {
@@ -283,7 +260,7 @@ public:
 	 * @param [in]  canSend pointer to canSend Function;
 	 */
 	 
-	CANaero(CanasCanSendFn* canSend);
+	CANaero(CANdriver* canDriver);
 
 	~CANaero();
 
@@ -315,7 +292,7 @@ int canasInit(CanasInstance* pi, const CanasConfig* pcfg, void* pthis);
  * @param [in] pframe Pointer to the received frame, NULL when called by timeout
  * @return            @ref CanasErrorCode
  */
-int Update( int iface, const CanasCanFrame* pframe);
+int Update( const CanasCanFrame* pframe);
 
 /**
  * Parameter subscriptions.
@@ -324,10 +301,9 @@ int Update( int iface, const CanasCanFrame* pframe);
  * Functions of this group return @ref CanasErrorCode.
  * @{
  */
-int ParamSubscribe( uint16_t msg_id, uint8_t redund_chan_count, CanasParamCallbackFn callback,
-	void* callback_arg);
+int ParamSubscribe( uint16_t msg_id,  CanasParamCallbackFn callback, void* callback_arg);
 int ParamUnsubscribe( uint16_t msg_id);
-int ParamRead( uint16_t msg_id, uint8_t redund_chan, CanasParamCallbackArgs* pargs);
+int ParamRead( uint16_t msg_id, CanasParamCallbackArgs* pargs);
 /**
  * @}
  */
@@ -408,16 +384,13 @@ int ServiceChannelToMessageID(uint8_t service_channel, bool isrequest);
 bool IsValidServiceChannel(uint8_t service_channel);
 */
 private:
-	CanasCanSendFn	 _fn_send		= NULL;  ///< Required
-	CanasCanFilterFn _fn_filter		= NULL;  ///< May be null if filters are not available
-	CanasTimestampFn _fn_timestamp	= NULL;  ///< Required
+	CANdriver* 			_canBus = NULL;
 
 //	CanasMallocFn fn_malloc;        ///< Required; read the notes @ref CanasMallocFn
 //	CanasFreeFn fn_free;            ///< Optional, may be NULL. Read the notes @ref /CanasFreeFn
 
 //	CanasHookCallbackFn fn_hook;    ///< Should be null if not used
 
-	uint8_t _iface_count					= 0;            ///< Number of interfaces available
 	uint8_t _filters_per_iface				= 0;      ///< Number of filters per interface. May be 0 if no filters available.
 
 	uint32_t _service_request_timeout_usec	= CANAS_DEFAULT_SERVICE_REQUEST_TIMEOUT_USEC ; ///< Time to wait for response from remote node. Default is okay.
