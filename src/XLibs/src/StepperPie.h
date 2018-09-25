@@ -40,6 +40,7 @@ public:
 	// calibrate, move to backrest and set to 0
 	virtual void calibrate();
 	// calibarate and set position of backstop
+	virtual void moveToBackstop();
 	virtual void calibrate(float backstopPos);
 	virtual float setValue(float newValue);	
 	void powerOff();

@@ -8,7 +8,10 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <esp32_can.h>
+//#include "CANaero.h"
 
+#define XI_CANBUS_SPEED CAN_SPEED_500KBPS
 
 /**
  * CAN ID masks
@@ -42,7 +45,7 @@ typedef struct
 
 /**
  * Acceptance filter configuration.
- * Use flags to filter messages by type. @ref CANAS_CAN_FLAG_EFF @ref CANAS_CAN_FLAG_RTR.
+ * Use flags to filter messages by type. ref CANAS_CAN_FLAG_EFF ref CANAS_CAN_FLAG_RTR.
  */
 typedef struct
 {
@@ -50,17 +53,38 @@ typedef struct
     uint32_t mask;
 } CanasCanFilterConfig;
 
-class CANdriver : public CAN {
+class CANdriver {
 public:
 	CANdriver();
 	~CANdriver();
 	
-	int writeMsg();
-	int setFilter();
+	int writeMsg(CanasCanFrame* frame);
+
+	int setFilter(int msgID, void(*cbFunction)(CAN_FRAME *));
 	int timeStamp();
-	
+	int receive(CanasCanFrame* pframe, unsigned int timeout_usec);
+	int receive(CanasCanFrame* pframe);
+
 private:
 protected:
+};
+#endif
+
+static void _frameSpl2Canas(const CAN_FRAME * pspl, CanasCanFrame * pcanas)
+{
+
+	memset(pcanas, 0, sizeof(*pcanas));
+	memcpy(pcanas->data, pspl->Data, pspl->DLC);
+	pcanas->dlc = pspl->DLC;
+	if (pspl->IDE == CAN_Id_Standard)
+	{
+		pcanas->id = pspl->StdId & CANAS_CAN_MASK_STDID;
+	}
+	else
+	{
+		pcanas->id = pspl->ExtId & CANAS_CAN_MASK_EXTID;
+		pcanas->id |= CANAS_CAN_FLAG_EFF;
+	}
+	if (pspl->RTR == CAN_RTR_Remote)
+		pcanas->id |= CANAS_CAN_FLAG_RTR;
 }
-#endif
-#endif

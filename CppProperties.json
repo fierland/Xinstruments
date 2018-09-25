@@ -7,7 +7,6 @@
         "${projectRoot}..\\Xinstruments",
         "${projectRoot}..\\libraries\\esp32_can\\src",
         "${projectRoot}..\\libraries\\QList\\src",
-        "${projectRoot}..\\libraries\\AccelStepper\\src",
         "${projectRoot}..\\libraries\\Arduino-CommandLine",
         "${projectRoot}..\\hardware\\espressif\\esp32\\libraries\\ESP32\\src",
         "C:\\Program Files (x86)\\Arduino\\libraries",

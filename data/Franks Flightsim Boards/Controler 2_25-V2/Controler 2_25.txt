@@ -1,0 +1,19 @@
+Partlist exported from H:/Users/Frank/Documents/Arduino/Xinstruments/data/Franks Flightsim Boards/Controler 2_25/Controler 2_25.sch at 11-9-2018 17:14
+
+Part Value       Device             Package     Description                                                                                                     MF    MPN OC_FARNELL OC_NEWARK PROD_ID    VALUE     
+C1   100nF       C-EUC1206          C1206       CAPACITOR, European symbol                                                                                                                                          
+C2   47uF        CPOL-EUCT3528      CT3528      POLARIZED CAPACITOR, European symbol                                                                                                                                
+C3   100nF       C-EUC0805          C0805       CAPACITOR, European symbol                                                                                                                                          
+C4   47uF        CPOL-EUCT3528      CT3528      POLARIZED CAPACITOR, European symbol                                                                                                                                
+C5   47uF        CPOL-EU153CLV-0605 153CLV-0605 POLARIZED CAPACITOR, European symbol                                                                                                                                
+C6   100nF       C-EUC0805          C0805       CAPACITOR, European symbol                                                                                                                                          
+IC$1 LOLIN32LITE LOLIN32LITE        LOLIN32LITE                                                                                                                                                                     
+IC$2 SN65HVD230  SN65HVD230         SO08                                                                                                                                                                            
+IC1  3_3V        V_REG_LM1117SOT223 SOT223      Voltage Regulator LM1117                                                                                                                       VREG-08170           
+IC2  5V          V_REG_LM1117SOT223 SOT223      Voltage Regulator LM1117                                                                                                                       VREG-08170           
+J1               CONN_03            1X03        Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections                                                     
+J2               CONN_16            1X16        Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections                                                     
+J3   External    22-27-2051-05      6410-05     CONNECTOR                                                                                                       MOLEX     unknown    unknown                        
+J4   FEMALE 2x3  CONN_03X2FEMALE    2X3         Multi connection point. Often used as Generic Header-pin footprint for 0.1 inch spaced/style header connections                                CONN-11566 FEMALE 2x3
+R1   10k         R-EU_M1206         M1206       RESISTOR, European symbol                                                                                                                                           
+R2   120         R-EU_R1210         R1210       RESISTOR, European symbol                                                                                                                                           

@@ -22,7 +22,7 @@ Xcomm::Xcomm(char * instrumentCode, int maxElements)
 
 	// TODO: Start sesion with master
 	CAN0.begin(500000);
-	_canOpenBus = new CanOpen(&CAN0)
+	
 
 	// send can message to connect to master
 

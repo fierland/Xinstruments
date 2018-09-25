@@ -20,13 +20,13 @@
 #include "src\XLibs\src\Stepper360.h"
 #include "src\XLibs\src\XPUtils.h"
 #include "src\XLibs\src\Xcomm.h"
+#include "src\XLibs\src\CAN_ids.h"
 
 #define DEBUG_CLI
 
 #ifdef DEBUG_CLI
 
 #endif
-
 
 //===================================================================================================================
 // INSTRUMENT Selection: select one of this list comment out the rest
@@ -36,6 +36,8 @@
 //#define XI_INSTRUMENT_OIL_GAUGE
 //#define XI_INSTRUMENT_EXHFLOW_GAUGE
 //#define XI_INSTRUMENT_VACAM_GAUGE
+
+// @TODO Support gauges below
 
 //#define XI_INSTRUMENT_DIG_CLOCK
 
@@ -52,7 +54,7 @@
 //#define XI_INSTRUMENT_ADF_BEARING_IND
 
 //===================================================================================================================
-// data element definitions for communication
+// data element definitions for communication (maybe not needed)
 //===================================================================================================================
 #define XP_WET_COMPASS		"CMPWET"
 // 0/360
@@ -228,8 +230,6 @@
 
 // generic hardware settings
 
-
-
 #ifdef XI_QUAD_STEPPER_35
 // specs voor quad stepper board
 #define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
@@ -264,6 +264,7 @@
 // INSTRUMENT SPECIFIC SETTINGS - FUNCTIONAL CONFIGURATION
 //===================================================================================================================
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef XI_INSTRUMENT_FUEL_GAUGE
 
 #define XI_INSTRUMENT_CODE "FEULG"
@@ -283,6 +284,12 @@
 #define XI_STEP1_MAX_RANGE 26
 #define XI_STEP1_MAX_BACKSTOP -10
 #define XI_STEP1_ITEM XP_FUEL_RIGHT
+	/**
+	 * Types: FLOAT SHORT2
+	 * Units: kg
+	 * Notes:
+	 */
+#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_TANK_1_QUANTITY
 
 //#define XI_STEP2_360
 #define XI_STEP2_PIE
@@ -292,25 +299,139 @@
 #define XI_STEP2_MAX_RANGE 26
 #define XI_STEP2_MAX_BACKSTOP -10
 #define XI_STEP2_ITEM XP_FUEL_LEFT
+#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
 
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef  XI_INSTRUMENT_OIL_GAUGE
 
+#define XI_INSTRUMENT_CODE "OILGA"
+
+// max data elements to share with XPlane
+#define XI_INSTRUMENT_MAX_ELEMENTS 2
+
+// define # of steppers used in this instrument
+#define XI_STEPPERS_USED	2
+
+// oilpresure
+#define XI_STEP1_PIE
+#define XI_STEP1_MIN_PIE 0
+#define XI_STEP1_MAX_PIE 120
+#define XI_STEP1_MIN_RANGE 0
+#define XI_STEP1_MAX_RANGE 115
+#define XI_STEP1_MAX_BACKSTOP -10
+#define XI_STEP1_ITEM XP_OIL_PRESSURE
+	/**
+	 * Types: FLOAT SHORT2
+	 * Units: hPa
+	 * Notes:
+	 */
+#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_OIL_PRESSURE_ECS_CHANNEL_A
+//oil temp
+#define XI_STEP2_PIE
+#define XI_STEP2_MIN_PIE 0
+#define XI_STEP2_MAX_PIE 120
+#define XI_STEP2_MIN_RANGE 75
+#define XI_STEP2_MAX_RANGE 245
+#define XI_STEP2_MAX_BACKSTOP -10
+#define XI_STEP2_ITEM XP_OIL_TEMP
+	/**
+	 * Types: FLOAT SHORT2
+	 * Units: K
+	 * Notes:
+	 */
+#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_OIL_TEMPERATURE_ECS_CHANNEL_A
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef  XI_INSTRUMENT_EXHFLOW_GAUGE
 
+#define XI_INSTRUMENT_CODE "EXHFL"
+
+	 // max data elements to share with XPlane
+#define XI_INSTRUMENT_MAX_ELEMENTS 2
+
+// define # of steppers used in this instrument
+#define XI_STEPPERS_USED	2
+
+//Fuel flow
+#define XI_STEP1_PIE
+#define XI_STEP1_MIN_PIE 0
+#define XI_STEP1_MAX_PIE 120
+#define XI_STEP1_MIN_RANGE 0
+#define XI_STEP1_MAX_RANGE 19
+#define XI_STEP1_MAX_BACKSTOP -10
+#define XI_STEP1_ITEM XP_FUEL_FLOW
+/**
+	 * Types: FLOAT SHORT2
+	 * Units: l/h
+	 * Notes:
+	 */
+#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_PUMP_1_FLOW_RATE
+//exh
+#define XI_STEP2_PIE
+#define XI_STEP2_MIN_PIE 0
+#define XI_STEP2_MAX_PIE 120
+#define XI_STEP2_MIN_RANGE 0
+#define XI_STEP2_MAX_RANGE 400
+#define XI_STEP2_MAX_BACKSTOP -10
+#define XI_STEP2_ITEM XP_OIL_EXH
+	/**
+	 * Types: FLOAT SHORT2
+	 * Units: K
+	 * Notes: TOT
+	 */
+#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_TURBINE_OUTLET_TEMPERATURE_ECS_CHANNEL_A
+
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef  XI_INSTRUMENT_VACAM_GAUGE
 
+#define XI_INSTRUMENT_CODE "VACAM"
+
+// max data elements to share with XPlane
+#define XI_INSTRUMENT_MAX_ELEMENTS 2
+
+// define # of steppers used in this instrument
+#define XI_STEPPERS_USED	2
+
+//Amperage
+#define XI_STEP1_PIE
+#define XI_STEP1_MIN_PIE 0
+#define XI_STEP1_MAX_PIE 120
+#define XI_STEP1_MIN_RANGE -60
+#define XI_STEP1_MAX_RANGE 60
+#define XI_STEP1_MAX_BACKSTOP -10
+#define XI_STEP1_ITEM XP_AMPERES
+	/**
+	 * Types: FLOAT SHORT2
+	 * Units: ampere
+	 * Notes:
+	 */
+#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_AC_SYSTEM_1_CURRENT
+//VAC
+#define XI_STEP2_PIE
+#define XI_STEP2_MIN_PIE 0
+#define XI_STEP2_MAX_PIE 120
+#define XI_STEP2_MIN_RANGE 3
+#define XI_STEP2_MAX_RANGE 7
+#define XI_STEP2_MAX_BACKSTOP -10
+#define XI_STEP2_ITEM XP_VACUEM
+	/**
+	 * Types: FLOAT SHORT2
+	 * Units: hPa
+	 * Notes: piston engines only
+	 */
+#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_MANIFOLD_PRESSURE_ECS_CHANNEL_A
+
 #endif
 
 
-// ------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
 // codes not used in instruments yet :-)
-// ------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
 
 // set these flags if the instrument has a Power and ready indication flag controled by a servo  
 //#define USE_PWR_FLAG_SERVO
@@ -339,7 +460,7 @@
 //define XI_RE2_ITEM "GYRO_HEADING"
 
 //===================================================================================================================
-// VALIDATION SECTION
+// HARDWARE CONFIGURATION VALIDATION SECTION
 //===================================================================================================================
 #if defined(XI_CONTROLER_35) && defined(XI_CONTROLER_25)
 #error Only one controler board type can be selected

@@ -49,10 +49,10 @@
     <ClInclude Include="src\XLibs\src\InstrumentStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CanOpen.h">
+    <ClInclude Include="CANaero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CANaero.h">
+    <ClInclude Include="CANmessages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -76,9 +76,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\XLibs\src\InstrumentStepper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CanOpen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CANaero.cpp">

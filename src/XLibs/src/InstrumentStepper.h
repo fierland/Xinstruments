@@ -18,7 +18,8 @@
 #include "mydebug.h"
 
 #include <stdlib.h>
-#include <AccelStepper.h>
+#include <AccelStepper/src/AccelStepper.h>
+#include <AccelStepper/src/MultiStepper.h>
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"

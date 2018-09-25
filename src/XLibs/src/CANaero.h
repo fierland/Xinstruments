@@ -264,24 +264,6 @@ public:
 
 	~CANaero();
 
-/**
- * Make a pre-initialized config struct, with default values provided where possible.
- * @return Pre-initialized @ref CanasConfig.
- 
-CanasConfig MakeConfig(void);
-*/
-
-/**
- * Initialize instance.
- * @param [out] pi    Pointer to instance to be initialized
- * @param [in]  pcfg  Pointer to the instance configuration
- * @param [in]  pthis Application-specific pointer, goes to the corresponding instance field.
- * @return            @ref CanasErrorCode
- */
-/*
-replace by class init
-int canasInit(CanasInstance* pi, const CanasConfig* pcfg, void* pthis);
-*/
 
 /**
  * Update instance state.

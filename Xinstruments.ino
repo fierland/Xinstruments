@@ -11,12 +11,11 @@
 //
 //-------------------------------------------------------------------------------------------------------------------
 
+#include <stdlib.h>
 #include <esp32_can.h>
 #include <CommandLine.h>
 #include <dummy.h>
 #include <QList.h>
-#include <MultiStepper.h>
-#include <AccelStepper.h>
 #include "Xinstruments.h"
 
 //#ifdef USE_PWR_FLAG_SERVO
@@ -24,6 +23,33 @@
 //#endif  
 
 Xcomm *dataConnection;
+MultiStepper allSteppers;
+
+#ifdef XI_STEP1_PIE
+StepperPie _stepper_Pie_1(XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
+#endif
+#ifdef XI_STEP2_PIE
+StepperPie _stepper_Pie_2(XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED, XI_STEP2_STP, XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
+#endif
+#ifdef XI_STEP3_PIE
+StepperPie _stepper_Pie_3(XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP3_MOTORTYPE);
+#endif
+#ifdef XI_STEP4_PIE
+StepperPie _stepper_Pie_4(XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, XI_STEP4_MAX_PIE, XI_STEP4_STP, XI_STEP4_DIR, XI_STEP4_MOTORTYPE);
+#endif
+#ifdef XI_STEP1_360
+Stepper360 _stepper_360_1(XI_STEP1_MAX_RANGE, XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
+#endif
+#ifdef XI_STEP2_360
+Stepper360 _stepper_360_2(XI_STEP2_MAX_RANGE, XI_STEP2_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP2_STP, XI_STEP2_DIR, 0, 0, true);
+#endif
+#ifdef XI_STEP3_360
+Stepper360 _stepper_360_3(XI_STEP1_MAX_RANGE, XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
+#endif
+#ifdef XI_STEP4_360
+Stepper360 _stepper_360_4(XI_STEP4_MAX_RANGE, XI_STEP4_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP4_STP, XI_STEP4_DIR, 0, 0, true);
+#endif
+
 
 // data to control the leds
 int freq = 5000;
@@ -50,32 +76,6 @@ boolean _flagIsUp = true;
 XServo *flagServo; // create servo object to control a servo      
 
 #endif  
-#ifdef XI_STEP1_360
-Stepper360 *_stepper_360_1;
-#endif
-#ifdef XI_STEP2_360
-Stepper360 *_stepper_360_2;
-#endif
-#ifdef XI_STEP3_360
-Stepper360 *_stepper_360_3;
-#endif
-#ifdef XI_STEP4_360
-Stepper360 *_stepper_360_4;
-#endif
-#ifdef XI_STEP1_PIE
-StepperPie *_stepper_Pie_1;
-#endif
-#ifdef XI_STEP2_PIE
-StepperPie *_stepper_Pie_2;
-#endif
-#ifdef XI_STEP3_PIE
-StepperPie *_stepper_Pie_3;
-#endif
-#ifdef XI_STEP4_PIE
-StepperPie *_stepper_Pie_4;
-#endif
-
-
 
 #ifdef USE_PWR_FLAG_SERVO
 //===================================================================================================================
@@ -137,62 +137,87 @@ void _InitiateSteppers() {
   
   DPRINTLN("Start Initiate steppers");
 
-	// for full 360 steppers
-#ifdef XI_STEP1_360
-	_stepper_360_1 = new Stepper360(XI_STEP1_MAX_RANGE,  XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0,true);
-	_stepper_360_1->calibrate(XI_HAL1_PIN,true);
-#endif
-#ifdef XI_STEP2_360
-	_stepper_360_2 = new Stepper360(XI_STEP2_MAX_RANGE,  XI_STEP2_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP2_STP, XI_STEP2_DIR, 0, 0, true);
-	_stepper_360_2->calibrate(XI_HAL2_PIN,true);
-#endif
-#ifdef XI_STEP3_360
-	_stepper_360_3 = new Stepper360(XI_STEP1_MAX_RANGE,  XI_STEP1_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP1_STP, XI_STEP1_DIR, 0, 0, true);
-	_stepper_360_4->calibrate(XI_HAL1_PIN, true);
-#endif
-#ifdef XI_STEP4_360
-	_stepper_360_4 = new Stepper360(XI_STEP4_MAX_RANGE,  XI_STEP4_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP4_STP, XI_STEP4_DIR, 0, 0, true);
-	_stepper_360_4->calibrate(XI_HAL1_PIN, true);
-#endif
-
-	//-------------------------------------------------------------------------------------------------------------------
-	// for pie type steppers
-	//-------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------
+// first for for pie type steppers we can calibrate them at the same time
+//-------------------------------------------------------------------------------------------------------------------
 
 #ifdef XI_STEP1_PIE
-	_stepper_Pie_1 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED,  XI_STEP1_STP,XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
-	_stepper_Pie_1->calibrate(XI_STEP1_MAX_BACKSTOP);
+	allSteppers.addStepper(_stepper_Pie_1);
+	_stepper_Pie_1.moveToBackstop();
 
-	dataConnection->addElement(XI_STEP1_ITEM, _stepper_Pie_1, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
+	dataConnection->addElement(XI_STEP1_ITEM, &_stepper_Pie_1, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
 	#ifdef DEBUG
-		_stepper_Pie_1->setValue(26);	
+		_stepper_Pie_1.setValue(26);	
 	#endif
 
 #endif
 #ifdef XI_STEP2_PIE
-	_stepper_Pie_2 = new StepperPie(XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED,  XI_STEP2_STP,XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
-	_stepper_Pie_2->calibrate(XI_STEP2_MAX_BACKSTOP);
-	dataConnection->addElement(XI_STEP2_ITEM, _stepper_Pie_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true); 
+	allSteppers.addStepper(_stepper_Pie_2);
+	_stepper_Pie_2.moveToBackstop();
+	
+	dataConnection->addElement(XI_STEP2_ITEM, &_stepper_Pie_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true); 
 	#ifdef DEBUG
-		_stepper_Pie_2->setValue(26);
-		_stepper_Pie_2->runToPosition();
-		_stepper_Pie_2->setValue(10);
+		_stepper_Pie_2.setValue(26);
+		_stepper_Pie_2.runToPosition();
+		_stepper_Pie_2.setValue(10);
 	#endif
 #endif
 #ifdef XI_STEP3_PIE
-	_stepper_Pie_3 = new StepperPie(XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP3_MOTORTYPE);
-	_stepper_Pie_3->calibrate(XI_STEP3_MAX_BACKSTOP);
-	dataConnection->addElement(XI_STEP3_ITEM, _stepper_Pie_3, XI_STEP3_MAX_RANGE, XI_STEP3_MIN_RANGE, true);
+	allSteppers.addStepper(_stepper_Pie_3);
+	_stepper_Pie_3.moveToBackstop();
+
+	dataConnection->addElement(XI_STEP3_ITEM, &_stepper_Pie_3, XI_STEP3_MAX_RANGE, XI_STEP3_MIN_RANGE, true);
 #endif
 #ifdef XI_STEP4_PIE
-	_stepper_Pie_4 = new StepperPie(XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, XI_STEP4_MAX_PIE,  XI_STEP4_STP, XI_STEP4_DIR, XI_STEP4_MOTORTYPE);
-	_stepper_Pie_4->calibrate(XI_STEP4_MAX_BACKSTOP);
-	dataConnection->addElement(XI_STEP4_ITEM, _stepper_Pie_4, XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, true);
+	allSteppers.addStepper(_stepper_Pie_4);
+	_stepper_Pie_4.moveToBackstop();
+	
+	dataConnection->addElement(XI_STEP4_ITEM, &_stepper_Pie_4, XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, true);
+#endif
+	// run all pie steppers to backstop
+	allSteppers.runSpeedToPosition();
+
+#ifdef XI_STEP1_PIE
+	_stepper_Pie_1.calibrate(XI_STEP1_MAX_BACKSTOP);
+#endif
+#ifdef XI_STEP2_PIE
+	_stepper_Pie_2.calibrate(XI_STEP2_MAX_BACKSTOP);
+#endif
+#ifdef XI_STEP3_PIE
+	_stepper_Pie_3.calibrate(XI_STEP3_MAX_BACKSTOP);
+#endif
+#ifdef XI_STEP4_PIE
+	_stepper_Pie_4.calibrate(XI_STEP4_MAX_BACKSTOP);
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
+// for full 360 steppers they have their own calibartion routines
+//-------------------------------------------------------------------------------------------------------------------
+#ifdef XI_STEP1_360
+	_stepper_360_1.calibrate(XI_HAL1_PIN, true);
+	allSteppers.addStepper(_stepper_360_1);
+	dataConnection->addElement(XI_STEP1_ITEM, &_stepper_360_1, XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, true);
+#endif
+#ifdef XI_STEP2_360
+	_stepper_360_2.calibrate(XI_HAL2_PIN, true);
+	allSteppers.addStepper(_stepper_360_2);
+	dataConnection->addElement(XI_STEP2_ITEM, &_stepper_360_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
+#endif
+#ifdef XI_STEP3_360
+	_stepper_360_4.calibrate(XI_HAL1_PIN, true);
+	allSteppers.addStepper(_stepper_360_3);
+	dataConnection->addElement(XI_STEP3_ITEM, &_stepper_360_3, XI_STEP3_MAX_RANGE, XI_STEP3_MIN_RANGE, true);
+#endif
+#ifdef XI_STEP4_360
+	_stepper_360_4.calibrate(XI_HAL1_PIN, true);
+	allSteppers.addStepper(_stepper_360_4);
+	dataConnection->addElement(XI_STEP4_ITEM, &_stepper_360_4, XI_STEP4_MAX_RANGE, X4_STEP1_MIN_RANGE, true);
+#endif
+
+	// run all steppers to start position
+	allSteppers.runSpeedToPosition();
+
 }
-
-
 
 
 //===================================================================================================================
@@ -209,11 +234,11 @@ void _InitiateCommunication(){
 //-------------------------------------------------------------------------------------------------------------------
 // hook functions for CANaero 
 //-------------------------------------------------------------------------------------------------------------------
-CanWriteFunc(){
+int CanWriteFunc(){
 
 }
 
-CanFilterFunc(){
+int CanFilterFunc(){
 
 }
 //===================================================================================================================
@@ -229,22 +254,22 @@ void setup() {
 	commandLine.add(cmdReset);	
 	commandLine.add(cmdStatus);
 	commandLine.add(cmdPulse);
-  commandLine.add(cmdReverse);
-  commandLine.add(cmdForward);
-  commandLine.add(cmdOff);
-  commandLine.add(cmdOn);
+	commandLine.add(cmdReverse);
+	commandLine.add(cmdForward);
+	commandLine.add(cmdOff);
+	commandLine.add(cmdOn);
   
 	// On-the-fly commands -- instance is allocated dynamically
 	commandLine.add("help", handleHelp);
-  // set up control of leds
-  ledcSetup(ledChannel, freq, resolution);
-  ledcAttachPin(XI_LED_PIN, ledChannel);
-  ledcWrite(ledChannel, 255);
-  
 #endif
 
-	_InitiateCommunication();
+	// set up control of leds
+	ledcSetup(ledChannel, freq, resolution);
+	ledcAttachPin(XI_LED_PIN, ledChannel);
+	ledcWrite(ledChannel, 255);
 
+	// set up can bus communication
+	_InitiateCommunication();
 
 #ifdef USE_PWR_FLAG_SERVO
 		// setup the power state flag
@@ -280,34 +305,7 @@ void loop() {
 // 
 // move commands for all steppers
 //
-#ifdef XI_STEP1_360
-	_stepper_360_1->run();
-#endif
-#ifdef XI_STEP2_360
-	_stepper_360_2->run();
-#endif
-#ifdef XI_STEP3_360
-	_stepper_360_3->run();
-#endif
-#ifdef XI_STEP4_360
-	_stepper_360_4->run();
-#endif
-	// for pie type steppers
-
-
-#ifdef XI_STEP1_PIE
-	_stepper_Pie_1->run();
-#endif
-#ifdef XI_STEP2_PIE
-	_stepper_Pie_2->run();
-#endif
-#ifdef XI_STEP3_PIE
-	_stepper_Pie_3->run();
-#endif
-#ifdef XI_STEP4_PIE
-	_stepper_Pie_4->run();
-#endif
-
+	allSteppers.run();
 }
 
 /**
@@ -371,10 +369,10 @@ void handlePulse(char* tokens)
 
 	// call update
 #ifdef XI_STEP1_PIE
-	_stepper_Pie_1->setMinPulseWidth(value);
+	_stepper_Pie_1.setMinPulseWidth(value);
 #endif
 #ifdef XI_STEP2_PIE
-	_stepper_Pie_2->setMinPulseWidth(value);
+	_stepper_Pie_2.setMinPulseWidth(value);
 #endif
 }
 
@@ -395,28 +393,28 @@ void handleHelp(char* tokens)
 
 void handleReverse(char* tokens)
 {
-  _stepper_Pie_2->setDirectionInverse(true);
+  _stepper_Pie_2.setDirectionInverse(true);
   Serial.println("Reverse DONE");
 }
 
 void handleForward(char* tokens)
 {
-  _stepper_Pie_2->setDirectionInverse(false);
+  _stepper_Pie_2.setDirectionInverse(false);
   Serial.println("Forward DONE");
 }
 
 void handleOff(char* tokens)
 {
-  _stepper_Pie_1->powerOff();
-  _stepper_Pie_2->powerOff();
+  _stepper_Pie_1.powerOff();
+  _stepper_Pie_2.powerOff();
   ledcWrite(ledChannel, 0);
   Serial.println("PowerOFF DONE");
 }
 
 void handleOn(char* tokens)
 {
-  _stepper_Pie_1->powerOn();
-  _stepper_Pie_2->powerOn();
+  _stepper_Pie_1.powerOn();
+  _stepper_Pie_2.powerOn();
  ledcWrite(ledChannel, 255);
   Serial.println("PowerON DONE");
 }

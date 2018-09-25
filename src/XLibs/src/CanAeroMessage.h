@@ -8,10 +8,6 @@
 
 #include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef enum
 {
     CANAS_PARAM_DISTRIBUTION_DEFAULT = 0
@@ -166,7 +162,4 @@ typedef struct
     uint8_t message_code;
 } CanasMessage;
 
-#ifdef __cplusplus
-}
-#endif
 #endif

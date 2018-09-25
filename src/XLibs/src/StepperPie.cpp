@@ -68,11 +68,9 @@ StepperPie::~StepperPie(){
 void StepperPie::calibrate() {
 	
 	DPRINTLN("Start StepperPie calibrate");
-	// TODO: code to set zero pos using sensor or by moving to backstop
 
-
-	move(- _stepsPerRotation);
-	runToPosition();
+	//move(- _stepsPerRotation);
+	//runToPosition();
 	_currentPos = 0;
 	setCurrentPosition(0);
 	_newPos = 0;
@@ -81,13 +79,18 @@ void StepperPie::calibrate() {
 	
 };
 
+void StepperPie::moveToBackstop()
+{
+	move(-(_stepsPerRotation * 360 / _totalRange)*1.1);
+}
+
 void StepperPie::calibrate(float backstopPos) {
 
 	DPRINTLN(backstopPos);
-	calibrate();	
+	//calibrate();	
 	setCurrentPosition(backstopPos);
 	moveTo(0);
-	runToPosition();		
+	//runToPosition();		
 };
 
 //
