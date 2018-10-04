@@ -12,7 +12,7 @@
 #include "InstrumentStepper.h"
 
 
-InstrumentStepper::InstrumentStepper(uint8_t pinStep, uint8_t pinDir,StepperMotorType motorType) : AccelStepper(AccelStepper::DRIVER,  pinStep, pinDir, 0, 0, true) {
+InstrumentStepper::InstrumentStepper(uint8_t canID, uint8_t pinStep, uint8_t pinDir,StepperMotorType motorType) : GenericInstrument(canID), AccelStepper(AccelStepper::DRIVER,  pinStep, pinDir, 0, 0, true)  {
 
 	DPRINTLN("Start Instrument Stepper constructor");
 	

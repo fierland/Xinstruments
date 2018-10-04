@@ -83,7 +83,9 @@
   <ItemGroup>
     <ClInclude Include="CANaero.h" />
     <ClInclude Include="CANmessages.h" />
-    <ClInclude Include="src\XLibs\src\InstrumentStepper.h" />
+    <ClInclude Include="GenericInstrument.h" />
+    <ClInclude Include="Instrument.h" />
+    <ClInclude Include="src\XLibs\src\IndicatorStepper.h" />
     <ClInclude Include="src\XLibs\src\mydebug.h" />
     <ClInclude Include="src\XLibs\src\VidStepper.h" />
     <ClInclude Include="src\XLibs\src\XServo.h" />
@@ -96,7 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CANaero.cpp" />
-    <ClCompile Include="src\XLibs\src\InstrumentStepper.cpp" />
+    <ClCompile Include="GenericInstrument.cpp" />
+    <ClCompile Include="Instrument.cpp" />
+    <ClCompile Include="src\XLibs\src\IndicatorStepper.cpp" />
     <ClCompile Include="src\XLibs\src\VidStepper.cpp" />
     <ClCompile Include="src\XLibs\src\XServo.cpp" />
     <ClCompile Include="src\XLibs\src\Stepper360.cpp" />

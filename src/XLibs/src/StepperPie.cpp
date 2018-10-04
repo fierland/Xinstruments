@@ -8,7 +8,7 @@
 //
 
 
-StepperPie::StepperPie(float rangeMax, float rangeMin, uint8_t pieSize, bool reverse,  uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : InstrumentStepper::InstrumentStepper( pinStep, pinDir, motorType)
+StepperPie::StepperPie(uint8_t canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse,  uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : InstrumentStepper::InstrumentStepper(canID, pinStep, pinDir, motorType)
 	 {
 	
 	DPRINTLN("Start StepperPie constructor");

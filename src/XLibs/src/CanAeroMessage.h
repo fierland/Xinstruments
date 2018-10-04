@@ -144,7 +144,7 @@ typedef union
     uint8_t ACHAR3[3];
 
     uint32_t DOUBLEH;
-    uint32_t DOUBLEL;
+    uint32_t DOUBLEL;	
 } CanasDataContainer;
 
 typedef struct

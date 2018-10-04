@@ -274,6 +274,7 @@
 
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
+#define XI_INDICATORS_USED	2
 
 // define type of stepper range and info item they display
 //#define XI_STEP1_360
@@ -299,7 +300,7 @@
 #define XI_STEP2_MAX_RANGE 26
 #define XI_STEP2_MAX_BACKSTOP -10
 #define XI_STEP2_ITEM XP_FUEL_LEFT
-#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
+#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
 
 #endif
 
@@ -313,6 +314,7 @@
 
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
+#define XI_INDICATORS_USED	2
 
 // oilpresure
 #define XI_STEP1_PIE
@@ -354,6 +356,7 @@
 
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
+#define XI_INDICATORS_USED	2
 
 //Fuel flow
 #define XI_STEP1_PIE
@@ -396,6 +399,7 @@
 
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
+#define XI_INDICATORS_USED	2
 
 //Amperage
 #define XI_STEP1_PIE

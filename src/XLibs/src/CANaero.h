@@ -21,31 +21,10 @@
 #include <QList.h>
 #include "CanAeroMessage.h"
 #include "CANdriver.h"
+#include "GenericInstrument.h"
+#include "mydebug.h"
 
-/**
- * Broadcast Node ID can be used to perform network-wide service requests
- */
-static const int CANAS_BROADCAST_NODE_ID = 0;
 
-/**
- * Maximum number of nodes per one network
- */
-static const int CANAS_MAX_NODES = 255;
-
-/**
- * This library can work with the number of redundant interfaces not higher than this.
- */
-static const int CANAS_IFACE_COUNT_MAX = 8;
-
-/**
- * Buffer size required for functions like canasDump*()
- */
-#define CANAS_DUMP_BUF_LEN 50
-
- /**
-  * Nearly all API calls return an error code.
-  * @note API calls return the negative error codes. You have to invert the sign to get the actual error code.
-  */
 typedef enum
 {
 	CANAS_ERR_OK = 0,
@@ -69,185 +48,27 @@ typedef enum
 	CANAS_ERR_LOGIC                 ///< May be returned by a service if it goes wrong
 } CanasErrorCode;
 
-typedef struct CanasInstanceStruct CanasInstance;
 
-/**
- * Send a message to the bus.
- * @param [in] pi    Instance pointer
- * @param [in] iface Interface index
- * @param [in] pmsg  Pointer to the message to be sent
- * @return           Number of messages sent (0 or 1), negative on failure
- */
-typedef int(*CanasCanSendFn)(int, const CanasCanFrame*);
-
-/**
- * Configure acceptance filters.
- * @param [in] pi       Instance pointer
- * @param [in] iface    Interface index
- * @param [in] pfilters Pointer to an array of filter configs
- * @param [in] len      Length of the config array
- * @return              0 if ok, negative on failure
- */
-typedef int(*CanasCanFilterFn)( int, const CanasCanFilterConfig*, int);
-
-/**
- * Allocates a chunk of memory.
- * If the application does not require de-initialization features like unsubscription of unadvertisement, then dynamic
- * memory is not needed at all. If this is the case, you can use a static pool allocator.
- * This feature is useful for embedded systems where dynamic memory is not always available.
- * @note Allocated memory must be aligned properly.
- * @param [in] pi   Instance pointer
- * @param [in] size Size of the memory block required
- * @return          Pointer or NULL if no memory available
- */
-typedef void* (*CanasMallocFn)(CanasInstance*, int);
-
-/**
- * Deallocates memory. This function is not required in most cases, see @ref CanasMallocFn for details.
- * If the deallocation is not needed (e.g. in case of static allocator), then pointer to this function should be NULL.
- * @param [in] pi  Instance pointer
- * @param [in] ptr Pointer to the memory to be deallocated
- */
-typedef void(*CanasFreeFn)(CanasInstance*, void*);
-
-/**
- * Returns current timestamp in microseconds.
- * Any base value (uptime or UNIX time) will do.
- * @param [in] pi Instance pointer
- * @return        Current timestamp in microseconds
- */
-typedef uint64_t(*CanasTimestampFn)(CanasInstance*);
-
-typedef struct
-{
-	uint64_t timestamp_usec;
-	CanasMessage message;
-	uint16_t message_id;
-	uint8_t redund_channel_id;
-	uint8_t iface;
-} CanasHookCallbackArgs;
-typedef void(*CanasHookCallbackFn)(CanasInstance*, CanasHookCallbackArgs*);
-
-typedef struct
-{
-	uint64_t timestamp_usec;
-	void* parg;
-	CanasMessage message;
-	uint16_t message_id;
-	uint8_t redund_channel_id;
-} CanasParamCallbackArgs;
-typedef void(*CanasParamCallbackFn)(CanasInstance*, CanasParamCallbackArgs*);
-
-typedef struct
-{
-	uint64_t timestamp_usec;
-	void* pstate;
-} CanasServicePollCallbackArgs;
-typedef void(*CanasServicePollCallbackFn)(CanasInstance*, CanasServicePollCallbackArgs*);
-
-typedef struct
-{
-	uint64_t timestamp_usec;
-	void* pstate;
-	CanasMessage message;
-	uint8_t service_channel;
-} CanasServiceRequestCallbackArgs;
-typedef void(*CanasServiceRequestCallbackFn)(CanasInstance*, CanasServiceRequestCallbackArgs*);
-
-typedef struct
-{
-	uint64_t timestamp_usec;
-	void* pstate;
-	CanasMessage message;
-} CanasServiceResponseCallbackArgs;
-typedef void(*CanasServiceResponseCallbackFn)(CanasInstance*, CanasServiceResponseCallbackArgs*);
-
-typedef struct
-{
-	uint64_t timestamp_usec;        ///< Empty entry contains zero timestamp
-	uint32_t header;                ///< First 4 bytes of frame
-	uint8_t ifaces_mask;
-} CanasServiceFrameHistoryEntry;
-
-typedef struct
-{
-	void* pnext;                    ///< Must be the first entry
-	CanasServicePollCallbackFn callback_poll;
-	CanasServiceRequestCallbackFn callback_request;
-	CanasServiceResponseCallbackFn callback_response;
-	void* pstate;
-	uint8_t service_code;
-	uint8_t history_len;
-	CanasServiceFrameHistoryEntry history[1]; // flexible
-} CanasServiceSubscription;
-
-typedef struct
-{
-	uint64_t timestamp_usec;        ///< Empty entry contains zero timestamp
-	CanasMessage message;
-} CanasParamCacheEntry;
-
-typedef struct
-{
-	void* pnext;                    ///< Must be the first entry
-	CanasParamCallbackFn callback;
-	void* callback_arg;
-	uint16_t message_id;
-	uint8_t redund_count;
-	CanasParamCacheEntry redund_cache[1]; // flexible
-} CanasParamSubscription;
-
-typedef struct
-{
-	void* pnext;                    ///< Must be the first entry
-	uint16_t message_id;
-	uint8_t message_code;
-	int8_t interlacing_next_iface;
-} CanasParamAdvertisement;
-
-
-
-struct CanasInstanceStruct
-{
-	CanasConfig config;
-	void* pthis;                    ///< To be used by application
-
-	uint64_t last_service_ts;
-
-	CanasServiceSubscription* pservice_subs;
-	CanasParamSubscription* pparam_subs;
-	CanasParamAdvertisement* pparam_advs;
+struct _CanDataLinks {
+	int linkId;
+	uint8_t canAreoId = 0;
+	float lastVal;	
+	GenericInstrument* instrument = NULL;
+	unsigned long timestamp = 0;	// last read time	
 };
 
-typedef enum
+
+/*
+typedef struct
 {
-	MSGGROUP_WTF,
-	MSGGROUP_PARAMETER,
-	MSGGROUP_SERVICE
-} MessageGroup;
-
-#define ALL_IFACES  -1
-#define REDUND_CHAN_MULT 65536ul
-#define RANGEINCLUSIVE(x, min, max) ((x) >= (min) && (x) <= (max))
-
-//---------
-/**
- * At least 10ms is required by some services.
- * Thus, increasing is NOT recommended.
- */
-static const int CANAS_DEFAULT_SERVICE_POLL_INTERVAL_USEC = 10 * 1000;
-
-/**
- * History length for repetition detection.
- * Expressed in number of frames to track.
- */
-static const int CANAS_DEFAULT_SERVICE_HIST_LEN = 32;
-
-/**
- * Time to wait for response from remote node
- */
-static const int CANAS_DEFAULT_SERVICE_REQUEST_TIMEOUT_USEC = 100 * 1000;
-
+	uint64_t		timestamp_usec;
+	void*			parg;
+	CanasMessage	message;
+	uint16_t		message_id;
+	uint8_t			redund_channel_id;
+} CanasParamCallbackArgs;
+*/
+typedef void(*CanasParamCallbackFn)(float);
 //---------------------------------------------------------------------------------------------------------------------
 // CANaero Class definition
 //---------------------------------------------------------------------------------------------------------------------
@@ -257,14 +78,14 @@ class CANaero
 public:
 	/**
 	 * Initialize class instance.
-	 * @param [in]  canSend pointer to canSend Function;
+	 * @param [in]  canDriver the driver objecct wiht send recivve and filter functions for the can bus;
 	 */
 	 
-	CANaero(CANdriver* canDriver);
+	CANaero();
 
 	~CANaero();
 
-
+	void setCanDriver(CANdriver* canDriver);
 /**
  * Update instance state.
  * Must be called for every new incoming frame or by timeout.
@@ -274,7 +95,7 @@ public:
  * @param [in] pframe Pointer to the received frame, NULL when called by timeout
  * @return            @ref CanasErrorCode
  */
-int Update( const CanasCanFrame* pframe);
+//int Update( const CanasCanFrame* pframe);
 
 /**
  * Parameter subscriptions.
@@ -283,9 +104,13 @@ int Update( const CanasCanFrame* pframe);
  * Functions of this group return @ref CanasErrorCode.
  * @{
  */
-int ParamSubscribe( uint16_t msg_id,  CanasParamCallbackFn callback, void* callback_arg);
+//int ParamSubscribe( uint16_t msg_id,  CanasParamCallbackFn callback, void* callback_arg);
+int ParamSubscribe( uint16_t msg_id, GenericInstrument* instrument);
 int ParamUnsubscribe( uint16_t msg_id);
-int ParamRead( uint16_t msg_id, CanasParamCallbackArgs* pargs);
+//int ParamRead( uint16_t msg_id, CanasParamCallbackArgs* pargs);
+int ParamRead( uint16_t msg_id, float* newValue);
+
+
 /**
  * @}
  */
@@ -366,7 +191,7 @@ int ServiceChannelToMessageID(uint8_t service_channel, bool isrequest);
 bool IsValidServiceChannel(uint8_t service_channel);
 */
 private:
-	CANdriver* 			_canBus = NULL;
+	static CANdriver* 	_canBus = new CANdriver();
 
 //	CanasMallocFn fn_malloc;        ///< Required; read the notes @ref CanasMallocFn
 //	CanasFreeFn fn_free;            ///< Optional, may be NULL. Read the notes @ref /CanasFreeFn
@@ -383,11 +208,19 @@ private:
 
 	uint8_t  _node_id						= 255; ///< Local Node ID
 	uint8_t  _redund_channel_id				= 0; ///< Local Node Redundancy Channel ID
+	static void _CallBack(CAN_FRAME* frame);
 
 protected:
 	static const int CANAS_DEFAULT_REPEAT_TIMEOUT_USEC = 30 * 1000 * 1000;
+	static QList<_CanDataLinks *> _listRefs;
 
-
+	static int _findInList(uint8_t toFind);
+	int _updateValue(uint8_t type, float value);
+	
 };
+// =================================================================
+
+// =================================================================
+
 
 #endif

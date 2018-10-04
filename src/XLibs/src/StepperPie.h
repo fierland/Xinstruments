@@ -33,7 +33,7 @@ public:
 
 // declare constructor baased on accelstepper
 
-	StepperPie( float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, bool reverse = false, uint8_t pinStep = 3, uint8_t pinDir = 2, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30) ;
+	StepperPie(uint8_t canID, float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, bool reverse = false, uint8_t pinStep = 3, uint8_t pinDir = 2, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30) ;
 
 	~StepperPie();
 

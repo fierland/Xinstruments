@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <AccelStepper/src/AccelStepper.h>
 #include <AccelStepper/src/MultiStepper.h>
+#include "GenericInstrument.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -49,8 +50,7 @@
 #define XI_28BYJ_STEPS_MINPULSEWIDTH 200
 
 
-
-class InstrumentStepper : public AccelStepper {
+class InstrumentStepper : public GenericInstrument, public AccelStepper {
 public:
 	typedef enum
 	{
@@ -60,16 +60,20 @@ public:
   
 	// declare constructor based on accelstepper
 
-	InstrumentStepper(uint8_t pinStep = 2, uint8_t pinDir = 3, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30);
+	InstrumentStepper(uint8_t canID, uint8_t pinStep = 2, uint8_t pinDir = 3, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30);
 
 	~InstrumentStepper();
 
-	// calibrate, move to backrest and set to 0
-	virtual void calibrate() =0;
-	virtual float setValue(float newValue) =0;
+	/**
+	 * Set the default off position of the instrument if not _rangeMin.
+	 * @param [in]	newValue  new value for the off position
+	 * @return      old position
+	 */
 	virtual float setOffPosition(float newValue);
+
 	virtual void powerOn();
 	virtual void powerOff();
+
 	/// Sets the inversion for 2, 3 and 4 wire stepper pins	
 	/// \param[in] reverseDir True for counter clockwise direction;
 	virtual void setDirectionInverse(bool reverseDir = true);
@@ -80,21 +84,16 @@ protected:
 //    virtual void   step1(long step);
 
 	float 	_currentPos = 0;
-	float 	_currentValue = 0;
 	float 	_newPos = 0;
 	float 	_moveSize = 0;
-	float	_rangeMin = 0;
-	float	_rangeMax = 10;
 	float   _totalValueRange = 10;
 	float	_totalRange = 360;
 	float	_stepsPerItem = 1;
 	float	_stepsPerRotation = 360;
-	float	_stepsPerDegree = 1;
-	bool	_powerOn = true;
+	float	_stepsPerDegree = 1;	
 	float	_offValue = 0;
 	float	_backstop_pos = 0;
 	bool	_isInverse = false;
-
 
 private:
 

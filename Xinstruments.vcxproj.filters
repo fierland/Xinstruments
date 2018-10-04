@@ -46,13 +46,19 @@
     <ClInclude Include="src\XLibs\src\VidStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\XLibs\src\InstrumentStepper.h">
+    <ClInclude Include="src\XLibs\src\IndicatorStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CANaero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CANmessages.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GenericInstrument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Instrument.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -75,10 +81,16 @@
     <ClCompile Include="src\XLibs\src\VidStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\XLibs\src\InstrumentStepper.cpp">
+    <ClCompile Include="src\XLibs\src\IndicatorStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CANaero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GenericInstrument.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Instrument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

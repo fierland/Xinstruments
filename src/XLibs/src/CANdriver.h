@@ -9,6 +9,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <esp32_can.h>
+#include <string.h>
+#include "CANaero.h"
+
+
 //#include "CANaero.h"
 
 #define XI_CANBUS_SPEED CAN_SPEED_500KBPS
@@ -60,31 +64,15 @@ public:
 	
 	int writeMsg(CanasCanFrame* frame);
 
-	int setFilter(int msgID, void(*cbFunction)(CAN_FRAME *));
+	int setFilter(int msgID, void (*callBack)(CAN_FRAME*));
 	int timeStamp();
 	int receive(CanasCanFrame* pframe, unsigned int timeout_usec);
 	int receive(CanasCanFrame* pframe);
+	static int can2areo(CanasCanFrame* pframe, CAN_FRAME* message);
+	static int areo2can(CanasCanFrame* pframe, CAN_FRAME* message);
 
 private:
 protected:
 };
 #endif
 
-static void _frameSpl2Canas(const CAN_FRAME * pspl, CanasCanFrame * pcanas)
-{
-
-	memset(pcanas, 0, sizeof(*pcanas));
-	memcpy(pcanas->data, pspl->Data, pspl->DLC);
-	pcanas->dlc = pspl->DLC;
-	if (pspl->IDE == CAN_Id_Standard)
-	{
-		pcanas->id = pspl->StdId & CANAS_CAN_MASK_STDID;
-	}
-	else
-	{
-		pcanas->id = pspl->ExtId & CANAS_CAN_MASK_EXTID;
-		pcanas->id |= CANAS_CAN_FLAG_EFF;
-	}
-	if (pspl->RTR == CAN_RTR_Remote)
-		pcanas->id |= CANAS_CAN_FLAG_RTR;
-}
