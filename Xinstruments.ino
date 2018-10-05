@@ -22,11 +22,12 @@
 //#include <ESP32_Servo.h>
 //#endif  
 
-Xcomm *dataConnection;
-MultiStepper allSteppers;
+Instrument	myInstrument(XI_INSTRUMENT_CODE, XI_LED_PIN);
+
 
 #ifdef XI_STEP1_PIE
 StepperPie _stepper_Pie_1(XI_DAIL1_CAN_ID,XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
+
 #endif
 #ifdef XI_STEP2_PIE
 StepperPie _stepper_Pie_2(XI_DAIL2_CAN_ID,XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED, XI_STEP2_STP, XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
@@ -51,10 +52,7 @@ Stepper360 _stepper_360_4(XI_DAIL4_CAN_ID,XI_STEP4_MAX_RANGE, XI_STEP4_STEPS_CIR
 #endif
 
 
-// data to control the leds
-int freq = 5000;
-int ledChannel = 0;
-int resolution = 8;
+
 
 #ifdef DEBUG_CLI
 // CommandLine instance.
@@ -142,20 +140,19 @@ void _InitiateSteppers() {
 //-------------------------------------------------------------------------------------------------------------------
 
 #ifdef XI_STEP1_PIE
-	allSteppers.addStepper(_stepper_Pie_1);
+	//allSteppers.addStepper(_stepper_Pie_1);
+	myInstrument.addIndicator(&_stepper_Pie_1);
 	_stepper_Pie_1.moveToBackstop();
 
-	dataConnection->addElement(XI_STEP1_ITEM, &_stepper_Pie_1, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true);
 	#ifdef DEBUG
 		_stepper_Pie_1.setValue(26);	
 	#endif
 
 #endif
 #ifdef XI_STEP2_PIE
-	allSteppers.addStepper(_stepper_Pie_2);
+		myInstrument.addIndicator(&_stepper_Pie_2);
 	_stepper_Pie_2.moveToBackstop();
 	
-	dataConnection->addElement(XI_STEP2_ITEM, &_stepper_Pie_2, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, true); 
 	#ifdef DEBUG
 		_stepper_Pie_2.setValue(26);
 		_stepper_Pie_2.runToPosition();
@@ -163,32 +160,20 @@ void _InitiateSteppers() {
 	#endif
 #endif
 #ifdef XI_STEP3_PIE
-	allSteppers.addStepper(_stepper_Pie_3);
+		myInstrument.addIndicator(&_stepper_Pie_3);
 	_stepper_Pie_3.moveToBackstop();
 
-	dataConnection->addElement(XI_STEP3_ITEM, &_stepper_Pie_3, XI_STEP3_MAX_RANGE, XI_STEP3_MIN_RANGE, true);
 #endif
 #ifdef XI_STEP4_PIE
-	allSteppers.addStepper(_stepper_Pie_4);
+	myInstrument.addIndicator(&_stepper_Pie_4);
 	_stepper_Pie_4.moveToBackstop();
 	
-	dataConnection->addElement(XI_STEP4_ITEM, &_stepper_Pie_4, XI_STEP4_MAX_RANGE, XI_STEP4_MIN_RANGE, true);
 #endif
 	// run all pie steppers to backstop
-	allSteppers.runSpeedToPosition();
+	myInstrument.updateNow();
 
-#ifdef XI_STEP1_PIE
-	_stepper_Pie_1.calibrate(XI_STEP1_MAX_BACKSTOP);
-#endif
-#ifdef XI_STEP2_PIE
-	_stepper_Pie_2.calibrate(XI_STEP2_MAX_BACKSTOP);
-#endif
-#ifdef XI_STEP3_PIE
-	_stepper_Pie_3.calibrate(XI_STEP3_MAX_BACKSTOP);
-#endif
-#ifdef XI_STEP4_PIE
-	_stepper_Pie_4.calibrate(XI_STEP4_MAX_BACKSTOP);
-#endif
+
+	myInstrument.calibrate();
 
 //-------------------------------------------------------------------------------------------------------------------
 // for full 360 steppers they have their own calibartion routines
@@ -215,32 +200,11 @@ void _InitiateSteppers() {
 #endif
 
 	// run all steppers to start position
-	allSteppers.runSpeedToPosition();
+	myInstrument.updateNow();
 
 }
 
 
-//===================================================================================================================
-// set up the communications with master
-//===================================================================================================================
-
-void _InitiateCommunication(){
-
-	// TODO: write init comm code
-	dataConnection = new Xcomm(XI_INSTRUMENT_CODE,XI_INSTRUMENT_MAX_ELEMENTS);
-
-}
-
-//-------------------------------------------------------------------------------------------------------------------
-// hook functions for CANaero 
-//-------------------------------------------------------------------------------------------------------------------
-int CanWriteFunc(){
-
-}
-
-int CanFilterFunc(){
-
-}
 //===================================================================================================================
 // MAIN SETUP PROC
 //===================================================================================================================
@@ -263,13 +227,8 @@ void setup() {
 	commandLine.add("help", handleHelp);
 #endif
 
-	// set up control of leds
-	ledcSetup(ledChannel, freq, resolution);
-	ledcAttachPin(XI_LED_PIN, ledChannel);
-	ledcWrite(ledChannel, 255);
-
 	// set up can bus communication
-	_InitiateCommunication();
+	myInstrument.initiateCommunucation();
 
 #ifdef USE_PWR_FLAG_SERVO
 		// setup the power state flag
@@ -295,7 +254,7 @@ void loop() {
 #ifdef DEBUG_CLI
 	commandLine.update();
 #endif
-	dataConnection->checkQueue();
+	
 
 	// section to control a power/ready flag by a servo
 #ifdef USE_PWR_FLAG_SERVO
@@ -305,7 +264,7 @@ void loop() {
 // 
 // move commands for all steppers
 //
-	allSteppers.run();
+	myInstrument.update();
 }
 
 /**
@@ -420,3 +379,4 @@ void handleOn(char* tokens)
 }
 
 #endif
+

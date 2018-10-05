@@ -1,10 +1,15 @@
 //=================================================================================================
+// Generic indicator class
+//
+// author: Frank van Ierland
+// version: 0.1
+//
 //=================================================================================================
 
 #include "GenericIndicator.h"
 
 
-void GenericIndicator::_initIndicator(uint16_t CANid) {
+void GenericIndicator::_initIndicator(CanasNodDefaultID CANid) {
 	// add listener to can bus
 	CANareoBus.ParamSubscribe(CANid, this);
 };
@@ -15,7 +20,7 @@ GenericIndicator::GenericIndicator()
 }
 
 
-GenericIndicator::GenericIndicator(uint16_t CANid)
+GenericIndicator::GenericIndicator(CanasNodDefaultID CANid)
 {
 	_CanAreoId = CANid;
 	_initIndicator(CANid)
@@ -44,7 +49,19 @@ void GenericIndicator::powerOn()
 	DPRINTLN("End GenericIndicator powerOn");
 }
 
-int GenericIndicator::setCanAeroId(uint16_t newCanId)
+bool GenericIndicator::powerState(bool setOn)
+{
+		bool oldValue = _powerOn;			
+
+		if (setOn)
+			powerOn();
+		else
+			powerOff();
+
+		return oldValue;;
+}
+
+int GenericIndicator::setCanAeroId(CanasNodDefaultID newCanId)
 {
 	int oldVal = _CanAreoId;
 
@@ -55,5 +72,15 @@ int GenericIndicator::setCanAeroId(uint16_t newCanId)
 	_initIndicator(newCanId);
 
 	return oldVal;
+}
+
+int GenericIndicator::getCanAeroId(CanasNodDefaultID newCanId)
+{
+	return _CanAreoId;
+}
+
+int GenericIndicator::type()
+{
+	return _type;
 }
 

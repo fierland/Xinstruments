@@ -81,31 +81,34 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CANaero.h" />
-    <ClInclude Include="CANmessages.h" />
-    <ClInclude Include="GenericInstrument.h" />
-    <ClInclude Include="Instrument.h" />
+    <ClInclude Include="IndicatorDisplay.h" />
+    <ClInclude Include="src\XLibs\src\CANaero.h" />
+    <ClInclude Include="src\XLibs\src\CanAeroMessage.h" />
+    <ClInclude Include="src\XLibs\src\CAN_ids.h" />
+    <ClInclude Include="src\XLibs\src\GenericIndicator.h" />
+    <ClInclude Include="src\XLibs\src\IndicatorDisplay.h" />
     <ClInclude Include="src\XLibs\src\IndicatorStepper.h" />
+    <ClInclude Include="src\XLibs\src\Instrument.h" />
     <ClInclude Include="src\XLibs\src\mydebug.h" />
-    <ClInclude Include="src\XLibs\src\VidStepper.h" />
+    <ClInclude Include="src\XLibs\src\Xcomm.h" />
     <ClInclude Include="src\XLibs\src\XServo.h" />
     <ClInclude Include="src\XLibs\src\Stepper360.h" />
     <ClInclude Include="src\XLibs\src\StepperPie.h" />
-    <ClInclude Include="src\XLibs\src\Xcomm.h" />
     <ClInclude Include="src\XLibs\src\XPUtils.h" />
     <ClInclude Include="Xinstruments.h" />
     <ClInclude Include="__vm\.Xinstruments.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CANaero.cpp" />
-    <ClCompile Include="GenericInstrument.cpp" />
-    <ClCompile Include="Instrument.cpp" />
+    <ClCompile Include="IndicatorDisplay.cpp" />
+    <ClCompile Include="src\XLibs\src\CANaero.cpp" />
+    <ClCompile Include="src\XLibs\src\GenericIndicator.cpp" />
+    <ClCompile Include="src\XLibs\src\IndicatorDisplay.cpp" />
     <ClCompile Include="src\XLibs\src\IndicatorStepper.cpp" />
-    <ClCompile Include="src\XLibs\src\VidStepper.cpp" />
+    <ClCompile Include="src\XLibs\src\Instrument.cpp" />
+    <ClCompile Include="src\XLibs\src\Xcomm.cpp" />
     <ClCompile Include="src\XLibs\src\XServo.cpp" />
     <ClCompile Include="src\XLibs\src\Stepper360.cpp" />
     <ClCompile Include="src\XLibs\src\StepperPie.cpp" />
-    <ClCompile Include="src\XLibs\src\Xcomm.cpp" />
     <ClCompile Include="src\XLibs\src\XPUtils.cpp" />
   </ItemGroup>
   <PropertyGroup>

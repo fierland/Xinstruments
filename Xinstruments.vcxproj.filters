@@ -40,25 +40,31 @@
     <ClInclude Include="src\XLibs\src\XServo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\XLibs\src\Xcomm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\XLibs\src\VidStepper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\XLibs\src\IndicatorStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CANaero.h">
+    <ClInclude Include="src\XLibs\src\GenericIndicator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CANmessages.h">
+    <ClInclude Include="src\XLibs\src\CAN_ids.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GenericInstrument.h">
+    <ClInclude Include="src\XLibs\src\CANaero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Instrument.h">
+    <ClInclude Include="src\XLibs\src\CanAeroMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XLibs\src\Instrument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XLibs\src\Xcomm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IndicatorDisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XLibs\src\IndicatorDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -75,22 +81,25 @@
     <ClCompile Include="src\XLibs\src\XServo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\XLibs\src\Xcomm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\XLibs\src\VidStepper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\XLibs\src\IndicatorStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CANaero.cpp">
+    <ClCompile Include="src\XLibs\src\GenericIndicator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GenericInstrument.cpp">
+    <ClCompile Include="src\XLibs\src\CANaero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Instrument.cpp">
+    <ClCompile Include="src\XLibs\src\Instrument.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XLibs\src\Xcomm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IndicatorDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XLibs\src\IndicatorDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

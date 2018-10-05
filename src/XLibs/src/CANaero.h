@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <QList.h>
 #include "CanAeroMessage.h"
+#include "CAN_ids.h"
 #include "CANdriver.h"
 #include "GenericInstrument.h"
 #include "mydebug.h"

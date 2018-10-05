@@ -14,7 +14,8 @@
 
 #include <stdlib.h>
 #include <QList.h>
-#include "InstrumentStepper.h"
+#include "CANaero.h"
+#include "GenericIndicator.h"
 #include <esp32_can.h>	
 #include "mydebug.h"
 
@@ -38,7 +39,7 @@ public:
 
 		//int registerDataRef(int iFreq, const char *sCode );
 	
-	int  addElement(char* type, InstrumentStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin = 0, boolean readOnly =true);
+	int  addElement(GenericIndicator *stepObject, boolean readOnly =true);
 	int  setValue(char* type, float value);
 	int  processInput(char* type, float value);	
 	void checkQueue();
@@ -56,7 +57,7 @@ protected:
 		boolean readOnly = true;
 		bool subscribed = false;
 		unsigned long timestamp = 0;	// last read time
-		InstrumentStepper* myStepper = NULL ;		// link to linked stepper driver
+		GenericIndicator* myStepper = NULL ;		// link to linked stepper driver
 	};
 
 	//struct _DataRefs 

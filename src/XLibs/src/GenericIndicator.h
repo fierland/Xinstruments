@@ -19,7 +19,7 @@
 #include "mydebug.h"
 #include <stdlib.h>
 #include "CANaero.h"
-#include "CANbus.h"
+//#include "CANbus.h"
 
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -48,7 +48,7 @@ public:
 	 * create new instrument
 	 * @param [in]	CANid the CANAreo id for the instument to use
 	 */
-	GenericIndicator(uint16_t CANid);
+	GenericIndicator(CanasNodDefaultID CANid);
 	~GenericIndicator();
 
 public:
@@ -57,7 +57,10 @@ public:
 	 * @param [in] value  new value for the instrument
 	 * @return            true if succes, false if failed
 	 */
-	int setCanAeroId(uint16_t newCanId);
+	int setCanAeroId(CanasNodDefaultID newCanId);
+	int getCanAeroId(CanasNodDefaultID newCanId);
+	int type();
+
 	/**
 	* Calibrate the Instrument move to default start position implemented by subclass
 	*/
@@ -76,6 +79,15 @@ public:
 	 * Move insturment to On state;
 	 */
 	virtual void powerOn();
+	virtual bool powerState(bool setOn);
+
+	typedef enum 
+	{	
+		INDICATOR_UNKNOWN = 0, 
+		INDICATOR_STEPPER = 1, 
+		INDICATOR_DISPLAY = 2
+
+	} IndicatorType;
 
 protected:
 	uint16_t	_CanAreoId = 0;
@@ -83,8 +95,9 @@ protected:
 	float		_rangeMin = 0;
 	float		_rangeMax = 10;
 	bool		_powerOn = true;
+	int			_type = INDICATOR_UNKNOWN;
 
-	void _initIndicator(uint16_t CANid);
+	void _initIndicator(CanasNodDefaultID CANid);
 
 };
 

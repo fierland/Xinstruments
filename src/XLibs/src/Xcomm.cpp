@@ -55,12 +55,13 @@ int Xcomm::dataReader()
 // create new data referece link with X-Plane
 //-------------------------------------------------------------------------------------------------------------------
 
-int Xcomm::addElement(char * type, InstrumentStepper *stepObject, uint32_t rangeMax, uint32_t rangeMin, boolean readOnly)
+int Xcomm::addElement( GenericIndicator *stepObject,  boolean readOnly)
 {
+
 
 	DPRINTLN("XCOMM:addElement");
 	DPRINT("adding:");
-	DPRINTLN(type);
+	DPRINTLN(stepObject->getCanAeroId);
 
 //int XpUDP::registerDataRef(int iFreq, const char *sCode, void(*callBack)(float)) {
 	int curRecord = -1;
@@ -69,7 +70,7 @@ int Xcomm::addElement(char * type, InstrumentStepper *stepObject, uint32_t range
 
 	DPRINT("RegisterDataRef:START:");
 
-	curRecord = _findInList(type);
+	curRecord = _findInList(stepObject->getCanAeroId);
 		
 	if (curRecord == -1) {
 		//not found so create new item
@@ -80,11 +81,11 @@ int Xcomm::addElement(char * type, InstrumentStepper *stepObject, uint32_t range
 		DPRINTLN("in list");
 		newRef->linkId = _listRefs.size();
 		DPRINTLN("id adeded");
-		strcpy(newRef->elementId, type);
+		strcpy(newRef->elementId, stepObject->getCanAeroId);
 		DPRINTLN("type added");
 		newRef->readOnly = readOnly;
-		newRef->rangeMax = rangeMax;
-		newRef->rangeMin = rangeMin;
+		//newRef->rangeMax = rangeMax;
+		//newRef->rangeMin = rangeMin;
 		newRef->myStepper = stepObject;
 	}
 	else {

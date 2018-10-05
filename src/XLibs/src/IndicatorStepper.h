@@ -1,10 +1,9 @@
 //===================================================================================================================
-// InstrumentStepper.h
+// IndicatorStepper.h
 //
 // author: Frank van Ierland
 // version: 0.1
 //
-// Main configuration file to build instruments configurations 
 //
 // master stepper class hiding accelstepper class
 //
@@ -12,15 +11,15 @@
 /// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2018 Frank van Ierland
 
-#ifndef InstrumentStepper_h_
-#define InstrumentStepper_h_
+#ifndef IndicatorStepper_h_
+#define IndicatorStepper_h_
 
 #include "mydebug.h"
 
 #include <stdlib.h>
 #include <AccelStepper/src/AccelStepper.h>
 #include <AccelStepper/src/MultiStepper.h>
-#include "GenericInstrument.h"
+#include "GenericIndicator.h" 
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -50,7 +49,7 @@
 #define XI_28BYJ_STEPS_MINPULSEWIDTH 200
 
 
-class InstrumentStepper : public GenericInstrument, public AccelStepper {
+class IndicatorStepper : public GenericIndicator, public AccelStepper {
 public:
 	typedef enum
 	{
@@ -58,16 +57,22 @@ public:
 		TYPE_28BYJ = 1 ///< Stepper Driver, 2 driver pins required
 	} StepperMotorType;
   
-	// declare constructor based on accelstepper
+	/// declare constructor based on accelstepper
+	///
+	/// Create new generic stepper
+	/// @param [in]  canID		canID of the vlaue to display
+	/// @param [in]  pinStep	    pin for step signal
+	/// @param [in]  pinDir		pin for direction signal
+	/// @param [in]  motorType	stepper motor type to use
+	///
+	IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep = 2, uint8_t pinDir = 3, StepperMotorType motorType = IndicatorStepper::TYPE_BKA30);
 
-	InstrumentStepper(uint8_t canID, uint8_t pinStep = 2, uint8_t pinDir = 3, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30);
-
-	~InstrumentStepper();
+	~IndicatorStepper();
 
 	/**
 	 * Set the default off position of the instrument if not _rangeMin.
-	 * @param [in]	newValue  new value for the off position
-	 * @return      old position
+	 * \param [in]	newValue  new value for the off position
+	 * \return      old position
 	 */
 	virtual float setOffPosition(float newValue);
 
@@ -75,7 +80,7 @@ public:
 	virtual void powerOff();
 
 	/// Sets the inversion for 2, 3 and 4 wire stepper pins	
-	/// \param[in] reverseDir True for counter clockwise direction;
+	/// \param[in] reverseDir True for counter clockwise direction;CanasNodDefaultIDCanasNodDefaultID
 	virtual void setDirectionInverse(bool reverseDir = true);
 
 

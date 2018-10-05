@@ -15,7 +15,7 @@
 #include "mydebug.h"
 
 #include <stdlib.h>
-#include "InstrumentStepper.h"
+#include "IndicatorStepper.h"
 #include "XComm.h"
 
 
@@ -28,12 +28,22 @@
 #include <limits.h>
 
 		
-class StepperPie : public InstrumentStepper {
+class StepperPie : public IndicatorStepper {
 public:
 
-// declare constructor baased on accelstepper
+	 /// <summary>
+	 /// Create new Pie sized stepper
+	 /// </summary>
+	 /// <param name="canID">canID of the vlaue to display.</param>
+	 /// <param name="rangeMax">max display value.</param>
+	 /// <param name="rangeMin">minimal display value.</param>
+	 /// <param name="pieSize">size of the pie in degree.</param>
+	 /// <param name="reverse">is indicator working in reverse (anti-clockwise) direction.</param>
+	 /// <param name="pinStep">pin for step signal.</param>
+	 /// <param name="pinDir">pin for directional signal.</param>
+	 /// <param name="motorType">Stepper motor type.</param>
 
-	StepperPie(uint8_t canID, float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, bool reverse = false, uint8_t pinStep = 3, uint8_t pinDir = 2, StepperMotorType motorType = InstrumentStepper::TYPE_BKA30) ;
+	StepperPie(CanasNodDefaultID canID, float rangeMax = 100, float rangeMin = 0, uint8_t pieSize = 120, bool reverse = false, uint8_t pinStep = 3, uint8_t pinDir = 2, StepperMotorType motorType = IndicatorStepper::TYPE_BKA30);
 
 	~StepperPie();
 
@@ -42,7 +52,12 @@ public:
 	// calibarate and set position of backstop
 	virtual void moveToBackstop();
 	virtual void calibrate(float backstopPos);
-	virtual float setValue(float newValue);	
+	/// <summary>
+	/// set a new value to display
+	/// </summary>
+	/// <param name="newValue">the new value.</param>
+	/// <returns>the current value.</returns>
+	virtual int setValue(float newValue);	
 	void powerOff();
 
 protected:

@@ -14,13 +14,15 @@
 #define XINSTRUMENTS_H_
 
 #include "src\XLibs\src\mydebug.h"
+#include "src\XLibs\src\Instrument.h"	
 #include "src\XLibs\src\XServo.h"
-#include "src\XLibs\src\InstrumentStepper.h"
+#include "src\XLibs\src\GenericIndicator.h"
+#include "src\XLibs\src\IndicatorStepper.h"
 #include "src\XLibs\src\StepperPie.h"
 #include "src\XLibs\src\Stepper360.h"
 #include "src\XLibs\src\XPUtils.h"
+#include "src\XLibs\src\CANaero.h"
 #include "src\XLibs\src\Xcomm.h"
-#include "src\XLibs\src\CAN_ids.h"
 
 #define DEBUG_CLI
 
@@ -31,6 +33,8 @@
 //===================================================================================================================
 // INSTRUMENT Selection: select one of this list comment out the rest
 //===================================================================================================================
+CanasNodDefaultID _canAsNodeId;
+#define XI_MAX_INDICATORS 10;
 
 #define XI_INSTRUMENT_FUEL_GAUGE
 //#define XI_INSTRUMENT_OIL_GAUGE
@@ -232,10 +236,10 @@
 
 #ifdef XI_QUAD_STEPPER_35
 // specs voor quad stepper board
-#define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
-#define	XI_STEP2_MOTORTYPE InstrumentStepper::TYPE_BKA30
-#define	XI_STEP3_MOTORTYPE InstrumentStepper::TYPE_BKA30
-#define	XI_STEP4_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP1_MOTORTYPE IndicatorStepper::TYPE_BKA30
+#define	XI_STEP2_MOTORTYPE IndicatorStepper::TYPE_BKA30
+#define	XI_STEP3_MOTORTYPE IndicatorStepper::TYPE_BKA30
+#define	XI_STEP4_MOTORTYPE IndicatorStepper::TYPE_BKA30
 #define XI_STEP1_REVERSED false
 #define XI_STEP2_REVERSED false
 #define XI_STEP3_REVERSED false
@@ -244,8 +248,8 @@
 
 #ifdef XI_DUAL_STEPPER_35
 // specs voor quad stepper board
-#define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
-#define	XI_STEP2_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP1_MOTORTYPE IndicatorStepper::TYPE_BKA30
+#define	XI_STEP2_MOTORTYPE IndicatorStepper::TYPE_BKA30
 #define XI_STEP1_REVERSED false
 #define XI_STEP2_REVERSED false
 
@@ -253,8 +257,8 @@
 
 #ifdef XI_DUAL_STEPPER_25
 // specs voor 2'5" dual stepper board
-#define	XI_STEP1_MOTORTYPE InstrumentStepper::TYPE_BKA30
-#define	XI_STEP2_MOTORTYPE InstrumentStepper::TYPE_BKA30
+#define	XI_STEP1_MOTORTYPE IndicatorStepper::TYPE_BKA30
+#define	XI_STEP2_MOTORTYPE IndicatorStepper::TYPE_BKA30
 
 #define XI_STEP1_REVERSED false
 #define XI_STEP2_REVERSED true
@@ -290,7 +294,7 @@
 	 * Units: kg
 	 * Notes:
 	 */
-#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_TANK_1_QUANTITY
+#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_FUEL_TANK_1_QUANTITY
 
 //#define XI_STEP2_360
 #define XI_STEP2_PIE
@@ -300,7 +304,7 @@
 #define XI_STEP2_MAX_RANGE 26
 #define XI_STEP2_MAX_BACKSTOP -10
 #define XI_STEP2_ITEM XP_FUEL_LEFT
-#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
+#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
 
 #endif
 
@@ -329,7 +333,7 @@
 	 * Units: hPa
 	 * Notes:
 	 */
-#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_OIL_PRESSURE_ECS_CHANNEL_A
+#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_ENGINE_1_OIL_PRESSURE_ECS_CHANNEL_A
 //oil temp
 #define XI_STEP2_PIE
 #define XI_STEP2_MIN_PIE 0
@@ -343,7 +347,7 @@
 	 * Units: K
 	 * Notes:
 	 */
-#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_OIL_TEMPERATURE_ECS_CHANNEL_A
+#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_OIL_TEMPERATURE_ECS_CHANNEL_A
 #endif
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -371,7 +375,7 @@
 	 * Units: l/h
 	 * Notes:
 	 */
-#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_FUEL_PUMP_1_FLOW_RATE
+#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_FUEL_PUMP_1_FLOW_RATE
 //exh
 #define XI_STEP2_PIE
 #define XI_STEP2_MIN_PIE 0
@@ -385,7 +389,7 @@
 	 * Units: K
 	 * Notes: TOT
 	 */
-#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_TURBINE_OUTLET_TEMPERATURE_ECS_CHANNEL_A
+#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_TURBINE_OUTLET_TEMPERATURE_ECS_CHANNEL_A
 
 #endif
 
@@ -414,7 +418,7 @@
 	 * Units: ampere
 	 * Notes:
 	 */
-#define XI_DAIL1_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_AC_SYSTEM_1_CURRENT
+#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_AC_SYSTEM_1_CURRENT
 //VAC
 #define XI_STEP2_PIE
 #define XI_STEP2_MIN_PIE 0
@@ -428,7 +432,7 @@
 	 * Units: hPa
 	 * Notes: piston engines only
 	 */
-#define XI_DAIL2_CAN_ID	CanasNodDefaultID.CANAS_NOD_DEF_ENGINE_1_MANIFOLD_PRESSURE_ECS_CHANNEL_A
+#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_MANIFOLD_PRESSURE_ECS_CHANNEL_A
 
 #endif
 

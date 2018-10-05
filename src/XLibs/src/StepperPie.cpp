@@ -1,6 +1,18 @@
-// setting up the UPD stuff
+//===================================================================================================================
+/// <summary>
+// StepperPie.h
+//
+// author: Frank van Ierland
+// version: 0.1
+//
+// stepper interface for a ranged stepper based on accelstepper lib
+/// <summary>
+//
+//===================================================================================================================
+/// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
+// Copyright (C) 2018 Frank van Ierland
 #include "StepperPie.h"
-#include "mydebug.h""
+#include "mydebug.h"
 
 
 //
@@ -8,7 +20,8 @@
 //
 
 
-StepperPie::StepperPie(uint8_t canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse,  uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : InstrumentStepper::InstrumentStepper(canID, pinStep, pinDir, motorType)
+StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse,  uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType)
+	: IndicatorStepper(canID, pinStep, pinDir, motorType)
 	 {
 	
 	DPRINTLN("Start StepperPie constructor");
@@ -109,9 +122,9 @@ void StepperPie::powerOff(){
 	
 }
 //
-// power off actions;
+// set new value;
 //
-float StepperPie::setValue(float newValue){
+int StepperPie::setValue(float newValue){
 	float tempValue;
 	float oldValue = _currentValue;
 	long newPosition;
@@ -162,6 +175,7 @@ float StepperPie::setValue(float newValue){
 	moveTo(newPosition);
 	
 	DPRINTLN("End StepperPie setValue");
-	return (oldValue);
+
+	return 0;
 	
 }

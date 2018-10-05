@@ -1,18 +1,27 @@
-// setting up the UPD stuff
+//===================================================================================================================
+/// <summary>
+// Stepper360.cpp
+//
+// author: Frank van Ierland
+// version: 0.1
+//
+// stepper interface for a 360 degree stepper based on accelstepper lib
+/// <summary>
+//
+//===================================================================================================================
+/// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
+// Copyright (C) 2018 Frank van Ierland
+
 #include "stepper360.h"
 #include "mydebug.h"
 
 
-
-bool _atZero = false;
-
-//
+//-------------------------------------------------------------------------------------------------
 // constructor for segmented dails
-
-Stepper360::Stepper360(float rangeMax,uint16_t stepsCircle, uint8_t stepType, uint8_t pin1, uint8_t pin2, bool enable) : AccelStepper(stepType, pin1, pin2, 0, 0, enable) {
+//-------------------------------------------------------------------------------------------------
+Stepper360::Stepper360(CanasNodDefaultID canID, float rangeMax,uint16_t stepsCircle, uint8_t stepType, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : IndicatorStepper(canID, pinStep, pinDir, motorType) {
 
 	DPRINTLN("Start Stepper360 wedge constructor");
-
 
 	// set internal params
 	_rangeMin = 0;
@@ -36,77 +45,25 @@ Stepper360::Stepper360(float rangeMax,uint16_t stepsCircle, uint8_t stepType, ui
 	_currentPos = 0;
 	_newPos = 0;
 	_moveSize = 0;
-
-
+	
 
 	DPRINTLN("End Stepper360 wedge constructor");
 }
-//
-Stepper360::Stepper360( float rangeMax ,  uint16_t stepsCircle , uint8_t stepType, uint8_t pin1 , uint8_t pin2 , uint8_t pin3 , uint8_t pin4 , bool enable  ): AccelStepper(stepType,  pin1 ,  pin2 , pin3 ,pin4 , enable) {
-	
-	DPRINTLN("Start Stepper360 wedge constructor");
-			
-		
-	// set internal params
-	_rangeMin 			= 0;
-	_rangeMax 			= rangeMax;
-	_totalRange			= rangeMax;
-	_stepsPerRotation 	= stepsCircle;	
-	
-	// define step size for later calculations
-	/// first define part of circle used
-	_stepsPerItem = _stepsPerRotation/_totalRange;
-	
-
-	DPRINT("New 360 dail (");
-	DPRINT(_rangeMin);
-	DPRINT("->");
-	DPRINT(_rangeMax);
-	DPRINT(") stepsize:");
-	DPRINTLN(_stepsPerItem);	
-	
-	// set some defaults
-	_currentPos 	= 0 ;	
-	_newPos 		= 0 ;
-	_moveSize 		= 0 ;
-	
-
-	
-	DPRINTLN("End Stepper360 wedge constructor");	
-}
 
 
-//
+//-------------------------------------------------------------------------------------------------
 // deconstructor
-//
+//-------------------------------------------------------------------------------------------------
 Stepper360::~Stepper360(){
 	powerOff();
 }
 
-//
-//
-//
-/*
-int Stepper360::move(){
-	DPRINTLN("Start Stepper360 move");
-
-	DPRINTLN("End Stepper360 move");
-};
-*/
 
 
-//
+//-------------------------------------------------------------------------------------------------
 // set the dail to new value_comp
-//
-
-void Stepper360::runToNewPosition(float newPos){	
-    moveTo(newPos);
-    runToPosition();
-};
-
-
-
-void Stepper360::moveTo(float newPos){	
+//-------------------------------------------------------------------------------------------------
+int Stepper360::setValue(float newPos){	
    int dir = 1;
    int moveSteps = 0;
    long stepsPos;
@@ -179,24 +136,25 @@ void Stepper360::moveTo(float newPos){
 
 	DPRINT(":Move  to new pos:");
 	DPRINTLN(newPos);
-	AccelStepper::moveTo(newPos * _stepsPerItem);   
+	moveTo(newPos * _stepsPerItem);   
 	_currentPos = newPos ;
 
 	DPRINTLN("End Stepper360 moveTo");
 };
 
-//
+
+//-------------------------------------------------------------------------------------------------
 // callback funtion for hal sensor
-//
-void halCallback(void){
+//-------------------------------------------------------------------------------------------------
+void Stepper360::halCallback(void){
 	//AccelStepper::stop();
 	_atZero =true;
 	DPRINTLN("Interup on HAL found");
 };
 
-//
+//-------------------------------------------------------------------------------------------------
 // set dail to 0 position
-//
+//-------------------------------------------------------------------------------------------------
 int Stepper360::calibrate(uint8_t pinHal,bool retainPos) {
 	long startPos = currentPosition();
 	long curSpeed = speed();
@@ -226,28 +184,26 @@ int Stepper360::calibrate(uint8_t pinHal,bool retainPos) {
 	setCurrentPosition(0);
 	if (retainPos)	{
 		DPRINTLN("Moving to old postition");
-		AccelStepper::runToNewPosition(startPos - newPos);
+		runToNewPosition(startPos - newPos);
 		_currentPos = (startPos - newPos)/_stepsPerItem;
 	};
 
-
-	
 	setSpeed(curSpeed);
 	DPRINTLN("End Stepper360 calibrate");
 
 };
-//
+//-------------------------------------------------------------------------------------------------
 // power on actions;
-//
+//-------------------------------------------------------------------------------------------------
 void Stepper360::powerOn(){
 	
 	DPRINTLN("Start Stepper360 powerOn");
 	_powerOn=true;
 	DPRINTLN("End Stepper360 powerOn");
 }
-//
+//-------------------------------------------------------------------------------------------------
 // power off actions;
-//
+//-------------------------------------------------------------------------------------------------
 void Stepper360::powerOff(){
 	
 	DPRINTLN("Start Stepper360 powerOff");
@@ -257,5 +213,3 @@ void Stepper360::powerOff(){
 	DPRINTLN("End Stepper360 powerOff");
 
 }
-
-
