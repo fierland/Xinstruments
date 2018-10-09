@@ -1,8 +1,6 @@
-#include "CANdriver.h"
-#include "CANdriver.h"
-#include "CANdriver.h"
+
 //-------------------------------------------------------------------------------------------------------------------
-//	 CAN Aerospace class
+//	 CAN aerospace driver class
 //
 //  Franks Flightsim Intruments project
 //	by Frank van Ierland
@@ -30,61 +28,8 @@
 #   define CAN_TX_QUEUE_LEN 20
 #endif
 
-/*
-
-typedef struct
-{
-	CanasCanFrame frame;
-	uint8_t iface;
-} FifoEntry;
-
-typedef struct
-{
-	FifoEntry* const pbuf;
-	const int bufsize;
-	int in;
-	int out;
-	int len;
-} Fifo;
-// Software FIFO 
-
-static FifoEntry _buff_rx[CAN_RX_QUEUE_LEN];
-static Fifo _fifo_rx = { _buff_rx, CAN_RX_QUEUE_LEN, 0, 0, 0 };
-
-
-static inline void _fifoPush(Fifo* pfifo, const FifoEntry* pframe, bool* overflow)
-{
-	pfifo->pbuf[pfifo->in++] = *pframe;
-	if (pfifo->in >= pfifo->bufsize)
-		pfifo->in = 0;
-	if (pfifo->len >= pfifo->bufsize)
-	{
-		*overflow = true;
-		pfifo->out++;
-		if (pfifo->out >= pfifo->bufsize)
-			pfifo->out = 0;
-	}
-	else
-	{
-		*overflow = false;
-		pfifo->len++;
-	}
-}
-
-static inline int _fifoPop(Fifo* pfifo, FifoEntry* pframe)
-{
-	if (pfifo->len <= 0)
-		return 0;
-	pfifo->len--;
-	if (pframe)
-		*pframe = pfifo->pbuf[pfifo->out++];
-	if (pfifo->out >= pfifo->bufsize)
-		pfifo->out = 0;
-	return 1;
-}
-*/
-
 //-------------------------------------------------------------------------------------------------------------------
+// initiator
 //-------------------------------------------------------------------------------------------------------------------
 CANdriver::CANdriver() {
 	CAN0.begin(XI_CANBUS_SPEED);
@@ -92,12 +37,14 @@ CANdriver::CANdriver() {
 }
 
 //-------------------------------------------------------------------------------------------------------------------
+// destructor and close CAN bus
 //-------------------------------------------------------------------------------------------------------------------
 
 CANdriver::~CANdriver(){
 	CAN0.disable();
 }
 //-------------------------------------------------------------------------------------------------------------------
+// write message to canbus
 //-------------------------------------------------------------------------------------------------------------------
 
 int CANdriver::writeMsg(CanasCanFrame* frame){
@@ -123,10 +70,9 @@ int CANdriver::writeMsg(CanasCanFrame* frame){
 	return 0;
 }
 
-
 //-------------------------------------------------------------------------------------------------------------------
+// set filter on canbus
 //-------------------------------------------------------------------------------------------------------------------
-	
 
 int CANdriver::setFilter(int msgID, void(*cbFunction)(CAN_FRAME *)){
 	int newMbx;
@@ -151,7 +97,7 @@ int _CanTryRead(CanasCanFrame * pframe)
 	
 	if (CAN0.read(message))
 	{
-		can2areo(pframe, &Message);			
+		CANdriver::can2areo(pframe, &message);			
 		return 0;
 	}
 	
@@ -180,6 +126,7 @@ int CANdriver::receive(CanasCanFrame * pframe, unsigned int timeout_usec)
 	return -1;
 }
 //-------------------------------------------------------------------------------------------------------------------
+// recieve message from CAN bus
 //-------------------------------------------------------------------------------------------------------------------
 int CANdriver::receive(CanasCanFrame * pframe)
 {	
@@ -189,7 +136,26 @@ int CANdriver::receive(CanasCanFrame * pframe)
 	return _CanTryRead(pframe);
 }
 
-static int CANdriver::can2areo(CanasCanFrame * pframe, CAN_FRAME * message)
+//-------------------------------------------------------------------------------------------------------------------
+// recieve message from CAN bus
+//-------------------------------------------------------------------------------------------------------------------
+int CANdriver::receive(CanasMessage* pframe)
+{
+	CanasCanFrame mframe;
+
+	if (pframe == NULL)
+		return -1;
+
+	if (_CanTryRead(&mframe) == 0)
+	{
+		frame2msg(pframe, &mframe);
+	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------
+// convert Canbus message to can areo frame
+//-------------------------------------------------------------------------------------------------------------------
+int CANdriver::can2areo(CanasCanFrame * pframe, CAN_FRAME * message)
 {
 	if (message == NULL || pframe == NULL)
 		return -1;
@@ -206,7 +172,7 @@ static int CANdriver::can2areo(CanasCanFrame * pframe, CAN_FRAME * message)
 
 	if (message->extended) {
 		pframe->id = message->id & CANAS_CAN_MASK_EXTID;
-		pcanas->id |= CANAS_CAN_FLAG_EFF;
+		pframe->id |= CANAS_CAN_FLAG_EFF;
 	}
 	else
 		pframe->id = message->id & CANAS_CAN_MASK_STDID;
@@ -219,6 +185,33 @@ static int CANdriver::can2areo(CanasCanFrame * pframe, CAN_FRAME * message)
 
 }
 
+//-------------------------------------------------------------------------------------------------------------------
+// convert Canbus message to can areo message
+//-------------------------------------------------------------------------------------------------------------------
+int CANdriver::frame2msg(CanasMessage* pmsg, CanasCanFrame * pframe)
+{
+	if (pmsg == NULL || pframe == NULL)
+		return -1;
+
+	for (int i = 0; i < 4; i++)
+		pmsg->data.container.CHAR4[i] = 0;
+
+	for (int i = 4; i < message->length; i++)
+		pmsg->data.container.CHAR4[i] = pframe->data[i + 4];
+
+	pmsg->node_id		= pframe->data[0]; 
+	pmsg->data.type		= pframe->data[1];	
+	pmsg->service_code	= pframe->data[2];
+	pmsg->message_code	= pframe->data[3];
+	pmsg->data.length	= pframe->dlc;
+	pmsg->can_id		= pframe->id;
+
+	return 0;
+
+}
+//-------------------------------------------------------------------------------------------------------------------
+// convert CanAero message to canbus message
+//-------------------------------------------------------------------------------------------------------------------
 int CANdriver::areo2can(CanasCanFrame * pframe, CAN_FRAME * message)
 {
 
@@ -226,22 +219,19 @@ int CANdriver::areo2can(CanasCanFrame * pframe, CAN_FRAME * message)
 		return -1;
 
 	for (int i = 0; i < 8; i++)
-		message->data.bytes[i] = frame->data[i];
+		message->data.bytes[i] = pframe->data[i];
 
-	message->length = frame->dlc;
-	if (frame->id & CANAS_CAN_FLAG_EFF) {
+	message->length = pframe->dlc;
+	if (pframe->id & CANAS_CAN_FLAG_EFF) {
 		message->extended = true;
 	}
 	else {
 		message->extended = false;
 	}
-	message->id = frame->id;
-	message->rtr = (frame->id & CANAS_CAN_FLAG_RTR) ? 1 : 0;
+	message->id = pframe->id;
+	message->rtr = (pframe->id & CANAS_CAN_FLAG_RTR) ? 1 : 0;
+
 
 	return 0;
 }
 
-void CANdriver::callback(CAN_FRAME * message)
-{
-
-}

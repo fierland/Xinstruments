@@ -67,6 +67,12 @@
     <ClInclude Include="src\XLibs\src\IndicatorDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\XLibs\src\CANdriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XLibs\src\CANAS_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\XLibs\src\Stepper360.cpp">
@@ -100,6 +106,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\XLibs\src\IndicatorDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XLibs\src\CANdriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XLibs\src\CANAS_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

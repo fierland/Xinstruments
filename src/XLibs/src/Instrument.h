@@ -12,14 +12,15 @@
 #include "mydebug.h"
 #include "GenericIndicator.h"
 #include "Xinstruments.h"
+#include "CANaero.h"
 
 class Instrument
 {
 public:
-	Instrument(char* instrumentCode, int ledPin, int maxIndicators= XI_MAX_INDICATORS);
+	Instrument(char* instrumentCode, int nodeId, int ledPin, int maxIndicators= XI_MAX_INDICATORS);
 	~Instrument();
 
-	int initiateCommunucation();
+	int initiateCommunication();
 	int addIndicator(GenericIndicator* newIndicator);
 	virtual void calibrate();
 	virtual void toZero();
@@ -38,6 +39,7 @@ private:
 	};
 
 	indicatorControl	myIndicators[10];
+	int				_canasNodeID = 0;
 
 	char			_instrumentCode[8];
 	bool			_powerOn = false;
@@ -45,12 +47,14 @@ private:
 	int				_numIndicators = 0;
 	int				_ledPin;
 	int				_maxIndicators = 10;
-	Xcomm			*dataConnection = NULL; 
+	//Xcomm			*dataConnection = NULL; 
 	MultiStepper	allSteppers;
 
 	// data to control the leds
 	int _ledFreq = 5000;
 	int _ledChannel = 0;
 	int _resolution = 8;
+
+	CANaero myCANbus;
 };
 

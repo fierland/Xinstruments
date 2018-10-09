@@ -160,6 +160,7 @@ typedef struct
     uint8_t node_id;
     uint8_t service_code;
     uint8_t message_code;
+	uint8_t can_id;
 } CanasMessage;
 
 #endif

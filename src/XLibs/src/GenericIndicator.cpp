@@ -8,30 +8,35 @@
 
 #include "GenericIndicator.h"
 
-
-void GenericIndicator::_initIndicator(CanasNodDefaultID CANid) {
-	// add listener to can bus
-	CANareoBus.ParamSubscribe(CANid, this);
-};
-
-GenericIndicator::GenericIndicator()
-{
-	
-}
-
-
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 GenericIndicator::GenericIndicator(CanasNodDefaultID CANid)
 {
 	_CanAreoId = CANid;
-	_initIndicator(CANid)
 }
-
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 GenericIndicator::~GenericIndicator()
 {
-	CANareoBus.ParamUnsubscribe(_CanAreoId);
+	_myCanAreo->ParamUnsubscribe(_CanAreoId);
+}
+
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
+int GenericIndicator::startCommunication(CANaero * canObject)
+{
+	_myCanAreo = canObject;
+	_myCanAreo->ParamSubscribe(_CanAreoId, this);
+	return 0;
 }
 
 
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 void GenericIndicator::powerOff()
 {
 	DPRINTLN("Start GenericIndicator powerOff");
@@ -42,6 +47,9 @@ void GenericIndicator::powerOff()
 
 }
 
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 void GenericIndicator::powerOn()
 {
 	DPRINTLN("Start GenericIndicator powerOn");
@@ -49,6 +57,9 @@ void GenericIndicator::powerOn()
 	DPRINTLN("End GenericIndicator powerOn");
 }
 
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 bool GenericIndicator::powerState(bool setOn)
 {
 		bool oldValue = _powerOn;			
@@ -61,12 +72,15 @@ bool GenericIndicator::powerState(bool setOn)
 		return oldValue;;
 }
 
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 int GenericIndicator::setCanAeroId(CanasNodDefaultID newCanId)
 {
 	int oldVal = _CanAreoId;
 
 	if (_CanAreoId != 0)
-		CANareoBus.ParamUnsubscribe(_CanAreoId);
+		_myCanAreo->ParamUnsubscribe(_CanAreoId);
 
 	_CanAreoId = newCanId;
 	_initIndicator(newCanId);
@@ -74,11 +88,17 @@ int GenericIndicator::setCanAeroId(CanasNodDefaultID newCanId)
 	return oldVal;
 }
 
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 int GenericIndicator::getCanAeroId(CanasNodDefaultID newCanId)
 {
 	return _CanAreoId;
 }
 
+//-------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------
 int GenericIndicator::type()
 {
 	return _type;

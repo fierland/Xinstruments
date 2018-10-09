@@ -43,15 +43,16 @@ public:
  * @return            @ref CanasErrorCode
  */
 //-------------------------------------------------------------------------------------------------
-	GenericIndicator();
+
 	/**
 	 * create new instrument
 	 * @param [in]	CANid the CANAreo id for the instument to use
 	 */
 	GenericIndicator(CanasNodDefaultID CANid);
 	~GenericIndicator();
+ 
+	int startCommunication(CANaero * canObject);
 
-public:
 	/**
 	 * Update instrument with new value to display
 	 * @param [in] value  new value for the instrument
@@ -60,6 +61,7 @@ public:
 	int setCanAeroId(CanasNodDefaultID newCanId);
 	int getCanAeroId(CanasNodDefaultID newCanId);
 	int type();
+
 
 	/**
 	* Calibrate the Instrument move to default start position implemented by subclass
@@ -96,8 +98,7 @@ protected:
 	float		_rangeMax = 10;
 	bool		_powerOn = true;
 	int			_type = INDICATOR_UNKNOWN;
-
-	void _initIndicator(CanasNodDefaultID CANid);
+	CANaero*	_myCanAreo = NULL;
 
 };
 

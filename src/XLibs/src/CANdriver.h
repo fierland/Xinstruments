@@ -68,8 +68,10 @@ public:
 	int timeStamp();
 	int receive(CanasCanFrame* pframe, unsigned int timeout_usec);
 	int receive(CanasCanFrame* pframe);
+	int receive(CanasMessage* pframe);
 	static int can2areo(CanasCanFrame* pframe, CAN_FRAME* message);
 	static int areo2can(CanasCanFrame* pframe, CAN_FRAME* message);
+	static int frame2msg(CanasMessage* pmsg, CanasCanFrame * pframe);
 
 private:
 protected:

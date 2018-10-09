@@ -33,7 +33,8 @@
 //===================================================================================================================
 // INSTRUMENT Selection: select one of this list comment out the rest
 //===================================================================================================================
-CanasNodDefaultID _canAsNodeId;
+#define XI_SOFTWARE_REVISION  0x01;
+
 #define XI_MAX_INDICATORS 10;
 
 #define XI_INSTRUMENT_FUEL_GAUGE
@@ -137,11 +138,12 @@ CanasNodDefaultID _canAsNodeId;
 
 //-------------------------------------------------------------------------------------------------------------------
 //
-//	Settings for the 3,5" controler board
+//	Settings for the 3,25" controler board
 //
 //-------------------------------------------------------------------------------------------------------------------
 
 #ifdef XI_CONTROLER_35
+#define XI_HARDWARE_REVISION  0x01; //revision always first byte 0
 
 //set the max numbers of stepper motors and servos in the instrument
 #define XI_MAX_STEPPERS 4
@@ -180,10 +182,11 @@ CanasNodDefaultID _canAsNodeId;
 #endif
 
 //-------------------------------------------------------------------------------------------------------------------
-//	Settings for the 3,5" controler board
+//	Settings for the 2,5" controler board
 //-------------------------------------------------------------------------------------------------------------------
 
 #ifdef XI_CONTROLER_25
+#define XI_HARDWARE_REVISION  0x11;  //revision always first byte 1
 
 //set the max numbers of stepper motors and servos in the instrument
 #define XI_MAX_STEPPERS 2
@@ -271,7 +274,8 @@ CanasNodDefaultID _canAsNodeId;
 //-------------------------------------------------------------------------------------------------------------------
 #ifdef XI_INSTRUMENT_FUEL_GAUGE
 
-#define XI_INSTRUMENT_CODE "FEULG"
+#define XI_INSTRUMENT_CODE	"FEULG"
+#define XI_INSTRUMENT_NODEID	10
 
 // max data elements to share with XPlane
 #define XI_INSTRUMENT_MAX_ELEMENTS 2
@@ -279,6 +283,9 @@ CanasNodDefaultID _canAsNodeId;
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
 #define XI_INDICATORS_USED	2
+#define XI_DISPLAYS_USED	0
+#define XI_BUTTONS_USED		0
+#define XI_ENCODERS_USED	0
 
 // define type of stepper range and info item they display
 //#define XI_STEP1_360
@@ -312,6 +319,7 @@ CanasNodDefaultID _canAsNodeId;
 #ifdef  XI_INSTRUMENT_OIL_GAUGE
 
 #define XI_INSTRUMENT_CODE "OILGA"
+#define XI_INSTRUMENT_NODEID	11
 
 // max data elements to share with XPlane
 #define XI_INSTRUMENT_MAX_ELEMENTS 2
@@ -319,6 +327,9 @@ CanasNodDefaultID _canAsNodeId;
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
 #define XI_INDICATORS_USED	2
+#define XI_DISPLAYS_USED	0
+#define XI_BUTTONS_USED		0
+#define XI_ENCODERS_USED	0
 
 // oilpresure
 #define XI_STEP1_PIE
@@ -354,6 +365,7 @@ CanasNodDefaultID _canAsNodeId;
 #ifdef  XI_INSTRUMENT_EXHFLOW_GAUGE
 
 #define XI_INSTRUMENT_CODE "EXHFL"
+#define XI_INSTRUMENT_NODEID	12
 
 	 // max data elements to share with XPlane
 #define XI_INSTRUMENT_MAX_ELEMENTS 2
@@ -361,6 +373,9 @@ CanasNodDefaultID _canAsNodeId;
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
 #define XI_INDICATORS_USED	2
+#define XI_DISPLAYS_USED	0
+#define XI_BUTTONS_USED		0
+#define XI_ENCODERS_USED	0
 
 //Fuel flow
 #define XI_STEP1_PIE
@@ -397,6 +412,7 @@ CanasNodDefaultID _canAsNodeId;
 #ifdef  XI_INSTRUMENT_VACAM_GAUGE
 
 #define XI_INSTRUMENT_CODE "VACAM"
+#define XI_INSTRUMENT_NODEID	13
 
 // max data elements to share with XPlane
 #define XI_INSTRUMENT_MAX_ELEMENTS 2
@@ -404,6 +420,9 @@ CanasNodDefaultID _canAsNodeId;
 // define # of steppers used in this instrument
 #define XI_STEPPERS_USED	2
 #define XI_INDICATORS_USED	2
+#define XI_DISPLAYS_USED	0
+#define XI_BUTTONS_USED		0
+#define XI_ENCODERS_USED	0
 
 //Amperage
 #define XI_STEP1_PIE
@@ -435,7 +454,24 @@ CanasNodDefaultID _canAsNodeId;
 #define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_MANIFOLD_PRESSURE_ECS_CHANNEL_A
 
 #endif
+//-------------------------------------------------------------------------------------------------------------------
+#ifdef  XI_INSTRUMENT_DIG_CLOCK
 
+#define XI_INSTRUMENT_CODE "DIGCLK"
+#define XI_INSTRUMENT_NODEID	14
+
+// max data elements to share with XPlane
+#define XI_INSTRUMENT_MAX_ELEMENTS 4
+
+// define # of steppers used in this instrument
+#define XI_STEPPERS_USED	0
+#define XI_INDICATORS_USED	0
+#define XI_DISPLAYS_USED	6
+#define XI_BUTTONS_USED		3
+#define XI_ENCODERS_USED	0
+
+
+#endif
 
 //-------------------------------------------------------------------------------------------------------------------
 // codes not used in instruments yet :-)

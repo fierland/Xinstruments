@@ -22,10 +22,32 @@
 #include "CanAeroMessage.h"
 #include "CAN_ids.h"
 #include "CANdriver.h"
+#include "CANAS_service.h"
 #include "GenericInstrument.h"
 #include "mydebug.h"
 
+// generic canas stuff
+/**
+ * Broadcast Node ID can be used to perform network-wide service requests
+ */
+static const int CANAS_BROADCAST_NODE_ID = 0;
 
+/**
+ * Maximum number of nodes per one network
+ */
+static const int CANAS_MAX_NODES = 255;
+
+typedef enum
+{
+	MSGGROUP_WTF,
+	MSGGROUP_PARAMETER,
+	MSGGROUP_SERVICE
+} MessageGroup;
+
+/**
+ * Nearly all API calls return an error code.
+ * @note API calls return the negative error codes. You have to invert the sign to get the actual error code.
+ */
 typedef enum
 {
 	CANAS_ERR_OK = 0,
@@ -49,15 +71,22 @@ typedef enum
 	CANAS_ERR_LOGIC                 ///< May be returned by a service if it goes wrong
 } CanasErrorCode;
 
-
 struct _CanDataLinks {
 	int linkId;
 	uint8_t canAreoId = 0;
 	float lastVal;	
-	GenericInstrument* instrument = NULL;
+	uint8_t last_message_code = 0;
+	GenericIndicator* indicator = NULL;
 	unsigned long timestamp = 0;	// last read time	
 };
 
+struct _CanServiceLinks {
+	int linkId;
+	uint8_t canServiceCode = 0;
+	float currentVal = 0;
+	CANAS_service* service;
+	unsigned long timestamp = 0;	// last read time	
+};
 
 /*
 typedef struct
@@ -69,6 +98,7 @@ typedef struct
 	uint8_t			redund_channel_id;
 } CanasParamCallbackArgs;
 */
+
 typedef void(*CanasParamCallbackFn)(float);
 //---------------------------------------------------------------------------------------------------------------------
 // CANaero Class definition
@@ -82,11 +112,13 @@ public:
 	 * @param [in]  canDriver the driver objecct wiht send recivve and filter functions for the can bus;
 	 */
 	 
-	CANaero();
+	CANaero(uint8_t nodeId = 255, uint8_t hdwId=0, uint8_t swId =0);
 
 	~CANaero();
 
-	void setCanDriver(CANdriver* canDriver);
+	int setNodeId(int newID);
+
+
 /**
  * Update instance state.
  * Must be called for every new incoming frame or by timeout.
@@ -96,7 +128,7 @@ public:
  * @param [in] pframe Pointer to the received frame, NULL when called by timeout
  * @return            @ref CanasErrorCode
  */
-//int Update( const CanasCanFrame* pframe);
+int Update( );
 
 /**
  * Parameter subscriptions.
@@ -106,7 +138,7 @@ public:
  * @{
  */
 //int ParamSubscribe( uint16_t msg_id,  CanasParamCallbackFn callback, void* callback_arg);
-int ParamSubscribe( uint16_t msg_id, GenericInstrument* instrument);
+int ParamSubscribe( uint16_t msg_id, GenericIndicator* instrument);
 int ParamUnsubscribe( uint16_t msg_id);
 //int ParamRead( uint16_t msg_id, CanasParamCallbackArgs* pargs);
 int ParamRead( uint16_t msg_id, float* newValue);
@@ -136,13 +168,15 @@ int ParamPublish( uint16_t msg_id, const CanasMessageData* pdata, uint8_t servic
   * Functions of this group return @ref CanasErrorCode.
   * @{
   */
+int ServiceRegister(CANAS_service* newService);
+
+//int ServiceRegister(CanasInstance* pi, uint8_t service_code, CanasServicePollCallbackFn callback_poll,
+//	CanasServiceRequestCallbackFn callback_request,
+//	CanasServiceResponseCallbackFn callback_response, void* pstate);
+int ServiceUnregister(uint8_t service_code);
 /*
 int canasServiceSendRequest(CanasInstance* pi, const CanasMessage* pmsg);
 int canasServiceSendResponse(CanasInstance* pi, const CanasMessage* pmsg, uint8_t service_channel);
-int canasServiceRegister(CanasInstance* pi, uint8_t service_code, CanasServicePollCallbackFn callback_poll,
-	CanasServiceRequestCallbackFn callback_request,
-	CanasServiceResponseCallbackFn callback_response, void* pstate);
-int canasServiceUnregister(CanasInstance* pi, uint8_t service_code);
 int canasServiceSetState(CanasInstance* pi, uint8_t service_code, void* pstate);
 int canasServiceGetState(CanasInstance* pi, uint8_t service_code, void** ppstate);
 */
@@ -192,7 +226,10 @@ int ServiceChannelToMessageID(uint8_t service_channel, bool isrequest);
 bool IsValidServiceChannel(uint8_t service_channel);
 */
 private:
-	static CANdriver* 	_canBus = new CANdriver();
+	static CANdriver _canBus;
+	
+	CANAS_service_identification* _identService;
+	CANAS_service_requestdata* _requestService
 
 //	CanasMallocFn fn_malloc;        ///< Required; read the notes @ref CanasMallocFn
 //	CanasFreeFn fn_free;            ///< Optional, may be NULL. Read the notes @ref /CanasFreeFn
@@ -214,9 +251,13 @@ private:
 protected:
 	static const int CANAS_DEFAULT_REPEAT_TIMEOUT_USEC = 30 * 1000 * 1000;
 	static QList<_CanDataLinks *> _listRefs;
+	static QList<_CanServiceLinks *> _serviceRefs;
 
 	static int _findInList(uint8_t toFind);
+	static int _findServiceInList(uint8_t toFind);
 	int _updateValue(uint8_t type, float value);
+	int _handleReceivedParam(CanasMessage* pframe, int subId, long timestamp);
+	int _handleReceivedService(CanasMessage* pframe, int curRecord,long timestamp);
 	
 };
 // =================================================================

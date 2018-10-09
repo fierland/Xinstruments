@@ -84,6 +84,8 @@
     <ClInclude Include="IndicatorDisplay.h" />
     <ClInclude Include="src\XLibs\src\CANaero.h" />
     <ClInclude Include="src\XLibs\src\CanAeroMessage.h" />
+    <ClInclude Include="src\XLibs\src\CANAS_service.h" />
+    <ClInclude Include="src\XLibs\src\CANdriver.h" />
     <ClInclude Include="src\XLibs\src\CAN_ids.h" />
     <ClInclude Include="src\XLibs\src\GenericIndicator.h" />
     <ClInclude Include="src\XLibs\src\IndicatorDisplay.h" />
@@ -101,6 +103,8 @@
   <ItemGroup>
     <ClCompile Include="IndicatorDisplay.cpp" />
     <ClCompile Include="src\XLibs\src\CANaero.cpp" />
+    <ClCompile Include="src\XLibs\src\CANAS_service.cpp" />
+    <ClCompile Include="src\XLibs\src\CANdriver.cpp" />
     <ClCompile Include="src\XLibs\src\GenericIndicator.cpp" />
     <ClCompile Include="src\XLibs\src\IndicatorDisplay.cpp" />
     <ClCompile Include="src\XLibs\src\IndicatorStepper.cpp" />

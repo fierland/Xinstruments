@@ -23,7 +23,6 @@ Xcomm::Xcomm(char * instrumentCode, int maxElements)
 	// TODO: Start sesion with master
 	CAN0.begin(500000);
 	
-
 	// send can message to connect to master
 
 	// XP_CAN_startConnection(instrumentCode);
@@ -52,7 +51,7 @@ int Xcomm::dataReader()
 */
 
 //-------------------------------------------------------------------------------------------------------------------
-// create new data referece link with X-Plane
+// create new data referece link with central module
 //-------------------------------------------------------------------------------------------------------------------
 
 int Xcomm::addElement( GenericIndicator *stepObject,  boolean readOnly)

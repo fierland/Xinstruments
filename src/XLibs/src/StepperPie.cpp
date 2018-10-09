@@ -15,11 +15,9 @@
 #include "mydebug.h"
 
 
-//
+//-------------------------------------------------------------------------------------------------
 //	constructor
-//
-
-
+//-------------------------------------------------------------------------------------------------
 StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse,  uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType)
 	: IndicatorStepper(canID, pinStep, pinDir, motorType)
 	 {
@@ -67,17 +65,16 @@ StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, 
 			
 	DPRINTLN("End StepperPie constructor");	
 }
-
-//
+//-------------------------------------------------------------------------------------------------
 // deconstructor
-//
+//-------------------------------------------------------------------------------------------------//
 StepperPie::~StepperPie(){
 	powerOff();
 }
-
-//
+//-------------------------------------------------------------------------------------------------
 // set dail to 0 position
-//
+//-------------------------------------------------------------------------------------------------
+
 void StepperPie::calibrate() {
 	
 	DPRINTLN("Start StepperPie calibrate");
@@ -91,12 +88,16 @@ void StepperPie::calibrate() {
 	DPRINTLN("End StepperPie calibrate");
 	
 };
-
+//-------------------------------------------------------------------------------------------------
+// 
+//-------------------------------------------------------------------------------------------------
 void StepperPie::moveToBackstop()
 {
 	move(-(_stepsPerRotation * 360 / _totalRange)*1.1);
 }
-
+//-------------------------------------------------------------------------------------------------
+// 
+//-------------------------------------------------------------------------------------------------
 void StepperPie::calibrate(float backstopPos) {
 
 	DPRINTLN(backstopPos);
@@ -105,10 +106,10 @@ void StepperPie::calibrate(float backstopPos) {
 	moveTo(0);
 	//runToPosition();		
 };
+//-------------------------------------------------------------------------------------------------
+// power off actions; 
+//-------------------------------------------------------------------------------------------------
 
-//
-// power off actions;
-//
 void StepperPie::powerOff(){
 	
 	DPRINTLN("Start StepperPie powerOff");
@@ -121,9 +122,10 @@ void StepperPie::powerOff(){
 	DPRINTLN("End StepperPie powerOff");
 	
 }
-//
-// set new value;
-//
+//-------------------------------------------------------------------------------------------------
+// set new value; 
+//-------------------------------------------------------------------------------------------------
+
 int StepperPie::setValue(float newValue){
 	float tempValue;
 	float oldValue = _currentValue;
