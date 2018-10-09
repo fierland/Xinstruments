@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="793.700787402"
+   height="1122.51968504"
+   version="1.1"
+   id="svg6172"
+   sodipodi:docname="Pointer.svg"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <metadata
+     id="metadata6176">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3440"
+     inkscape:window-height="1377"
+     id="namedview6174"
+     showgrid="false"
+     inkscape:zoom="6.66"
+     inkscape:cx="131.16775"
+     inkscape:cy="1051.1003"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g6104" />
+  <desc
+     id="desc5610">C:\Users\Fierl\Documents\Arduino\Xinstruments\data\Dails2.dxf - scale = 1.000000, origin = (0.000000, 0.000000), method = manual</desc>
+  <defs
+     id="defs5698">
+    <marker
+       id="DistanceX"
+       orient="auto"
+       refX="0.0"
+       refY="0.0"
+       style="overflow:visible">
+      <path
+         d="M 3,-3 L -3,3 M 0,-5 L  0,5"
+         style="stroke:#000000; stroke-width:0.5"
+         id="path5612" />
+    </marker>
+    <pattern
+       height="8"
+       id="Hatch"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       x="0"
+       y="0">
+      <path
+         d="M8 4 l-4,4"
+         linecap="square"
+         stroke="#000000"
+         stroke-width="0.25"
+         id="path5615" />
+      <path
+         d="M6 2 l-4,4"
+         linecap="square"
+         stroke="#000000"
+         stroke-width="0.25"
+         id="path5617" />
+      <path
+         d="M4 0 l-4,4"
+         linecap="square"
+         stroke="#000000"
+         stroke-width="0.25"
+         id="path5619" />
+    </pattern>
+    <symbol
+       id="*MODEL_SPACE" />
+    <symbol
+       id="*PAPER_SPACE" />
+    <symbol
+       id="VIERKANT">
+      <path
+         d="M 113.385827,1009.133858 L 264.566929,1009.133858 L 264.566929,857.952756 L 113.385827,857.952756 L 113.385827,1009.133858 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5624" />
+    </symbol>
+    <symbol
+       id="CIRKEL">
+      <path
+         d="M 113.385827,933.543307 A 75.590551,75.590551 0.0 0 1 264.566929,933.543307 A 75.590551,75.590551 0.0 0 1 113.385827,933.543307 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5627" />
+    </symbol>
+    <symbol
+       id="RING">
+      <path
+         d="M 245.669291,933.543307 A 56.692913,56.692913 -0.000000 1 0 132.283465,933.543307 56.692913,56.692913 -0.000000 1 0 245.669291,933.543307 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5630" />
+      <path
+         d="M 211.653543,933.543307 A 22.677165,22.677165 -0.000000 1 0 166.299213,933.543307 22.677165,22.677165 -0.000000 1 0 211.653543,933.543307 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5632" />
+    </symbol>
+    <symbol
+       id="CIRKELSEGMENT">
+      <path
+         d="M 188.896377,933.543307 L 228.984321,973.631252 A 56.692873,56.692873 0.0 0 0 228.984321,893.455363 L 188.896377,933.543307 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5635" />
+    </symbol>
+    <symbol
+       id="CIRKELBOOG">
+      <path
+         d="M 214.952440,959.599370 L 228.984321,973.631252 A 56.692873,56.692873 0.0 0 0 228.984321,893.455363 L 214.952440,907.487244 A 36.848810,36.848810 0.0 0 1 214.952440,959.599370 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5638" />
+    </symbol>
+    <symbol
+       id="MEERDERE_REGELS">
+      <path
+         d="M 139.842520,982.677165 L 166.002796,935.136654 L 219.104202,919.450658 L 238.110236,884.409449"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5641" />
+    </symbol>
+    <symbol
+       id="SECTOR_-_GRAFISCH">
+      <path
+         d="M 207.874016,914.645669 A 94.488118,94.488118 0.0 0 0 113.385827,820.157480 L 113.385827,914.645669 L 207.874016,914.645669 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5644" />
+    </symbol>
+    <symbol
+       id="BOOG_-_NUMERIEK">
+      <path
+         d="M 240.700471,933.543307 A 94.488189,94.488189 -0.000000 0 0 146.212282,839.055118"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5647" />
+      <text
+         style="font-size: 8.0px; fill: #000000; font-family: Arial"
+         x="146.212282"
+         y="933.543307"
+         id="text5651">
+        <tspan
+           sodipodi:role="line"
+           id="tspan5649">\C17;\fCalibri|b0|i0|;90</tspan>
+      </text>
+    </symbol>
+    <symbol
+       id="RECHTHOEK__DIAGONAALLIJN">
+      <path
+         d="M 151.181102,980.787402 L 226.771654,980.787402 L 226.771654,886.299213 L 151.181102,886.299213 L 151.181102,980.787402 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5654" />
+    </symbol>
+    <symbol
+       id="RECHTHOEK">
+      <path
+         d="M 151.181102,980.787402 L 226.771654,980.787402 L 226.771654,886.299213 L 151.181102,886.299213 L 151.181102,980.787402 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5657" />
+    </symbol>
+    <symbol
+       id="LIJN_MET_VERLENGINGEN">
+      <path
+         d="M 122.834646,923.943307 255.118110,923.943307"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5660" />
+    </symbol>
+    <symbol
+       id="BOOG__3-PUNTS">
+      <path
+         d="M 236.220472,980.787402 A 47.244094,47.244094 -0.000000 1 0 188.976378,1028.031496"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5663" />
+    </symbol>
+    <symbol
+       id="CIRKEL__ELLIPS">
+      <path
+         d="M 141.732283,933.543307 A 47.244094,47.244094 0.0 0 1 236.220472,933.543307 A 47.244094,47.244094 0.0 0 1 141.732283,933.543307 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5666" />
+    </symbol>
+    <symbol
+       id="VERTICALE_AFMETINGEN">
+      <path
+         d="M 56.692913,1122.519685 L 32.795622,1122.519685 A 5.974226,5.974226 0.0 0 1 26.821300,1116.545363 L 26.821300,1074.780994 A 11.948451,11.948451 0.0 0 1 38.769944,1062.832350 L 56.692913,1062.832350 L 56.692913,1122.519685 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5669" />
+      <path
+         d="M 56.692913,1122.519685 L 32.795623,1122.519685 L 26.821300,1116.545362 L 26.821300,1074.780994 L 38.769945,1062.832349 L 56.692913,1062.832349 z "
+         style="fill:#BEBEBE"
+         id="path5671" />
+      <path
+         d="M 53.705752,1062.832350 53.705752,1009.133858"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5673" />
+      <path
+         d="M 50.718591,1009.133858 53.705752,1009.133858"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5675" />
+      <path
+         d="M 53.705752,1009.133858 113.385827,1009.133858"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5677" />
+      <path
+         d="M 53.705752,1018.083606 52.212170,1018.083606"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5679" />
+      <path
+         d="M 53.705752,1027.033357 50.718591,1027.033357"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5681" />
+      <path
+         d="M 53.705752,1035.983104 52.212170,1035.983104"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5683" />
+      <path
+         d="M 53.705752,1044.932852 50.718591,1044.932852"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5685" />
+      <path
+         d="M 53.705752,1053.882599 52.212170,1053.882599"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5687" />
+      <text
+         style="font-size: 12.0px; fill: #000000; font-family: Arial"
+         transform="rotate (-90.000000 41.757109 1092.676018)"
+         x="41.757109"
+         y="1092.676018"
+         id="text5691">
+        <tspan
+           sodipodi:role="line"
+           id="tspan5689">\C7;\fCalibri|b0|i0|;30 mm</tspan>
+      </text>
+      <path
+         d="M 53.705752,1062.832350 L 53.705752,1009.133858 L 50.718591,1009.133858 L 50.718591,1062.832350 L 53.705752,1062.832350 z"
+         style="stroke:#000000;fill:none;stroke-linecap: round"
+         id="path5693" />
+      <path
+         d="M 53.705752,1062.832349 L 53.705752,1009.133858 L 50.718591,1009.133858 L 50.718591,1062.832349 z "
+         style="fill:#FFFF00"
+         id="path5695" />
+    </symbol>
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="0"
+     id="g6076"
+     style="display:inline" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="CUT"
+     id="g6104"
+     style="display:inline">
+    <g
+       style="font-size:12px;overflow:visible;color-interpolation-filters:sRGB;fill:none;fill-rule:evenodd;stroke-linecap:square;stroke-miterlimit:3"
+       id="g6805"
+       transform="matrix(1.3333324,0,0,1.3333324,55.775956,55.073947)">
+      <g
+         id="g6781"
+         v:groupContext="foregroundPage"
+         v:index="1"
+         v:mID="0">
+        <title
+           id="title6761">Page-1</title>
+        <v:pageProperties
+           v:shadowOffsetY="-8.50394"
+           v:shadowOffsetX="8.50394"
+           v:drawingUnits="24"
+           v:pageScale="0.0393701"
+           v:drawingScale="0.0393701" />
+        <g
+           v:groupContext="group"
+           v:mID="324"
+           transform="translate(0.12,-0.12)"
+           id="group324-1">
+          <title
+             id="title6763">Sheet.324</title>
+          <g
+             transform="rotate(-90,24.3602,-9.947)"
+             v:groupContext="shape"
+             v:mID="320"
+             id="shape320-2">
+            <title
+               id="title6765">Triangle</title>
+            <v:userDefs>
+              <v:ud
+                 v:val="VT0(15):26"
+                 v:nameU="visVersion" />
+            </v:userDefs>
+            <path
+               style="fill:#c05046;stroke:#000000;stroke-width:0.31999975;stroke-linecap:round;stroke-linejoin:round"
+               d="M 130.67773 55.232422 A 11.339992 11.339992 0 0 0 121.60742 59.349609 L 55.931641 66.572266 L 121.62695 73.794922 A 11.339992 11.339992 0 0 0 141.6875 66.566406 A 11.339992 11.339992 0 0 0 130.67773 55.232422 z "
+               transform="matrix(0,0.75000053,-0.75000053,0,55.598689,-76.259196)"
+               id="path6767" />
+          </g>
+          <g
+             transform="translate(47.3031)"
+             v:groupContext="shape"
+             v:mID="321"
+             id="shape321-4">
+            <title
+               id="title6770">Cirkel.321</title>
+            <v:userDefs>
+              <v:ud
+                 v:val="VT0(15):26"
+                 v:nameU="visVersion" />
+            </v:userDefs>
+          </g>
+          <g
+             transform="translate(55.0984,-7.79528)"
+             v:groupContext="shape"
+             v:mID="322"
+             id="shape322-6">
+            <title
+               id="title6775">Cirkel.322</title>
+            <v:userDefs>
+              <v:ud
+                 v:val="VT0(15):26"
+                 v:nameU="visVersion" />
+            </v:userDefs>
+            <path
+               id="path6777"
+               class="st2"
+               d="m 0,16.54 a 0.708661,0.708661 0 0 1 1.41732,0 A 0.708661,0.708661 0 1 1 0,16.54 Z"
+               inkscape:connector-curvature="0"
+               style="fill:#ffffff;stroke:#000000;stroke-width:0.23999999;stroke-linecap:round;stroke-linejoin:round" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="DRAW"
+     id="g6170"
+     style="display:inline" />
+  <style
+     id="style6759"
+     type="text/css"><![CDATA[
+		.st1 {fill:#c05046;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st2 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st3 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]></style>
+</svg>
