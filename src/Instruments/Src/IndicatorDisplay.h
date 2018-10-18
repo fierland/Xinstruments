@@ -4,7 +4,7 @@
 // author: Frank van Ierland
 // version: 0.1
 //
-// master display indicator class 
+// master display indicator class
 //
 //===================================================================================================================
 /// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
@@ -21,6 +21,4 @@ public:
 
 	virtual void powerOn();
 	virtual void powerOff();
-
 };
-

@@ -21,7 +21,6 @@
 #include "CANaero.h"
 //#include "CANbus.h"
 
-
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #else
@@ -32,25 +31,25 @@ class GenericIndicator
 {
 public:
 
-//-------------------------------------------------------------------------------------------------
-/**
- * Class instance
- * Must be called for every new incoming frame or by timeout.
- * @note It is recommended to call this function at least every 10 ms
- * @param [in] pi     Instance pointer
- * @param [in] iface  Interface index from which the frame was received; ignored when no frame provided
- * @param [in] pframe Pointer to the received frame, NULL when called by timeout
- * @return            @ref CanasErrorCode
- */
-//-------------------------------------------------------------------------------------------------
-
+	//-------------------------------------------------------------------------------------------------
 	/**
-	 * create new instrument
-	 * @param [in]	CANid the CANAreo id for the instument to use
+	 * Class instance
+	 * Must be called for every new incoming frame or by timeout.
+	 * @note It is recommended to call this function at least every 10 ms
+	 * @param [in] pi     Instance pointer
+	 * @param [in] iface  Interface index from which the frame was received; ignored when no frame provided
+	 * @param [in] pframe Pointer to the received frame, NULL when called by timeout
+	 * @return            @ref CanasErrorCode
 	 */
+	 //-------------------------------------------------------------------------------------------------
+
+		 /**
+		  * create new instrument
+		  * @param [in]	CANid the CANAreo id for the instument to use
+		  */
 	GenericIndicator(CanasNodDefaultID CANid);
 	~GenericIndicator();
- 
+
 	int startCommunication(CANaero * canObject);
 
 	/**
@@ -61,7 +60,6 @@ public:
 	int setCanAeroId(CanasNodDefaultID newCanId);
 	int getCanAeroId(CanasNodDefaultID newCanId);
 	int type();
-
 
 	/**
 	* Calibrate the Instrument move to default start position implemented by subclass
@@ -83,12 +81,11 @@ public:
 	virtual void powerOn();
 	virtual bool powerState(bool setOn);
 
-	typedef enum 
-	{	
-		INDICATOR_UNKNOWN = 0, 
-		INDICATOR_STEPPER = 1, 
+	typedef enum
+	{
+		INDICATOR_UNKNOWN = 0,
+		INDICATOR_STEPPER = 1,
 		INDICATOR_DISPLAY = 2
-
 	} IndicatorType;
 
 protected:
@@ -99,8 +96,6 @@ protected:
 	bool		_powerOn = true;
 	int			_type = INDICATOR_UNKNOWN;
 	CANaero*	_myCanAreo = NULL;
-
 };
 
 #endif
-

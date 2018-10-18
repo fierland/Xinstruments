@@ -29,11 +29,11 @@ class VidStepper
 {
 public:
 	/// create a new VidStepper object
-	/// \param[in] pinDir The direction pin for the controler. 
-	/// \param[in] pinStep The step pin for the controler. 
-	/// \param[in] is360 If the indicator has full 360 degree range. 
-	/// \param[in] isReverse If the indicator is anti clockwise. 
-	VidStepper(uint8_t pinDir, uint8_t pinStep, bool is360 = false, bool isReverse = false );
+	/// \param[in] pinDir The direction pin for the controler.
+	/// \param[in] pinStep The step pin for the controler.
+	/// \param[in] is360 If the indicator has full 360 degree range.
+	/// \param[in] isReverse If the indicator is anti clockwise.
+	VidStepper(uint8_t pinDir, uint8_t pinStep, bool is360 = false, bool isReverse = false);
 	~VidStepper();
 
 	virtual int   setStepsPerRotation(int steps);
@@ -48,7 +48,6 @@ public:
 
 	virtual int   setRangeValues(float rangeMax, float rangeMin = 0);
 
-
 	virtual float move(float newPos = 0);
 	// move to a new position on the stepper motor
 	virtual float moveTo(float newPos = 0);
@@ -56,11 +55,11 @@ public:
 	virtual int setValue(float newValue = 0);
 
 	/// Sets the minimum pulse width allowed by the stepper driver. The minimum pulse width for the VID60-08/06 controlers is
-	/// 450 nanoseconds. = 0,45 miliseconds 
+	/// 450 nanoseconds. = 0,45 miliseconds
 	/// will usually result in 20 microseconds or so.
-	/// \param[in] minWidth The minimum pulse width in microseconds. 
+	/// \param[in] minWidth The minimum pulse width in microseconds.
 	virtual void    setMinPulseWidth(unsigned int minWidth);
-	
+
 	virtual int run();
 
 	virtual void powerOn();
@@ -70,15 +69,15 @@ public:
 protected:
 
 	virtual void _doStep(bool moveFroward = true);
-	
-	bool	_is360 = false;				// has the instrument a full 360 degree range and no stops 
+
+	bool	_is360 = false;				// has the instrument a full 360 degree range and no stops
 	bool	_isReverse = false;			// inverse direction of steppr, normal direction is clockwise
 	int		_pinStep;					// pin used for step signal
 	int		_pinDir;					// pin used for directional signal
 	int		_pinSensor = -1;			// pin used for zero sensor
 	int		_stepsPerRotation = 4320;	// steps needed to do a full rotation
 	int		_stepsForRange = 4320;		// steps in the range used for the indicator
-	float   _rangeInDegree = 360;		// part of circle used for the indicator in degrees 
+	float   _rangeInDegree = 360;		// part of circle used for the indicator in degrees
 	float	_currentPosition = 0;		// position in steps
 	float	_targetPosition = 0;		// position in steps
 	float	_currentValue = 0;			// curent vlaue the dail should be showing

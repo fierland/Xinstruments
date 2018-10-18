@@ -24,21 +24,19 @@
 #ifndef XPLANEUDPCLIENT_SRC_XPUTILS_H_
 #define XPLANEUDPCLIENT_SRC_XPUTILS_H_
 
-//#include <cstdint>
+ //#include <cstdint>
 #include <stdlib.h>
 
-
 #if ARDUINO >= 100
-    #include <Arduino.h>
+#include <Arduino.h>
 #else
-    #include <WProgram.h>
-    #include <wiring.h>
-	#include <iostream>
+#include <WProgram.h>
+#include <wiring.h>
+#include <iostream>
 #endif
 
+uint32_t xint2uint32(uint8_t * buf);
 
-uint32_t xint2uint32 (uint8_t * buf);
-
-float 	xflt2float (uint8_t * buf);
+float 	xflt2float(uint8_t * buf);
 
 #endif /* XPLANEUDPCLIENT_SRC_XPUTILS_H_ */

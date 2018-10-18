@@ -1,3 +1,11 @@
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
 //-------------------------------------------------------------------------------------------------------------------
 //	 CAN Aerospace class - service subclass
 //
@@ -10,14 +18,13 @@
 // Thanks to mjs513/CANaerospace (Pavel Kirienko, 2013 (pavel.kirienko@gmail.com))
 //
 // ERSION HISTORY:
-//	
+//
 //
 //-------------------------------------------------------------------------------------------------------------------
 
 #pragma once
 
 #include "CANaero.h"
-
 
 typedef enum
 {
@@ -32,9 +39,9 @@ typedef enum
 typedef enum
 {
 	CANAS_SRV_IDENTIFICATION = 0,
+	CANAS_SRV_TIMESTAMP = 1,
 	CANAS_SRV_USR_REUEST_CANDATA = 100
 } CanasSrvCodes;
-
 
 /**
  * Data to be transferred by the identification service
@@ -54,8 +61,10 @@ typedef struct
 {
 	int dataId;
 } CanasSrvReqDataPayload;
-
-class CANAS_service 	
+//---------------------------------------------------------------------------------------------------------------------
+//
+//---------------------------------------------------------------------------------------------------------------------
+class CANAS_service
 {
 public:
 
@@ -66,9 +75,9 @@ public:
 	* Also keep in mind that outgoing broadcast request creates CANAS_MAX_NODES pending requests, so you must
 	* provide adequate number of pending request slots; see the corresponding parameter @ref max_pending_requests.
 	* @param CanAsBus             pointer to canasbus object
-	* @param newPayload			  Description of the local node	
+	* @param newPayload			  Description of the local node
 	*/
-	CANAS_service(CANaero* CanAsBus, uint8_t serviceID, bool cananswer=true, bool canrequest=true);
+	CANAS_service(CANaero* CanAsBus, uint8_t serviceID);
 
 	~CANAS_service();
 
@@ -77,13 +86,13 @@ public:
 	* @param node_id  node id of responding node
 	* @param ppayload will be null in case of timeout. that is important.
 	*/
-	int replyToIDCall();
+	//int replyToIDCall();
 
 	int serviceId();
 
-	int SendResponse(CanasMessage* msg);
-	int SendRequest(CanasMessage* msg);
-	int ProcessFrame(CanasMessage* msg);
+	//virtual int Response(CanasMessage* msg) = 0;
+//	virtual int Request(CanasMessage* msg) = 0; // is implemented in child classes
+	virtual int ProcessFrame(CanasMessage* msg) = 0;
 
 	/**
 	* Sends IDS request to a remote node; response will be returned through callback.
@@ -93,26 +102,30 @@ public:
 	*/
 	int requestID(uint8_t nodeId);
 
+	static bool canasIsValidServiceChannel(uint8_t service_channel);
+
+	static int serviceChannelToMessageID(uint8_t service_channel, bool isrequest);
 
 protected:
 	int			_myServiceId = -1;
-	CANaero*	_CanasBus = NULL;	
+	CANaero*	_CanasBus = NULL;
 	bool		_canAnswer;
 	bool		_canrequest;
 
 private:
-	void CANAS_service::_request(unit8_t msgID);
+	static int _serviceChannelFromMessageID(uint16_t msg_id, bool* pisrequest);
 };
 //---------------------------------------------------------------------------------------------------------------------
 // service identification class Class definition
 //---------------------------------------------------------------------------------------------------------------------
-class CANAS_service_identification : CANAS_service
+class CANAS_service_identification : public CANAS_service
 {
 public:
 	CANAS_service_identification(CANaero* CanAsBus, CanasSrvIdsPayload* payload);
 	~CANAS_service_identification();
 
-	int SendResponse(CanasMessage* msg);
+	int ProcessFrame(CanasMessage* msg);
+	int Request(CanasMessage* msg);
 
 private:
 	CanasSrvIdsPayload* _myPayload = NULL;
@@ -120,15 +133,24 @@ private:
 //---------------------------------------------------------------------------------------------------------------------
 // service get data class Class definition
 //---------------------------------------------------------------------------------------------------------------------
-class CANAS_service_requestdata : CANAS_service
+class CANAS_service_timestamp : public CANAS_service
+{
+public:
+	CANAS_service_timestamp(CANaero* CanAsBus);
+	~CANAS_service_timestamp();
+
+	int ProcessFrame(CanasMessage* msg);
+	int Request(uint64_t timestamp);
+};
+//---------------------------------------------------------------------------------------------------------------------
+// service get data class Class definition
+//---------------------------------------------------------------------------------------------------------------------
+class CANAS_service_requestdata : public CANAS_service
 {
 public:
 	CANAS_service_requestdata(CANaero* CanAsBus);
 	~CANAS_service_requestdata();
 
-	int SendRequest(CanasMessage* msg);
-
-private:
-	CanasSrvReqDataPayload* _myPayload = NULL;
+	int ProcessFrame(CanasMessage* msg);
+	int Request(int dataId, int nodeId);
 }
-

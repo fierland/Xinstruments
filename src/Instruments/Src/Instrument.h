@@ -1,3 +1,11 @@
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
 //=================================================================================================
 // Instrument.h
 //
@@ -7,17 +15,19 @@
 /// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2018 Frank van Ierland
 
-#pragma once
+#ifndef _INSTRUMENT_H
+#define _INSTRUMENT_H
 
-#include "mydebug.h"
-#include "GenericIndicator.h"
 #include "Xinstruments.h"
-#include "CANaero.h"
+#include "GenericIndicator.h"
+#include "src\CanAs\Src\CANaero.h"
+#include <multistepper.h>
+#include "src\XLibs\Src\mydebug.h"
 
 class Instrument
 {
 public:
-	Instrument(char* instrumentCode, int nodeId, int ledPin, int maxIndicators= XI_MAX_INDICATORS);
+	Instrument(char* instrumentCode, uint8_t nodeId, uint8_t srv_channel, int ledPin, int maxIndicators = XI_Max_Indicators);
 	~Instrument();
 
 	int initiateCommunication();
@@ -28,18 +38,19 @@ public:
 	virtual void update();
 	/// update value for digital dails and stepper dails wait for stepper to get to position
 	virtual void updateNow();
-	virtual void powerState(boolean setOn);	
+	virtual void powerState(boolean setOn);
 	virtual void lightState(boolean setOn);
 
 private:
 	struct indicatorControl
 	{
 		GenericIndicator*	indicator = NULL;
-
 	};
 
 	indicatorControl	myIndicators[10];
-	int				_canasNodeID = 0;
+	uint8_t				_canasNodeID = 0;
+	uint8_t				_canasRedundantNodeID = 0;
+	uint8_t				_canasServiceChannel = 0;
 
 	char			_instrumentCode[8];
 	bool			_powerOn = false;
@@ -47,7 +58,7 @@ private:
 	int				_numIndicators = 0;
 	int				_ledPin;
 	int				_maxIndicators = 10;
-	//Xcomm			*dataConnection = NULL; 
+	//Xcomm			*dataConnection = NULL;
 	MultiStepper	allSteppers;
 
 	// data to control the leds
@@ -55,6 +66,6 @@ private:
 	int _ledChannel = 0;
 	int _resolution = 8;
 
-	CANaero myCANbus;
+	CANaero* myCANbus;
 };
-
+#endif

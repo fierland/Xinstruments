@@ -13,14 +13,18 @@
 //-------------------------------------------------------------------------------------------------
 GenericIndicator::GenericIndicator(CanasNodDefaultID CANid)
 {
+	DPRINTINFO("START");
 	_CanAreoId = CANid;
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 GenericIndicator::~GenericIndicator()
 {
+	DPRINTINFO("START");
 	_myCanAreo->ParamUnsubscribe(_CanAreoId);
+	DPRINTINFO("STOP");
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -28,23 +32,25 @@ GenericIndicator::~GenericIndicator()
 //-------------------------------------------------------------------------------------------------
 int GenericIndicator::startCommunication(CANaero * canObject)
 {
+	DPRINTINFO("START");
 	_myCanAreo = canObject;
 	_myCanAreo->ParamSubscribe(_CanAreoId, this);
+
+	DPRINTINFO("STOP");
+
 	return 0;
 }
-
 
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void GenericIndicator::powerOff()
 {
-	DPRINTLN("Start GenericIndicator powerOff");
+	DPRINTINFO("START");
 
 	_powerOn = false;
 
-	DPRINTLN("End GenericIndicator powerOff");
-
+	DPRINTINFO("STOP");
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -52,9 +58,10 @@ void GenericIndicator::powerOff()
 //-------------------------------------------------------------------------------------------------
 void GenericIndicator::powerOn()
 {
-	DPRINTLN("Start GenericIndicator powerOn");
+	DPRINTINFO("START");
 	_powerOn = true;
-	DPRINTLN("End GenericIndicator powerOn");
+
+	DPRINTINFO("STOP");
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -62,14 +69,17 @@ void GenericIndicator::powerOn()
 //-------------------------------------------------------------------------------------------------
 bool GenericIndicator::powerState(bool setOn)
 {
-		bool oldValue = _powerOn;			
+	DPRINTINFO("START");
+	bool oldValue = _powerOn;
 
-		if (setOn)
-			powerOn();
-		else
-			powerOff();
+	if (setOn)
+		powerOn();
+	else
+		powerOff();
 
-		return oldValue;;
+	DPRINTINFO("STOP");
+
+	return oldValue;;
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -77,6 +87,7 @@ bool GenericIndicator::powerState(bool setOn)
 //-------------------------------------------------------------------------------------------------
 int GenericIndicator::setCanAeroId(CanasNodDefaultID newCanId)
 {
+	DPRINTINFO("START");
 	int oldVal = _CanAreoId;
 
 	if (_CanAreoId != 0)
@@ -84,6 +95,8 @@ int GenericIndicator::setCanAeroId(CanasNodDefaultID newCanId)
 
 	_CanAreoId = newCanId;
 	_initIndicator(newCanId);
+
+	DPRINTINFO("STOP");
 
 	return oldVal;
 }
@@ -93,6 +106,10 @@ int GenericIndicator::setCanAeroId(CanasNodDefaultID newCanId)
 //-------------------------------------------------------------------------------------------------
 int GenericIndicator::getCanAeroId(CanasNodDefaultID newCanId)
 {
+	DPRINTINFO("START");
+
+	DPRINTINFO("STOP");
+
 	return _CanAreoId;
 }
 
@@ -101,6 +118,8 @@ int GenericIndicator::getCanAeroId(CanasNodDefaultID newCanId)
 //-------------------------------------------------------------------------------------------------
 int GenericIndicator::type()
 {
+	DPRINTINFO("START");
+	DPRINTINFO("STOP");
+
 	return _type;
 }
-

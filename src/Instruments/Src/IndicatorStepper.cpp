@@ -11,9 +11,7 @@
 
 #include "IndicatorStepper.h"
 
-
-IndicatorStepper::IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep, uint8_t pinDir,StepperMotorType motorType) : GenericIndicator(canID), AccelStepper(AccelStepper::DRIVER,  pinStep, pinDir, 0, 0, true)  {
-
+IndicatorStepper::IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : GenericIndicator(canID), AccelStepper(AccelStepper::DRIVER, pinStep, pinDir, 0, 0, true) {
 	DPRINTLN("Start Instrument Stepper constructor");
 
 	_type = INDICATOR_STEPPER;
@@ -22,7 +20,7 @@ IndicatorStepper::IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep, uin
 		_stepsPerRotation = XI_BKA30_STEPS_CIRCLE;
 		setMaxSpeed(XI_BKA30_STEPS_MAXSPEED);
 		setAcceleration(XI_BKA30_STEPS_ACCELERATION);
-		setSpeed(XI_BKA30_STEPS_SPEED); 
+		setSpeed(XI_BKA30_STEPS_SPEED);
 		setMinPulseWidth(XI_BKA30_STEPS_MINPULSEWIDTH);
 	}
 	if (motorType == IndicatorStepper::TYPE_28BYJ)
@@ -34,17 +32,15 @@ IndicatorStepper::IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep, uin
 		setMinPulseWidth(XI_28BYJ_STEPS_MINPULSEWIDTH);
 	}
 	_stepsPerDegree = _stepsPerRotation / 360;
-	
+
 	DPRINTLN("End IndicatorStepper constructor");
 }
-
 
 IndicatorStepper::~IndicatorStepper()
 {
 }
 
 void IndicatorStepper::powerOn() {
-
 	DPRINTLN("Start StepperPie powerOn");
 	_powerOn = true;
 	setValue(_currentValue);
@@ -55,7 +51,6 @@ void IndicatorStepper::powerOn() {
 // power off actions;
 //
 void IndicatorStepper::powerOff() {
-
 	DPRINTLN("Start StepperPie powerOff");
 
 	_currentPos = (_offValue - _rangeMin) / _totalRange * _stepsPerItem;
@@ -64,11 +59,9 @@ void IndicatorStepper::powerOff() {
 	_powerOn = false;
 
 	DPRINTLN("End StepperPie powerOff");
-
 }
 
 float IndicatorStepper::setOffPosition(float newValue) {
-
 	float oldValue = _offValue;
 
 	DPRINTLN("Start IndicatorStepper setOffPosition");
@@ -87,10 +80,8 @@ float IndicatorStepper::setOffPosition(float newValue) {
 
 	_offValue = newValue;
 
-
 	DPRINTLN("End IndicatorStepper setOffPosition");
 	return (oldValue);
-
 }
 
 void IndicatorStepper::setDirectionInverse(bool reverseDir)
@@ -104,20 +95,20 @@ void IndicatorStepper::setDirectionInverse(bool reverseDir)
 /*
 void IndicatorStepper::step1(long step)
 {
-	    (void)(step); // Unused
+		(void)(step); // Unused
 		bool stepperDirection;
 //
 // changed to work corectly with VID66 stepper drivers
 //
 	//stepperDirection	= (_pinInverted[0])?!_direction:_direction;
 	stepperDirection= _direction;
-	setOutputPins(stepperDirection ? 0b01 : 0b00); 
-	setOutputPins(stepperDirection ? 0b11 : 0b10); 
-	
+	setOutputPins(stepperDirection ? 0b01 : 0b00);
+	setOutputPins(stepperDirection ? 0b11 : 0b10);
+
 	//digitalWrite(_pin[1], stepperDirection?HIGH:LOW);
 	//digitalWrite(_pin[0], HIGH);
 	delayMicroseconds(_minPulseWidth);
-	//digitalWrite(_pin[0], LOW); 
-	setOutputPins(stepperDirection ? 0b01 : 0b00); 
+	//digitalWrite(_pin[0], LOW);
+	setOutputPins(stepperDirection ? 0b01 : 0b00);
 };
 */

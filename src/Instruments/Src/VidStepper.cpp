@@ -1,17 +1,15 @@
 #include "VidStepper.h"
 
-
 VidStepper::VidStepper(uint8_t pinDir, uint8_t pinStep, bool is360, bool isReverse)
 {
 	_pinStep = pinStep;
 	_pinDir = pinDir;
 	_is360 = is360;
 	_isReverse = isReverse;
-    _stepsPerDegree = _stepsPerRotation/360;
+	_stepsPerDegree = _stepsPerRotation / 360;
 
-	pinMode(_pinStep, OUTPUT);     // set Stepper step pin mode  
+	pinMode(_pinStep, OUTPUT);     // set Stepper step pin mode
 	pinMode(_pinDir, OUTPUT);      // set Stepper direction pin mode
-
 }
 
 VidStepper::~VidStepper()
@@ -20,7 +18,6 @@ VidStepper::~VidStepper()
 
 int VidStepper::setStepsPerRotation(int steps)
 {
-	
 	int oldValue = _stepsPerRotation;
 	_stepsPerRotation = steps;
 
@@ -36,27 +33,27 @@ bool VidStepper::set360(bool is360)
 
 void VidStepper::calibrate()
 {
-  DPRINTLN("Start VidStepper calibrate");
-  
+	DPRINTLN("Start VidStepper calibrate");
+
 	_targetPosition = -_stepsPerRotation;
 	runToPosition();
 	_currentPosition = 0;
 	_targetPosition = 0;
-  
-  DPRINTLN("End VidStepper calibrate");
+
+	DPRINTLN("End VidStepper calibrate");
 }
 
 void VidStepper::calibrate(float backstopPos)
 {
-  DPRINT("Start VidStepper calibrate with value");
-  DPRINTLN(backstopPos);
-  
+	DPRINT("Start VidStepper calibrate with value");
+	DPRINTLN(backstopPos);
+
 	calibrate();
 	_currentPosition = backstopPos;
 	_targetPosition = 0;
 	runToPosition();
-  
-  DPRINTLN("End VidStepper calibrate with value");
+
+	DPRINTLN("End VidStepper calibrate with value");
 }
 
 //
@@ -65,29 +62,27 @@ void VidStepper::calibrate(float backstopPos)
 float VidStepper::setRange(float newRange)
 {
 	float oldValue = _rangeInDegree;
-  DPRINTLN("Start VidStepper setRange");
-  
+	DPRINTLN("Start VidStepper setRange");
+
 	_rangeInDegree = newRange;
 	_is360 = false;
 	_rangeMax = _rangeInDegree / 360 * _stepsPerRotation;
- 
-  DPRINT("New Range:");
-  DPRINT(_rangeInDegree);
-  DPRINT(" degree: in steps:");
-  DPRINTLN(_rangeMax);
 
-  
+	DPRINT("New Range:");
+	DPRINT(_rangeInDegree);
+	DPRINT(" degree: in steps:");
+	DPRINTLN(_rangeMax);
+
 	DPRINTLN("End VidStepper setRange");
 	return oldValue;
-
 }
 
 int VidStepper::setRangeValues(float rangeMax, float rangeMin)
 {
 	float oldValue = _totalValueRange;
-  
-  DPRINTLN("Start VidStepper setRangeValues");
-  
+
+	DPRINTLN("Start VidStepper setRangeValues");
+
 	_valueMin = rangeMin;
 	_valueMax = rangeMax;
 
@@ -98,15 +93,15 @@ int VidStepper::setRangeValues(float rangeMax, float rangeMin)
 	else {
 		_totalValueRange = rangeMax - rangeMin;
 	}
- 
-  DPRINT("Min:");
-  DPRINT(_valueMin);
-  DPRINT(":Max:");
-  DPRINT(_valueMax);
-  DPRINT(":Total range:");
-  DPRINTLN(_totalValueRange);
- 
-  DPRINTLN("End VidStepper setRangeValues");
+
+	DPRINT("Min:");
+	DPRINT(_valueMin);
+	DPRINT(":Max:");
+	DPRINT(_valueMax);
+	DPRINT(":Total range:");
+	DPRINTLN(_totalValueRange);
+
+	DPRINTLN("End VidStepper setRangeValues");
 	return oldValue;
 }
 
@@ -131,7 +126,7 @@ float VidStepper::moveTo(float newPos)
 	}
 
 	_targetPosition = newPos;
- 
+
 	DPRINTLN("End VidStepper moveTo");
 	return oldValue;
 }
@@ -164,8 +159,8 @@ float VidStepper::move(float relativePos)
 
 int VidStepper::setValue(float newValue)
 {
-  float tempValue;
-  
+	float tempValue;
+
 	DPRINT("Start VidStepper set Value From:");
 	DPRINT(_currentValue);
 	DPRINT("-To:");
@@ -184,29 +179,26 @@ int VidStepper::setValue(float newValue)
 
 	_currentValue = newValue;
 
-  tempValue = newValue - _valueMin;
-  
-DPRINT("step1:");
-DPRINT(newValue);
-DPRINT("-");
-DPRINT(_valueMin);
-DPRINT("=");
-DPRINTLN(tempValue);
-    
-    tempValue /= _totalValueRange;
+	tempValue = newValue - _valueMin;
 
-DPRINT("step2: divide by");
-DPRINT(_totalValueRange);
-DPRINT("=");
-DPRINTLN(tempValue);
+	DPRINT("step1:");
+	DPRINT(newValue);
+	DPRINT("-");
+	DPRINT(_valueMin);
+	DPRINT("=");
+	DPRINTLN(tempValue);
 
-DPRINT("step2: *");
-DPRINT(_rangeInDegree);
-DPRINT("*");
-DPRINTLN(_stepsPerDegree);
-  
+	tempValue /= _totalValueRange;
 
+	DPRINT("step2: divide by");
+	DPRINT(_totalValueRange);
+	DPRINT("=");
+	DPRINTLN(tempValue);
 
+	DPRINT("step2: *");
+	DPRINT(_rangeInDegree);
+	DPRINT("*");
+	DPRINTLN(_stepsPerDegree);
 
 	_targetPosition = round(tempValue * _rangeInDegree * _stepsPerDegree);
 
@@ -247,27 +239,26 @@ void VidStepper::powerOff()
 
 void _myDelay(int delayTime)
 {
-  int i,j;
-  
-  for(i=0; i< delayTime; i++)
-    for(j=0; j< 100; j++);
-}
+	int i, j;
 
+	for (i = 0; i < delayTime; i++)
+		for (j = 0; j < 100; j++);
+}
 
 // actual function to make one step
 void VidStepper::_doStep(bool moveForward)
 {
-//	DPRINTLN("Start VidStepper _doStep");
+	//	DPRINTLN("Start VidStepper _doStep");
 
 	if (_isReverse) moveForward = !moveForward;
 
-	digitalWrite(_pinDir, moveForward?LOW:HIGH);
+	digitalWrite(_pinDir, moveForward ? LOW : HIGH);
 	//delay(_pulseSetupWidth);
 
 	digitalWrite(_pinStep, HIGH);
-  delayMicroseconds(_pulseWidth);
+	delayMicroseconds(_pulseWidth);
 	//_myDelay(_pulseWidth);
-	digitalWrite(_pinStep, LOW); 
+	digitalWrite(_pinStep, LOW);
 	//delay(_pulseWidth);
 
 //	DPRINTLN("End VidStepper _doStep");
@@ -284,21 +275,21 @@ bool VidStepper::setReverse(bool isReverse)
 // Blocks until the target position is reached and stopped
 void VidStepper::runToPosition()
 {
-  DPRINTLN("Start VidStepper runToPosition");
+	DPRINTLN("Start VidStepper runToPosition");
 	int i = 0;
-	while (run()){
+	while (run()) {
 #if defined(ARDUINO_ARCH_ESP8266)
 		if (i++ > 1000) {
 			ESP.wdtFeed();
 			i = 0;
 		}
 #endif
-  };
+	};
 
- DPRINTLN("End VidStepper runToPosition");
+	DPRINTLN("End VidStepper runToPosition");
 }
 
 void VidStepper::setMinPulseWidth(unsigned int minWidth)
 {
-  _pulseWidth=minWidth;
+	_pulseWidth = minWidth;
 }

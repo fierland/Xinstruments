@@ -1668,8 +1668,7 @@ typedef enum
  *   CANAS_MSGTYPE_USER_DEFINED_LOW_MAX = 1899
  */
 
-
- enum Service{
+enum Service {
 	sIdentification = 0,		//! "Sign of Life"
 	sNodeSynchronisation,
 	sDataDownload,
@@ -1690,5 +1689,5 @@ typedef enum
 	sFirstUserService = 100,		//! User's defined services start here.
 	sApplicationProgramming = sFirstUserService,
 	sSignOfLife
- };
+};
 #endif

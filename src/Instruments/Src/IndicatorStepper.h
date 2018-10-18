@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <AccelStepper/src/AccelStepper.h>
 #include <AccelStepper/src/MultiStepper.h>
-#include "GenericIndicator.h" 
+#include "GenericIndicator.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -48,7 +48,6 @@
 #define XI_28BYJ_STEPS_ACCELERATION 300
 #define XI_28BYJ_STEPS_MINPULSEWIDTH 200
 
-
 class IndicatorStepper : public GenericIndicator, public AccelStepper {
 public:
 	typedef enum
@@ -56,7 +55,7 @@ public:
 		TYPE_BKA30 = 0, ///< VID6x or BKA30 type motor
 		TYPE_28BYJ = 1 ///< Stepper Driver, 2 driver pins required
 	} StepperMotorType;
-  
+
 	/// declare constructor based on accelstepper
 	///
 	/// Create new generic stepper
@@ -79,14 +78,13 @@ public:
 	virtual void powerOn();
 	virtual void powerOff();
 
-	/// Sets the inversion for 2, 3 and 4 wire stepper pins	
+	/// Sets the inversion for 2, 3 and 4 wire stepper pins
 	/// \param[in] reverseDir True for counter clockwise direction;CanasNodDefaultIDCanasNodDefaultID
 	virtual void setDirectionInverse(bool reverseDir = true);
 
-
 protected:
 
-//    virtual void   step1(long step);
+	//    virtual void   step1(long step);
 
 	float 	_currentPos = 0;
 	float 	_newPos = 0;
@@ -95,15 +93,11 @@ protected:
 	float	_totalRange = 360;
 	float	_stepsPerItem = 1;
 	float	_stepsPerRotation = 360;
-	float	_stepsPerDegree = 1;	
+	float	_stepsPerDegree = 1;
 	float	_offValue = 0;
 	float	_backstop_pos = 0;
 	bool	_isInverse = false;
 
 private:
-
-
-
 };
 #endif
-

@@ -15,12 +15,10 @@
 #include "stepper360.h"
 #include "mydebug.h"
 
-
 //-------------------------------------------------------------------------------------------------
 // constructor for segmented dails
 //-------------------------------------------------------------------------------------------------
-Stepper360::Stepper360(CanasNodDefaultID canID, float rangeMax,uint16_t stepsCircle, uint8_t stepType, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : IndicatorStepper(canID, pinStep, pinDir, motorType) {
-
+Stepper360::Stepper360(CanasNodDefaultID canID, float rangeMax, uint16_t stepsCircle, uint8_t stepType, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : IndicatorStepper(canID, pinStep, pinDir, motorType) {
 	DPRINTLN("Start Stepper360 wedge constructor");
 
 	// set internal params
@@ -33,7 +31,6 @@ Stepper360::Stepper360(CanasNodDefaultID canID, float rangeMax,uint16_t stepsCir
 	/// first define part of circle used
 	_stepsPerItem = _stepsPerRotation / _totalRange;
 
-
 	DPRINT("New 360 dail (");
 	DPRINT(_rangeMin);
 	DPRINT("->");
@@ -45,43 +42,38 @@ Stepper360::Stepper360(CanasNodDefaultID canID, float rangeMax,uint16_t stepsCir
 	_currentPos = 0;
 	_newPos = 0;
 	_moveSize = 0;
-	
 
 	DPRINTLN("End Stepper360 wedge constructor");
 }
 
-
 //-------------------------------------------------------------------------------------------------
 // deconstructor
 //-------------------------------------------------------------------------------------------------
-Stepper360::~Stepper360(){
+Stepper360::~Stepper360() {
 	powerOff();
 }
-
-
 
 //-------------------------------------------------------------------------------------------------
 // set the dail to new value_comp
 //-------------------------------------------------------------------------------------------------
-int Stepper360::setValue(float newPos){	
-   int dir = 1;
-   int moveSteps = 0;
-   long stepsPos;
-   long diffPos;
-   long actualPosition;
-   
-	actualPosition = currentPosition()/_stepsPerItem;
+int Stepper360::setValue(float newPos) {
+	int dir = 1;
+	int moveSteps = 0;
+	long stepsPos;
+	long diffPos;
+	long actualPosition;
 
-	
-    DPRINT("Start Stepper360 moveTo From:");
+	actualPosition = currentPosition() / _stepsPerItem;
+
+	DPRINT("Start Stepper360 moveTo From:");
 	DPRINT(_currentPos);
 	DPRINT("-");
 	DPRINT(actualPosition);
 	DPRINT("-To:");
 	DPRINTLN(newPos);
-	
+
 	// check if in range
-	if (!_powerOn || newPos > _rangeMax || newPos < _rangeMin)	{
+	if (!_powerOn || newPos > _rangeMax || newPos < _rangeMin) {
 		DPRINT("ERR: OutOfRange (");
 		DPRINT(_rangeMin);
 		DPRINT("->");
@@ -89,25 +81,24 @@ int Stepper360::setValue(float newPos){
 		DPRINT("):");
 		DPRINTLN(newPos);
 
-		return ;
-	}		
+		return;
+	}
 	// move to actual pos to enable stpping in loop
 	_currentPos = actualPosition;
-	_newPos = newPos ;
+	_newPos = newPos;
 	_moveSize = newPos - _currentPos;
-	
-		DPRINT(": moving :");
-		DPRINTLN(_moveSize);
 
-	
+	DPRINT(": moving :");
+	DPRINTLN(_moveSize);
+
 	// now see how we get there the fastes way for continues dails
-	// if move more than 50% of range change direction to take shortest way 
+	// if move more than 50% of range change direction to take shortest way
 	DPRINT("Adapting for Continues dails:");
 	if (abs(_moveSize) > (_totalRange / 2)) {
 		// make move shortest route
 		DPRINT("Adjust to shortest route:");
 		if (_moveSize > 0) {
-			_moveSize -= (_totalRange );
+			_moveSize -= (_totalRange);
 		}
 		else {
 			_moveSize += (_totalRange);
@@ -136,26 +127,25 @@ int Stepper360::setValue(float newPos){
 
 	DPRINT(":Move  to new pos:");
 	DPRINTLN(newPos);
-	moveTo(newPos * _stepsPerItem);   
-	_currentPos = newPos ;
+	moveTo(newPos * _stepsPerItem);
+	_currentPos = newPos;
 
 	DPRINTLN("End Stepper360 moveTo");
 };
 
-
 //-------------------------------------------------------------------------------------------------
 // callback funtion for hal sensor
 //-------------------------------------------------------------------------------------------------
-void Stepper360::halCallback(void){
+void Stepper360::halCallback(void) {
 	//AccelStepper::stop();
-	_atZero =true;
+	_atZero = true;
 	DPRINTLN("Interup on HAL found");
 };
 
 //-------------------------------------------------------------------------------------------------
 // set dail to 0 position
 //-------------------------------------------------------------------------------------------------
-int Stepper360::calibrate(uint8_t pinHal,bool retainPos) {
+int Stepper360::calibrate(uint8_t pinHal, bool retainPos) {
 	long startPos = currentPosition();
 	long curSpeed = speed();
 	setSpeed(100);
@@ -168,48 +158,44 @@ int Stepper360::calibrate(uint8_t pinHal,bool retainPos) {
 	_atZero = false;
 	//runSpeedToPosition();
 	//move(-1);
-	move(-(_totalRange*_stepsPerItem+10));
-	while( !_atZero&&run()){
+	move(-(_totalRange*_stepsPerItem + 10));
+	while (!_atZero&&run()) {
 #if defined(ARDUINO_ARCH_ESP8266)
 		ESP.wdtFeed();
 #endif
 		//move(-1);
 		//run() ;
 	};
-	
+
 	stop();
 	detachInterrupt(pinHal);
 	long newPos = currentPosition();
-	_currentPos=0;
+	_currentPos = 0;
 	setCurrentPosition(0);
-	if (retainPos)	{
+	if (retainPos) {
 		DPRINTLN("Moving to old postition");
 		runToNewPosition(startPos - newPos);
-		_currentPos = (startPos - newPos)/_stepsPerItem;
+		_currentPos = (startPos - newPos) / _stepsPerItem;
 	};
 
 	setSpeed(curSpeed);
 	DPRINTLN("End Stepper360 calibrate");
-
 };
 //-------------------------------------------------------------------------------------------------
 // power on actions;
 //-------------------------------------------------------------------------------------------------
-void Stepper360::powerOn(){
-	
+void Stepper360::powerOn() {
 	DPRINTLN("Start Stepper360 powerOn");
-	_powerOn=true;
+	_powerOn = true;
 	DPRINTLN("End Stepper360 powerOn");
 }
 //-------------------------------------------------------------------------------------------------
 // power off actions;
 //-------------------------------------------------------------------------------------------------
-void Stepper360::powerOff(){
-	
+void Stepper360::powerOff() {
 	DPRINTLN("Start Stepper360 powerOff");
 
 	_powerOn = false;
-	
-	DPRINTLN("End Stepper360 powerOff");
 
+	DPRINTLN("End Stepper360 powerOff");
 }

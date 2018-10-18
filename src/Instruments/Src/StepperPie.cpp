@@ -14,20 +14,18 @@
 #include "StepperPie.h"
 #include "mydebug.h"
 
-
 //-------------------------------------------------------------------------------------------------
 //	constructor
 //-------------------------------------------------------------------------------------------------
-StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse,  uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType)
+StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType)
 	: IndicatorStepper(canID, pinStep, pinDir, motorType)
-	 {
-	
+{
 	DPRINTLN("Start StepperPie constructor");
-		
+
 	// set internal params
-	_rangeMin 			= rangeMin;
-	_rangeMax 			= rangeMax;
-	_totalRange			= pieSize;
+	_rangeMin = rangeMin;
+	_rangeMax = rangeMax;
+	_totalRange = pieSize;
 
 	// define step size for later calculations
 	/// first define part of circle used
@@ -40,7 +38,7 @@ StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, 
 		_totalValueRange = rangeMax - rangeMin;
 	}
 
-	setDirectionInverse(reverse); 
+	setDirectionInverse(reverse);
 
 	DPRINT("Min:");
 	DPRINT(_rangeMin);
@@ -48,27 +46,26 @@ StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, 
 	DPRINT(_rangeMax);
 	DPRINT(":Total range:");
 	DPRINTLN(_totalValueRange);
-		
 
-	_stepsPerItem = (_stepsPerRotation *360/pieSize)/_totalRange;
-	
+	_stepsPerItem = (_stepsPerRotation * 360 / pieSize) / _totalRange;
+
 	DPRINT("New wedge dail (");
 	DPRINT(_rangeMin);
 	DPRINT("->");
 	DPRINT(_rangeMax);
 	DPRINT(" :Range:");
-	DPRINT(_totalRange);	
+	DPRINT(_totalRange);
 	DPRINT(") stepsize:");
-	DPRINT(_stepsPerItem);	
+	DPRINT(_stepsPerItem);
 	DPRINT(":stepsCircle:");
-	DPRINTLN(_stepsPerRotation);	
-			
-	DPRINTLN("End StepperPie constructor");	
+	DPRINTLN(_stepsPerRotation);
+
+	DPRINTLN("End StepperPie constructor");
 }
 //-------------------------------------------------------------------------------------------------
 // deconstructor
 //-------------------------------------------------------------------------------------------------//
-StepperPie::~StepperPie(){
+StepperPie::~StepperPie() {
 	powerOff();
 }
 //-------------------------------------------------------------------------------------------------
@@ -76,7 +73,6 @@ StepperPie::~StepperPie(){
 //-------------------------------------------------------------------------------------------------
 
 void StepperPie::calibrate() {
-	
 	DPRINTLN("Start StepperPie calibrate");
 
 	//move(- _stepsPerRotation);
@@ -86,64 +82,60 @@ void StepperPie::calibrate() {
 	_newPos = 0;
 
 	DPRINTLN("End StepperPie calibrate");
-	
 };
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void StepperPie::moveToBackstop()
 {
 	move(-(_stepsPerRotation * 360 / _totalRange)*1.1);
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void StepperPie::calibrate(float backstopPos) {
-
 	DPRINTLN(backstopPos);
-	//calibrate();	
+	//calibrate();
 	setCurrentPosition(backstopPos);
 	moveTo(0);
-	//runToPosition();		
+	//runToPosition();
 };
 //-------------------------------------------------------------------------------------------------
-// power off actions; 
+// power off actions;
 //-------------------------------------------------------------------------------------------------
 
-void StepperPie::powerOff(){
-	
+void StepperPie::powerOff() {
 	DPRINTLN("Start StepperPie powerOff");
-	
-	_currentPos = (_offValue - _rangeMin)/_totalRange * _stepsPerItem;
-	moveTo(_currentPos);   
+
+	_currentPos = (_offValue - _rangeMin) / _totalRange * _stepsPerItem;
+	moveTo(_currentPos);
 	//runToPosition();
 	_powerOn = false;
-	
+
 	DPRINTLN("End StepperPie powerOff");
-	
 }
 //-------------------------------------------------------------------------------------------------
-// set new value; 
+// set new value;
 //-------------------------------------------------------------------------------------------------
 
-int StepperPie::setValue(float newValue){
+int StepperPie::setValue(float newValue) {
 	float tempValue;
 	float oldValue = _currentValue;
 	long newPosition;
-	
+
 	DPRINTLN("Start StepperPie setValue");
-	
+
 	// check if in range and dail is on
-	if ( newValue > _rangeMax || newValue < _rangeMin)	{
+	if (newValue > _rangeMax || newValue < _rangeMin) {
 		DPRINT("ERR: OutOfRange (");
 		DPRINT(_rangeMin);
 		DPRINT("->");
 		DPRINT(_rangeMax);
 		DPRINT("):");
 		DPRINTLN(newValue);
-		
+
 		return 1;
-	}	
+	}
 
 	_currentValue = newValue;
 
@@ -168,16 +160,14 @@ int StepperPie::setValue(float newValue){
 	DPRINT("*");
 	DPRINTLN(_stepsPerDegree);
 
-
 	newPosition = round(tempValue * _totalRange * _stepsPerDegree);
-	
+
 	DPRINT("New position:");
 	DPRINTLN(newPosition);
-	
+
 	moveTo(newPosition);
-	
+
 	DPRINTLN("End StepperPie setValue");
 
 	return 0;
-	
 }

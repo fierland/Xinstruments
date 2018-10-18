@@ -10,7 +10,6 @@
 /// \author  Frank van Ierland (frank@van-ierland.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2018 Frank van Ierland
 
-
 #include "mydebug.h"
 #include "Xcomm.h"
 
@@ -19,15 +18,13 @@
 //-------------------------------------------------------------------------------------------------------------------
 Xcomm::Xcomm(char * instrumentCode, int maxElements)
 {
-
 	// TODO: Start sesion with master
 	CAN0.begin(500000);
-	
+
 	// send can message to connect to master
 
 	// XP_CAN_startConnection(instrumentCode);
 }
-
 
 //-------------------------------------------------------------------------------------------------------------------
 //	data reader for in loop() pols the udp port for new messages and dispaces them to controls
@@ -41,10 +38,6 @@ int Xcomm::dataReader()
 
 	_DataRefs* tmpRef;
 	_DataRefs* curRef = NULL;
-	
-
-
-
 
 	return _LastError;
 }
@@ -54,23 +47,20 @@ int Xcomm::dataReader()
 // create new data referece link with central module
 //-------------------------------------------------------------------------------------------------------------------
 
-int Xcomm::addElement( GenericIndicator *stepObject,  boolean readOnly)
+int Xcomm::addElement(GenericIndicator *stepObject, boolean readOnly)
 {
-
-
 	DPRINTLN("XCOMM:addElement");
 	DPRINT("adding:");
 	DPRINTLN(stepObject->getCanAeroId);
 
-//int XpUDP::registerDataRef(int iFreq, const char *sCode, void(*callBack)(float)) {
+	//int XpUDP::registerDataRef(int iFreq, const char *sCode, void(*callBack)(float)) {
 	int curRecord = -1;
 	_DataLinks* newRef;
-	
 
 	DPRINT("RegisterDataRef:START:");
 
 	curRecord = _findInList(stepObject->getCanAeroId);
-		
+
 	if (curRecord == -1) {
 		//not found so create new item
 		DPRINTLN("New record");
@@ -88,10 +78,9 @@ int Xcomm::addElement( GenericIndicator *stepObject,  boolean readOnly)
 		newRef->myStepper = stepObject;
 	}
 	else {
-		// found a record so update item 
+		// found a record so update item
 		DPRINT("existing reccord");
 		newRef = _listRefs[curRecord];
-
 	}
 	DPRINTLN("record processed");
 
@@ -100,7 +89,7 @@ int Xcomm::addElement( GenericIndicator *stepObject,  boolean readOnly)
 		// create new request
 		DPRINT("create x-plane request");
 		newRef->subscribed = true;
-		// read first returned value 
+		// read first returned value
 		// TODO
 		//dataReader();
 	}
@@ -109,7 +98,6 @@ int Xcomm::addElement( GenericIndicator *stepObject,  boolean readOnly)
 	return 0;
 }
 
-
 int Xcomm::setValue(char * type, float value)
 {
 	int curRecord = -1;
@@ -117,7 +105,6 @@ int Xcomm::setValue(char * type, float value)
 
 	DPRINTLN("Xcomm:setValue Start");
 
-	
 	curRecord = _findInList(type);
 	if (curRecord > -1)
 	{
@@ -128,7 +115,7 @@ int Xcomm::setValue(char * type, float value)
 			// XP_CAN_send(type,value);
 		}
 	}
-	
+
 	DPRINTLN("Xcomm:setValue End");
 	return 0;
 }
@@ -136,10 +123,9 @@ int Xcomm::setValue(char * type, float value)
 int Xcomm::processInput(char * type, float value)
 {
 	DPRINTLN("Xcomm:processInput Start");
-	
+
 	return _updateValue(type, value);
 	DPRINTLN("Xcomm:processInput END");
-	
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -167,10 +153,10 @@ int Xcomm::_updateValue(char * type, float value)
 			DPRINTLN("Check for stepper");
 			if (newRef->myStepper != NULL)
 				DPRINTLN("Call update function");
-				newRef->myStepper->setValue(value);
+			newRef->myStepper->setValue(value);
 		}
 	}
-	
+
 	DPRINTLN("Xcomm:_updateValue END");
 	return 0;
 }
@@ -180,7 +166,6 @@ int Xcomm::_updateValue(char * type, float value)
 void Xcomm::checkQueue()
 {
 	//TODO check for new messages in CANBUS
-
 }
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
@@ -188,20 +173,19 @@ void Xcomm::checkQueue()
 int Xcomm::_findInList(char* toFind) {
 	int curRecord = -1;
 	_DataLinks* tmpRef;
-	
+
 	DPRINT("find in list:");
-	DPRINTLN(toFind); 
-	DPRINT("items in list:"); 
+	DPRINTLN(toFind);
+	DPRINT("items in list:");
 	DPRINTLN(_listRefs.size());
 
-
-	for (int i = 0; i< _listRefs.size(); i++) {
+	for (int i = 0; i < _listRefs.size(); i++) {
 		DPRINT("check item:"); DPRINTLN(i);
 		tmpRef = _listRefs[i];
-	DPRINT("Compaire:");
-	DPRINT(toFind); 
-	DPRINT(":with:"); 
-	DPRINTLN(tmpRef->elementId);		
+		DPRINT("Compaire:");
+		DPRINT(toFind);
+		DPRINT(":with:");
+		DPRINTLN(tmpRef->elementId);
 		if (strcmp(tmpRef->elementId, toFind) == 0) {
 			curRecord = i;
 			break;
@@ -213,5 +197,3 @@ int Xcomm::_findInList(char* toFind) {
 
 	return curRecord;
 }
-
-

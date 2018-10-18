@@ -1,8 +1,12 @@
-//=================================================================================================
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
 //
 // Instrument.cpp
-//
-// author: Frank van Ierland
 // version: 0.1
 //
 // Class to control the whole instrument
@@ -13,26 +17,20 @@
 
 #include "Instrument.h"
 
-
-// identification stuff
-
-
-static const int MY_REDUND_CHAN = 1;
-static const int MY_SERVICE_CHAN = 8;
-
-
-
 //-------------------------------------------------------------------------------------------------
 // Constructor
 //-------------------------------------------------------------------------------------------------
-Instrument::Instrument(char* newCode, int nodeId, int ledPin, int maxIndicators )
+Instrument::Instrument(char* newCode, uint8_t nodeId, uint8_t srv_channel, int ledPin, int maxIndicators)
 {
 	DPRINT("CREATE Instrument for:");
 	DPRINTLN(newCode);
 
 	strcpy(_instrumentCode, newCode);
+
 	_canasNodeID = nodeId;
 	_ledPin = ledPin;
+
+	myCANbus = new CANaero(nodeId, srv_channel, XI_Hardware_Revision, XI_Software_Revision);
 
 	if (maxIndicators < _maxIndicators)
 		_maxIndicators = maxIndicators;
@@ -42,7 +40,6 @@ Instrument::Instrument(char* newCode, int nodeId, int ledPin, int maxIndicators 
 	ledcAttachPin(_ledPin, _ledChannel);
 	ledcWrite(_ledChannel, 0);
 
-
 	DPRINTLN("CREATE Instrument DONE");
 }
 //-------------------------------------------------------------------------------------------------
@@ -51,10 +48,11 @@ Instrument::Instrument(char* newCode, int nodeId, int ledPin, int maxIndicators 
 
 Instrument::~Instrument()
 {
-/*
-	if (dataConnection != NULL)
-		delete dataConnection;
- */
+	/*
+		if (dataConnection != NULL)
+			delete dataConnection;
+	 */
+	delete myCANbus;
 }
 //-------------------------------------------------------------------------------------------------
 // Start communication
@@ -65,8 +63,10 @@ int Instrument::initiateCommunication()
 	//	return -1;
 	//dataConnection = new Xcomm(_instrumentCode, _maxIndicators);
 
-	/// TODO: Get instrument code 
-	myCANbus.setNodeID(_canasNodeID);
+	/// TODO: Get instrument code
+	//myCANbus->setNodeId(_canasNodeID);
+	//myCANbus->setServiceChannel(_canasServiceChannel);
+	myCANbus->start();
 
 	return 0;
 }
@@ -82,14 +82,14 @@ int Instrument::addIndicator(GenericIndicator * newIndicator)
 	_numIndicators++;
 	newIndicator->startCommunication(&myCANbus);
 	if (newIndicator->type = GenericIndicator::INDICATOR_STEPPER) {
-		AccelStepper* tempStepper = (AccelStepper *) newIndicator;
+		AccelStepper* tempStepper = (AccelStepper *)newIndicator;
 		allSteppers.addStepper(*tempStepper);
 	}
-	
+
 	return 0;
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void Instrument::calibrate()
 {
@@ -98,33 +98,34 @@ void Instrument::calibrate()
 	}
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void Instrument::toZero()
 {
 	/// TODO: Code
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void Instrument::update()
 {
 	//if (dataConnection != NULL)
 	//	dataConnection->checkQueue();
-	myCANbus.Update();
+	myCANbus->Update();
 	allSteppers.run();
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void Instrument::updateNow()
 {
-	if (dataConnection != NULL)
-		dataConnection->checkQueue();
+	//if (dataConnection != NULL)
+	//	dataConnection->checkQueue();
+	myCANbus->Update();
 	allSteppers.runSpeedToPosition();
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void Instrument::powerState(boolean setOn)
 {
@@ -134,7 +135,7 @@ void Instrument::powerState(boolean setOn)
 	}
 }
 //-------------------------------------------------------------------------------------------------
-// 
+//
 //-------------------------------------------------------------------------------------------------
 void Instrument::lightState(boolean setOn)
 {
