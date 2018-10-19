@@ -60,9 +60,6 @@
     <ClInclude Include="src\Instruments\Src\VidStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\XServo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\XLibs\Src\mydebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
