@@ -94,6 +94,7 @@
     <ClInclude Include="src\Instruments\Src\StepperPie.h" />
     <ClInclude Include="src\Instruments\Src\VidStepper.h" />
     <ClInclude Include="src\Instruments\Src\XServo.h" />
+    <ClInclude Include="src\XLibs\Src\CanasXplane.h" />
     <ClInclude Include="src\XLibs\Src\mydebug.h" />
     <ClInclude Include="src\XLibs\Src\Xcomm.h" />
     <ClInclude Include="src\XLibs\Src\XPUtils.h" />

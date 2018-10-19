@@ -75,6 +75,9 @@
     <ClInclude Include="src\CanAs\Src\CanAeroMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\XLibs\Src\CanasXplane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CanAs\Src\CANaero.cpp">

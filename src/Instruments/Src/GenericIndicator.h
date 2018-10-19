@@ -1,3 +1,11 @@
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
 //=================================================================================================
 //
 // GenericIndicator.h
@@ -60,6 +68,7 @@ public:
 	int setCanAeroId(CanasNodDefaultID newCanId);
 	int getCanAeroId(CanasNodDefaultID newCanId);
 	int type();
+	virtual void setConversionFactor(float newFactor);
 
 	/**
 	* Calibrate the Instrument move to default start position implemented by subclass
@@ -96,6 +105,7 @@ protected:
 	bool		_powerOn = true;
 	int			_type = INDICATOR_UNKNOWN;
 	CANaero*	_myCanAreo = NULL;
+	double		_conversionFactor = 1;
 };
 
 #endif

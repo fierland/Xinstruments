@@ -40,14 +40,15 @@
 //#include <ESP32_Servo.h>
 //#endif
 
-Instrument	myInstrument(XI_Instrument_Code, XI_Instrument_NodeID,XI_Instrument_Service_Chan, XI_LED_PIN, XI_INSTRUMENT_MAX_ELEMENTS);
+Instrument	myInstrument(XI_Instrument_Code, XI_Instrument_NodeID, XI_Instrument_Service_Chan, XI_LED_PIN, XI_INSTRUMENT_MAX_ELEMENTS);
 
 #ifdef XI_STEP1_PIE
 StepperPie _stepper_Pie_1(XI_DAIL1_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
-
 #endif
+
 #ifdef XI_STEP2_PIE
 StepperPie _stepper_Pie_2(XI_DAIL2_CAN_ID, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED, XI_STEP2_STP, XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
+_stepper_Pie_2.setConversionFactor(XI_DAIL1_CONVERIONS_FACTOR);
 #endif
 #ifdef XI_STEP3_PIE
 StepperPie _stepper_Pie_3(XI_DAIL3_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP3_MOTORTYPE);
@@ -154,6 +155,7 @@ void _InitiateSteppers() {
 	//-------------------------------------------------------------------------------------------------------------------
 
 #ifdef XI_STEP1_PIE
+	_stepper_Pie_1.setConversionFactor(XI_DAIL1_CONVERIONS_FACTOR);
 	myInstrument.addIndicator(&_stepper_Pie_1);
 	_stepper_Pie_1.moveToBackstop();
 
@@ -163,6 +165,7 @@ void _InitiateSteppers() {
 
 #endif
 #ifdef XI_STEP2_PIE
+	_stepper_Pie_2.setConversionFactor(XI_DAIL2_CONVERIONS_FACTOR);
 	myInstrument.addIndicator(&_stepper_Pie_2);
 	_stepper_Pie_2.moveToBackstop();
 
@@ -173,11 +176,13 @@ void _InitiateSteppers() {
 #endif
 #endif
 #ifdef XI_STEP3_PIE
+	_stepper_Pie_3.setConversionFactor(XI_DAIL3_CONVERIONS_FACTOR);
 	myInstrument.addIndicator(&_stepper_Pie_3);
 	_stepper_Pie_3.moveToBackstop();
 
 #endif
 #ifdef XI_STEP4_PIE
+	_stepper_Pie_4.setConversionFactor(XI_DAIL4_CONVERIONS_FACTOR);
 	myInstrument.addIndicator(&_stepper_Pie_4);
 	_stepper_Pie_4.moveToBackstop();
 

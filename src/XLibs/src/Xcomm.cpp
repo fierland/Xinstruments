@@ -1,3 +1,11 @@
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
 //===================================================================================================================
 // Xcomm.cpp
 //
@@ -47,7 +55,7 @@ int Xcomm::dataReader()
 // create new data referece link with central module
 //-------------------------------------------------------------------------------------------------------------------
 
-int Xcomm::addElement(GenericIndicator *stepObject, boolean readOnly)
+int Xcomm::addElement(uint8_t canasId, boolean readOnly)
 {
 	DPRINTLN("XCOMM:addElement");
 	DPRINT("adding:");
@@ -60,6 +68,7 @@ int Xcomm::addElement(GenericIndicator *stepObject, boolean readOnly)
 	DPRINT("RegisterDataRef:START:");
 
 	curRecord = _findInList(stepObject->getCanAeroId);
+	// find canasid in translation list
 
 	if (curRecord == -1) {
 		//not found so create new item

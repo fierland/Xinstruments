@@ -289,7 +289,7 @@ constexpr auto XI_Instrument_Redun_Chan = 0;
 //-------------------------------------------------------------------------------------------------------------------
 #ifdef XI_INSTRUMENT_FUEL_GAUGE
 
-constexpr char XI_Instrument_Code[] = "FEULG";
+#define XI_Instrument_Code "FEULG"
 constexpr auto XI_Instrument_NodeID = 14;
 constexpr auto XI_Instrument_Service_Chan = 90 + XI_Instrument_NodeID;
 constexpr auto XI_Instrument_Redun_Chan = 0;
@@ -319,8 +319,9 @@ constexpr auto XI_Instrument_Redun_Chan = 0;
 	 * Notes:
 	 */
 #define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_FUEL_TANK_1_QUANTITY
+constexpr float XI_DAIL1_CONVERIONS_FACTOR = 0.3674371033;
 
-	 //#define XI_STEP2_360
+//#define XI_STEP2_360
 #define XI_STEP2_PIE
 #define XI_STEP2_MIN_PIE 0
 #define XI_STEP2_MAX_PIE 120
@@ -329,6 +330,7 @@ constexpr auto XI_Instrument_Redun_Chan = 0;
 #define XI_STEP2_MAX_BACKSTOP -10
 #define XI_STEP2_ITEM XP_FUEL_LEFT
 #define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
+#define XI_DAIL2_CONVERIONS_FACTOR 0.3674371033
 
 #endif
 

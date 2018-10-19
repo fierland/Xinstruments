@@ -1,3 +1,10 @@
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
 // Xcomm.h
 //
 // author: Frank van Ierland
@@ -13,10 +20,9 @@
 #define Xcomm_h_
 
 #include <stdlib.h>
-#include <QList.h>
+#include <Qlist.h>
 #include "CANaero.h"
-#include "GenericIndicator.h"
-#include <esp32_can.h>
+#include "Src/Instruments/Src/GenericIndicator.h"
 #include "mydebug.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
@@ -36,7 +42,7 @@ public:
 
 	//int registerDataRef(int iFreq, const char *sCode );
 
-	int  addElement(GenericIndicator *stepObject, boolean readOnly = true);
+	int  addElement(uint8_t canasId, boolean readOnly = true);
 	int  setValue(char* type, float value);
 	int  processInput(char* type, float value);
 	void checkQueue();
