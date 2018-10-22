@@ -5,26 +5,18 @@
 // This code is in the public domain.
 //
 //==================================================================================================
-
-//=========================================================================
-//
-//
-//=========================================================================
-//-------------------------------------------------------------------------------------------------------------------
 //	 CAN Aerospace class - service subclass
-//
-//  Franks Flightsim Intruments project
-//	by Frank van Ierland
 //
 // A light implementation of the CAN Aerospace protocol to manage simulated instruments.
 //	This code is in the public domain.
 //
 // Thanks to mjs513/CANaerospace (Pavel Kirienko, 2013 (pavel.kirienko@gmail.com))
 //
-// ERSION HISTORY:
+// VERSION HISTORY:
 //
 //
-//-------------------------------------------------------------------------------------------------------------------
+//==================================================================================================
+
 #include "CANAS_service.h"
 #include <time.h>
 #include <sys/time.h>
@@ -88,7 +80,8 @@ int CANAS_service::serviceChannelToMessageID(uint8_t service_channel, bool isreq
 CANAS_service::CANAS_service(CANaero * CanAsBus, uint8_t serviceID)
 {
 	DPRINTINFO("START");
-	if (CanAsBus == NULL) {
+	if (CanAsBus == NULL)
+	{
 		DPRINTLN("CANAS_service init: bad payload param");
 		return;
 	};
@@ -183,7 +176,8 @@ int CANAS_service_identification::ProcessFrame(CanasMessage * msg)
 	msg->service_code = _myServiceId;
 
 	int ret = _CanasBus->ServiceSendResponse(msg, 0);
-	if (ret != 0) {
+	if (ret != 0)
+	{
 		DPRINT("srv ids: failed to respond:");
 		DPRINTLN(ret);
 	}
@@ -203,7 +197,8 @@ int CANAS_service_identification::Request(CanasMessage * msg)
 
 	msg->service_code = _myServiceId;
 	int ret = _CanasBus->ServiceSendRequest(msg, 0);
-	if (ret != 0) {
+	if (ret != 0)
+	{
 		DPRINT("srv ids: failed to respond:");
 		DPRINTLN(ret);
 		return ret;
@@ -242,9 +237,10 @@ int CANAS_service_timestamp::Request(uint64_t timestamp)
 	msg.node_id = CANAS_BROADCAST_NODE_ID;
 
 	msg.service_code = _myServiceId;
-	int ret = _CanasBus->ServiceSendRequest(&msg);
+	int ret = _CanasBus->ServiceSendRequest(&msg, CANAS_SRV_TIMESTAMP);
 
-	if (ret != 0) {
+	if (ret != 0)
+	{
 		DPRINT("srv ids: failed to request:");
 		DPRINTLN(ret);
 		return ret;
@@ -290,7 +286,17 @@ int CANAS_service_timestamp::ProcessFrame(CanasMessage* msg)
 	return 0;
 }
 //===================================================================================================================
+// request to the main controler to stat providing a canareeospace data item on the bus
 //
+// Message	| datafield		|	service		| service
+// DataByte	| description	|	request		|response
+//--------------------------------------------------------------
+//		0	| Node-ID		|	<node-ID>	| <node-ID>
+//		1	| Data Type		|	UCHAR		|	NODATA
+//		2	| Service code	|	100			|	100
+//		3	| Message Code	|	0 = End		|	0 = success
+//			|				|	1 = New		|	1 = error
+//		4-7	| Message Data	|	Canas ID	|	n.a.
 //-------------------------------------------------------------------------------------------------------------------
 
 CANAS_service_requestdata::CANAS_service_requestdata(CANaero * CanAsBus) : CANAS_service(CanAsBus, CANAS_SRV_USR_REUEST_CANDATA)
@@ -310,7 +316,7 @@ CANAS_service_requestdata::~CANAS_service_requestdata()
 }
 
 //-------------------------------------------------------------------------------------------------------------------
-int CANAS_service_requestdata::Request(int dataId, int nodeId)
+int CANAS_service_requestdata::Request(int dataId, int nodeId, bool newId)
 {
 	CanasMessage msg;
 	DPRINTINFO("START");
@@ -320,15 +326,93 @@ int CANAS_service_requestdata::Request(int dataId, int nodeId)
 	msg.data.container.UCHAR = dataId; // data item to transmit on the bus
 
 	msg.service_code = _myServiceId;
+	msg.message_code = (newId ? 1 : 0);
 
-	_CanasBus->ServiceSendRequest(&msg);
+	_CanasBus->ServiceSendRequest(&msg, CANAS_SRV_USR_REUEST_CANDATA);
+
 	DPRINTINFO("STOP");
 
 	return 0;
 }
 //-------------------------------------------------------------------------------------------------------------------
+// helper function to find a item i the list of  subscribed items
+//-------------------------------------------------------------------------------------------------------------------
+int CANAS_service_requestdata::_findInList(uint8_t toFind)
+{
+	int curRecord = -1;
+	_dataRequest* tmpRef;
+
+	DPRINTINFO("START");
+
+	DPRINT("find in list:");
+	DPRINTLN(toFind);
+	DPRINT("items in list:");
+	//DPRINTLN(_dataReqRefs.size());
+
+	for (int i = 0; i < _dataReqRefs.size(); i++)
+	{
+		DPRINT("check item:"); DPRINTLN(i);
+		tmpRef = _dataReqRefs[i];
+		DPRINT("Compaire:");
+		DPRINT(toFind);
+		DPRINT(":with:");
+		DPRINTLN(tmpRef->canId);
+		if (toFind - tmpRef->canId)
+		{
+			curRecord = i;
+			break;
+		}
+	}
+
+	DPRINTINFO("STOP");
+	DPRINT("find in list done:");
+	DPRINTLN(curRecord);
+
+	return curRecord;
+}
+//-------------------------------------------------------------------------------------------------------------------
+int CANAS_service_requestdata::_findNode(_dataRequest* myStruct, uint8_t nodeId, bool doDelete)
+{
+	int i = 0;
+	_subscribedNode* curNode;
+	_subscribedNode* prevNode;
+	int result = 0;
+
+	if (myStruct->subscriptions == 0 || myStruct->firstNode == NULL)
+		result = -CANAS_ERR_NO_SUCH_ENTRY;
+
+	curNode = myStruct->firstNode;
+	prevNode = NULL;
+
+	while (curNode != NULL)
+	{
+		if (curNode->nodeId == nodeId)
+			return 0;
+		prevNode = curNode;
+		curNode = curNode->next;
+	}
+
+	if (curnode != NULL)
+	{
+		if (doDelete)
+		{
+			prevNode->next = curNode->next;
+			delete curNode;
+		}
+	}
+	else
+	{
+		result = -CANAS_ERR_BAD_NODE_ID;
+	}
+
+	return result;
+}
+//-------------------------------------------------------------------------------------------------------------------
+// TODO: support multiple request for same item
+//-------------------------------------------------
 int CANAS_service_requestdata::ProcessFrame(CanasMessage* msg)
 {
+	int result = 0;
 	DPRINTINFO("START");
 
 	if (msg == NULL)
@@ -350,10 +434,82 @@ int CANAS_service_requestdata::ProcessFrame(CanasMessage* msg)
 		return -CANAS_ERR_BAD_MESSAGE_ID;
 	}
 
-	// start advertisement of specific canas data element.
-	_CanasBus->ParamAdvertise(msg->data.container.UCHAR);
+	uint8_t newCanId = (uint8_t)msg->data.container.UCHAR;
+	_dataRequest* tmpRef;
+	_subscribedNode* newNode;
 
-	/// TODO: add code
+	//  check if we already provide this item ?
+	int item = _findInList(newCanId);
+
+	if (msg->message_code == 0)
+	{
+		// request to remove an Item
+		if (item == 0)
+		{
+			// not found so can not remove
+			result = -CANAS_ERR_NO_SUCH_ENTRY;
+		}
+		else
+		{
+			// found so remove item in list
+			tmpRef = _dataReqRefs.at(item);
+			if (tmpRef->subscriptions > 1)
+			{
+				if (_findNode(tmpRef, msg->node_id, true))
+					tmpRef->subscriptions--;
+				else
+					result = -CANAS_ERR_BAD_NODE_ID;
+			}
+			else
+			{
+				_dataReqRefs.clear(item);
+				result = _CanasBus->ParamUnadvertise(newCanId);
+			}
+		}
+	}
+	else
+	{
+		// request to add an item
+		if (item != 0)
+		{
+			// found so update current item with this request
+			tmpRef = _dataReqRefs.at(item);
+
+			if (_findNode(tmpRef, msg->node_id))
+			{
+				result = -CANAS_ERR_ENTRY_EXISTS;
+			}
+			else
+			{
+				tmpRef->subscriptions++;
+				newNode = new _subscribedNode;
+				newNode->nodeId = msg->node_id;
+				tmpRef->lastNode->next = newNode;
+				tmpRef->lastNode = newNode;
+			}
+		}
+		else
+		{
+			// not found so add item in list
+			tmpRef = new _dataRequest;
+			tmpRef->canId = newCanId;
+			newNode = new _subscribedNode;
+			newNode->nodeId = msg->node_id;
+			tmpRef->firstNode = newNode;
+			tmpRef->lastNode = newNode;
+			tmpRef->subscriptions = 1;
+			_dataReqRefs.push_back(tmpRef);
+
+			result = _CanasBus->ParamAdvertise(newCanId);
+		}
+	}
+	// return result of action
+	msg->message_code = result;
+	msg->data.type = CANAS_DATATYPE_NODATA;
+	msg->can_id = _CanasBus->getNodeId();
+
+	_CanasBus->ServiceSendResponse(msg, CANAS_SRV_USR_REUEST_CANDATA);
+
 	DPRINTINFO("STOP");
-	return (0);
+	return result;
 }

@@ -13,7 +13,7 @@
 #ifndef Stepper360_h_
 #define Stepper360_h_
 
-#include "mydebug.h"
+#include "src\XLibs\src\mydebug.h"
 
 #include <stdlib.h>
 #include "IndicatorStepper.h"

@@ -1,10 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\CanAs",
-    "\\src\\CanAs\\Src"
+    "\\src\\CanAs\\Src",
+    "\\src\\XLibs"
   ],
-  "SelectedNode": "\\src\\CanAs\\Src\\canaerospace.h",
+  "SelectedNode": "\\Xinstruments.h",
   "PreviewInSolutionExplorer": false
 }

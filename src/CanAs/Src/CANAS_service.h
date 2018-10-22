@@ -21,10 +21,11 @@
 //
 //
 //-------------------------------------------------------------------------------------------------------------------
-
-#pragma once
+#ifndef _CANAS_SERVICE_H_
+#define _CANAS_SERVICE_H_
 
 #include "CANaero.h"
+#include <QList.h>
 
 typedef enum
 {
@@ -131,7 +132,7 @@ private:
 	CanasSrvIdsPayload* _myPayload = NULL;
 };
 //---------------------------------------------------------------------------------------------------------------------
-// service get data class Class definition
+// service timestamp class Class definition
 //---------------------------------------------------------------------------------------------------------------------
 class CANAS_service_timestamp : public CANAS_service
 {
@@ -145,6 +146,16 @@ public:
 //---------------------------------------------------------------------------------------------------------------------
 // service get data class Class definition
 //---------------------------------------------------------------------------------------------------------------------
+// Message	| datafield		|	service		| service
+// DataByte	| description	|	request		|response
+//--------------------------------------------------------------
+//		0	| Node-ID		|	<node-ID>	| <node-ID>
+//		1	| Data Type		|	UCHAR		|	NODATA
+//		2	| Service code	|	100			|	100
+//		3	| Message Code	|	0 = End		|	0 = success
+//			|				|	1 = New		|	1 = error
+//		4-7	| Message Data	|	Canas ID	|	n.a.
+//-------------------------------------------------------------------------------------------------------------------
 class CANAS_service_requestdata : public CANAS_service
 {
 public:
@@ -152,5 +163,25 @@ public:
 	~CANAS_service_requestdata();
 
 	int ProcessFrame(CanasMessage* msg);
-	int Request(int dataId, int nodeId);
-}
+	int Request(int dataId, int nodeId, bool newId = true);
+private:
+
+	struct _subscribedNode
+	{
+		uint8_t		nodeId;
+		_subscribedNode* next = NULL;
+	};
+	struct _dataRequest
+	{
+		uint8_t		canId = 0;
+		int			subscriptions = 0;
+		_subscribedNode* firstNode = NULL;
+		_subscribedNode* lastNode = NULL;
+	};
+	QList < _dataRequest*> _dataReqRefs;
+
+	int _findInList(uint8_t toFind);
+	int _findNode(_dataRequest* tmpRef, uint8_t nodeId, bool doDelete = false);
+};
+
+#endif

@@ -12,13 +12,13 @@
 #ifndef XServo_h_
 #define XServo_h_
 
-#include "mydebug.h"
+#include "src\XLibs\src\mydebug.h"
 
 #include <stdlib.h>
 // include the Servo library
 
 #ifdef ARDUINO_ARCH_ESP32
-#include <ESP32_Servo.h>
+#include <ESP32Servo/src/ESP32_Servo.h>
 #else
 #include <Servo.h>
 #endif

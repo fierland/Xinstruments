@@ -14,7 +14,7 @@
 #ifndef IndicatorStepper_h_
 #define IndicatorStepper_h_
 
-#include "mydebug.h"
+#include "src\XLibs\src\mydebug.h"
 
 #include <stdlib.h>
 #include <AccelStepper/src/AccelStepper.h>

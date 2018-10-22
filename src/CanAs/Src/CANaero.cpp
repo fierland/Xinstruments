@@ -5,8 +5,7 @@
 // This code is in the public domain.
 //
 //==================================================================================================
-
-//-------------------------------------------------------------------------------------------------------------------
+//
 //	 CAN Aerospace class
 //
 //  Franks Flightsim Intruments project
@@ -15,12 +14,11 @@
 // A light implementation of the CAN Aerospace protocol to manage simulated instruments.
 //	This code is in the public domain.
 //
-
 //
 //	VERSION HISTORY:
 //
 //
-//-------------------------------------------------------------------------------------------------------------------
+//==================================================================================================
 
 #include <stdlib.h>
 #include "CANaero.h"
@@ -80,9 +78,6 @@ CANaero::CANaero(uint8_t nodeId, uint8_t serviceChannel, uint8_t hdwId, uint8_t 
 
 	ServiceRegister(_identService);		// register service ...
 	ServiceRegister(_timeStampService);
-
-	if (_node_id = XI_Base_NodeID)
-		ServiceRegister(_requestService);   // only base module will process this service request
 
 	DPRINTINFO("STOP");
 }
@@ -144,6 +139,10 @@ int CANaero::setNodeId(uint8_t newID)
 	DPRINTINFO("STOP");
 	return 0;
 }
+uint8_t CANaero::getNodeId()
+{
+	return _node_id;
+}
 //-------------------------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------------------------
@@ -156,7 +155,9 @@ static int _diffU8(uint8_t a, uint8_t b)
 		return d - 256;
 	return d;
 }
-
+//-------------------------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------------------------
 int CANaero::_handleReceivedParam(CanasMessage* pframe, int subId, long timestamp)
 {
 	_CanDataLinks* curParm;
@@ -396,27 +397,21 @@ int CANaero::ParamAdvertise(uint16_t msg_id, uint16_t intervalMs)
 		return -CANAS_ERR_BAD_MESSAGE_ID;
 	}
 
+	// check if we know this param id
 	curRecord = _findPublishedInList(msg_id);
 
 	if (curRecord == -1) {
-		// check if we know this param id
-
 		//not found so create new item
 		DPRINTLN("New record");
 		newRef = new _CanPublishLinks;
 		DPRINTLN("added object");
-		_listRefs.push_back(newRef);
+		_publishRefs.push_back(newRef);
 		DPRINTLN("in list");
-		newRef->linkId = _listRefs.size();
+		newRef->linkId = _publishRefs.size();
 		DPRINTLN("id adeded");
 		newRef->canAreoId = msg_id;
 		DPRINTLN("type added");
 		newRef->maxIntervalMs = intervalMs;
-
-		// if we are Main_Controler setup datalink to X-Plane
-#ifdef XI_INSTRUMENT_MAIN_CONTROLER
-		// TODO: CODE Main_Controler setup datalink to X-Plane
-#endif
 	}
 	else
 		return -CANAS_ERR_ENTRY_EXISTS;
@@ -485,6 +480,16 @@ int CANaero::ServiceRegister(CANAS_service* newService)
 	DPRINTINFO("STOP");
 
 	return 0;
+}
+//-------------------------------------------------------------------------------------------------------------------
+//
+//-------------------------------------------------------------------------------------------------------------------
+int CANaero::ServiceRegister_requestData(void(*newService)(uint8_t canasID), void(*removeService)(uint8_t canasID))
+{
+	_newXservicecall = newService;
+	_removeXservicecall = removeService;
+
+	return ServiceRegister(_requestService);
 }
 
 //-------------------------------------------------------------------------------------------------------------------

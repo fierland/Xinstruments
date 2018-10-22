@@ -48,7 +48,6 @@ StepperPie _stepper_Pie_1(XI_DAIL1_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANG
 
 #ifdef XI_STEP2_PIE
 StepperPie _stepper_Pie_2(XI_DAIL2_CAN_ID, XI_STEP2_MAX_RANGE, XI_STEP2_MIN_RANGE, XI_STEP2_MAX_PIE, XI_STEP2_REVERSED, XI_STEP2_STP, XI_STEP2_DIR, XI_STEP2_MOTORTYPE);
-_stepper_Pie_2.setConversionFactor(XI_DAIL1_CONVERIONS_FACTOR);
 #endif
 #ifdef XI_STEP3_PIE
 StepperPie _stepper_Pie_3(XI_DAIL3_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP3_MIN_RANGE, XI_STEP3_MAX_PIE, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP3_MOTORTYPE);
@@ -94,7 +93,8 @@ XServo *flagServo; // create servo object to control a servo
 //===================================================================================================================
 //  make sure power/staus flag is in open flagServoPosition when starting the device
 //===================================================================================================================
-void _InitiateFlagStatus() {
+void _InitiateFlagStatus()
+{
 	flagServo = new XServo(0, 300, 0, 50, PWR_FLAG_SERVO_PIN);  // create servo object to control a servo
    //flagServo->attach(PWR_FLAG_SERVO_PIN, 500, 2400);   // attaches t0 servo on pin 18 to the servo object
 													  // using default min/max of 1000us and 2000us
@@ -107,7 +107,8 @@ void _InitiateFlagStatus() {
 //===================================================================================================================
 // section to control a power/ready flag by a servo
 //===================================================================================================================
-void _UpdateFlagStatus() {
+void _UpdateFlagStatus()
+{
 	uint32_t read_raw = analogRead(XI_PWR_MON_PIN);
 	DPRINTLN(read_raw);
 
@@ -128,7 +129,8 @@ void _UpdateFlagStatus() {
 		flagServo->powerOff();
 	}
 
-	if (_flagIsUp && !(_powerIsOn && _communicationIsOn)) {
+	if (_flagIsUp && !(_powerIsOn && _communicationIsOn))
+	{
 		// change state of flag from off to off
 		DPRINT("flag to off :");
 		DPRINTLN(flagServoPos);
@@ -145,7 +147,8 @@ void _UpdateFlagStatus() {
 //===================================================================================================================
 // initiate all used steppers
 //===================================================================================================================
-void _InitiateSteppers() {
+void _InitiateSteppers()
+{
 	int(*funcPointer)(float);
 
 	DPRINTLN("Start Initiate steppers");
@@ -223,7 +226,8 @@ void _InitiateSteppers() {
 //===================================================================================================================
 // MAIN SETUP PROC
 //===================================================================================================================
-void setup() {
+void setup()
+{
 	DPRINT("***START SETUP***");
 	Serial.begin(115200);
 	// start communication with master
@@ -258,7 +262,8 @@ void setup() {
 // MAIN LOOP
 //===================================================================================================================
 
-void loop() {
+void loop()
+{
 	//
 	// check for new commands ad set instrument to latest values
 	//
@@ -298,13 +303,15 @@ void handleSet(char* tokens)
 
 	char* token = strtok(NULL, " ");
 
-	if (token != NULL) {
+	if (token != NULL)
+	{
 		strcpy(item, token);
 	}
 
 	token = strtok(NULL, " ");
 
-	if (token != NULL) {
+	if (token != NULL)
+	{
 		value = atof(token);
 	}
 	DPRINT("Command Update Item:");
@@ -327,7 +334,8 @@ void handlePulse(char* tokens)
 
 	char* token = strtok(NULL, " ");
 
-	if (token != NULL) {
+	if (token != NULL)
+	{
 		value = atof(token);
 	}
 	DPRINT("Pulse Update Item:");

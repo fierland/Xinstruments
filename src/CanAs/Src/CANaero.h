@@ -147,6 +147,7 @@ public:
 	~CANaero();
 
 	int setNodeId(uint8_t newID);
+	uint8_t getNodeId();
 	int setServiceChannel(uint8_t newChannel);
 	int start();
 	int stop();
@@ -197,6 +198,7 @@ public:
 	  * @{
 	  */
 	int ServiceRegister(CANAS_service* newService);
+	int ServiceRegister_requestData(void(*newService)(uint8_t canasID), void(*removeService)(uint8_t canasID));
 	int ServiceUnregister(uint8_t service_code);
 	int ServiceSendRequest(const CanasMessage* pmsg, uint8_t service_channel = _service_channel);
 	int ServiceSendResponse(const CanasMessage* pmsg, uint8_t service_channel = _service_channel);
@@ -232,9 +234,10 @@ public:
 	/**
 	 * @}
 	 */
-	uint8_t  _service_channel = -1;              ///< Service channel of the Local Node. May be of high or low priority.
+	
 private:
 	static CANdriver _canBus;
+	uint8_t  _service_channel = -1;              ///< Service channel of the Local Node. May be of high or low priority.
 
 	CANAS_service_identification* 	_identService;
 	CANAS_service_requestdata* 		_requestService;
@@ -273,6 +276,9 @@ protected:
 	int _updateValue(uint8_t type, float value);
 	int _handleReceivedParam(CanasMessage* pframe, int subId, long timestamp);
 	int _handleReceivedService(CanasMessage* pframe, int curRecord, long timestamp);
+
+	void(*_newXservicecall)(uint8_t);
+	void(*_removeXservicecall)(uint8_t);
 };
 // =================================================================
 //

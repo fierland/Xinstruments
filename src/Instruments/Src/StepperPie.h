@@ -12,11 +12,10 @@
 #ifndef StepperPie_h_
 #define StepperPie_h_
 
-#include "mydebug.h"
+#include "src\XLibs\src\mydebug.h"
 
 #include <stdlib.h>
 #include "IndicatorStepper.h"
-#include "XComm.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"

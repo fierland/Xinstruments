@@ -21,7 +21,7 @@
 #include "Xinstruments.h"
 #include "GenericIndicator.h"
 #include "src\CanAs\Src\CANaero.h"
-#include <multistepper.h>
+#include <AccelStepper/src/MultiStepper.h>
 #include "src\XLibs\Src\mydebug.h"
 
 class Instrument

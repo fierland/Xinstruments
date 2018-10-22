@@ -24,10 +24,9 @@
 #ifndef GenericIndicator_h_
 #define GenericIndicator_h_
 
-#include "mydebug.h"
+#include "src\XLibs\src\mydebug.h"
 #include <stdlib.h>
-#include "CANaero.h"
-//#include "CANbus.h"
+#include "src\CanAs\Src\CANaero.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
