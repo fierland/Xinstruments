@@ -1,4 +1,12 @@
 //==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
+//==================================================================================================
 // XPdefs.h
 //
 // author: Frank van Ierland
@@ -29,6 +37,7 @@
 
 #include <limits.h>
 #include "XPUtils.h"
+#include "Can2XPlane.h"
 
 // defines for msg headers used in XP UDP interface.
 #define XPMSG_XXXX	"XXXX" // novalid command
@@ -74,7 +83,7 @@ public:
 	} XpCommandType;
 	*/
 	//constructor
-	XpUDP();
+	XpUDP(void(*callbackFunc)(uint8_t canId, float par) = NULL);
 	~XpUDP();
 
 	// start connection
@@ -82,24 +91,28 @@ public:
 	int dataReader();				// poll for new data need to be in loop()
 
 	//int registerDataRef(int iFreq, const char *sCode );
-	int registerDataRef(int iFreq, const char *sCode, uint8_t canId, void(*callbackFunc)(float par) = NULL);
+	int registerDataRef(int iFreq, CanasXplaneTrans* newItem);
 	int unRegisterDataRef(const char *sCode);
+	int unRegisterDataRef(uint8_t canID);
 
 protected:
 	/*
 		IPAddress   XpMulticastAdress(239, 255,1, 1);
 		uint16_t  	XpMulticastPort = 49707;
 	*/
+
 	struct _DataRefs
 	{
 		uint8_t	refID;	//Internal number of dataref
 		uint8_t frequency = 5;
 		bool subscribed = false;
-		char command[_Xp_rref_size];	//short internal name
+		bool active = true;
+		//char command[_Xp_rref_size];	//short internal name
 		float value;	// last received value
-		void(*setdata)(float) = NULL;	// function to set updated data in instrument
+		//void(*setdata)(float) = NULL;	// function to set updated data in instrument
 		unsigned long timestamp = 0;	// last read time
 		uint8_t canId = 0;
+		CanasXplaneTrans* paramInfo = NULL;
 	};
 
 	//
@@ -109,6 +122,7 @@ protected:
 
 	int 	GetBeacon();
 	void 	sendUDPdata(const char *header, const byte *dataArr, const int arrSize, const int sendSize);
+	int		sendRREF(int frequency, int refID, char * xplaneId);
 	int 	sendRREF(_DataRefs* newRef);
 
 private:
@@ -144,6 +158,7 @@ private:
 	int _LastError = XpUDP::SUCCESS;
 	uint16_t _XpListenPort = 49000;
 	IPAddress _XPlaneIP;
+	void(*_callbackFunc)(uint8_t canId, float par);
 
 	//Send in a “dref_freq” of 0 to stop having X-Pane send the dataref values.
 	struct _Xp_dref_struct_in

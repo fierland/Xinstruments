@@ -1,3 +1,11 @@
+//==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
 /*
  Name:		XinstrumentsMaster.ino
  Created:	3/30/2018 6:41:46 PM
@@ -28,7 +36,8 @@ const char* password = "MijnLief09";
 XpUDP myXpInterface;
 CANaero* myCANbus;
 
-void xpCallBackFunction(float val, uint8_t canId) {
+void xpCallBackFunction(uint8_t canId, float val)
+{
 	CanasMessageData newData;
 	int service_code = 0;
 
@@ -53,7 +62,7 @@ int callbackNewXitem(uint8_t canID)
 	if (strlen(xplaneId) == 0)
 		return -1;
 
-	myXpInterface.registerDataRef(5, xplaneId, xpCallBackFunction);
+	myXpInterface.registerDataRef(5, xplaneId, canID);
 
 	DPRINTINFO("STOP");
 	return 0;
@@ -63,15 +72,17 @@ int callbackNewXitem(uint8_t canID)
 int callbackRemoveXitem(uint8_t canID)
 {
 	DPRINTINFO("START");
+
+	return myXpInterface.unRegisterDataRef(canID);
 	DPRINTINFO("STOP");
-	return 0;
 };
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
 // the setup function runs once when you press reset or power the board
-void setup() {
+void setup()
+{
 	Serial.begin(9600);
 	// setup wifi connection
 		//TODO: Store wifi details in perm memory
@@ -84,7 +95,8 @@ void setup() {
 
 	WiFi.begin(ssid, password);
 
-	while (WiFi.status() != WL_CONNECTED) {
+	while (WiFi.status() != WL_CONNECTED)
+	{
 		delay(500);
 		DPRINT(".");
 	};
@@ -94,7 +106,7 @@ void setup() {
 	IPAddress ipOwn = WiFi.localIP();
 	DPRINTLN(WiFi.localIP());
 
-	myXpInterface.start(ipOwn);
+	myXpInterface.start(ipOwn, xpCallBackFunction);
 
 	// startup tghe CAN areospace bus
 	myCANbus = new CANaero(XI_Instrument_NodeID, XI_Instrument_Service_Chan, XI_Hardware_Revision, XI_Software_Revision);
@@ -108,7 +120,8 @@ void setup() {
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 // the loop function runs over and over again until power down or reset
-void loop() {
+void loop()
+{
 	myXpInterface.dataReader();
 	myCANbus->Update();
 	delay(10);

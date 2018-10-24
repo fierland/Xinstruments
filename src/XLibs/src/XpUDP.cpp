@@ -1,4 +1,12 @@
 //==================================================================================================
+//  Franks Flightsim Intruments project
+//  by Frank van Ierland
+//
+// This code is in the public domain.
+//
+//==================================================================================================
+
+//==================================================================================================
 // XpUDP.h
 //
 // author: Frank van Ierland
@@ -16,19 +24,21 @@
 //==================================================================================================
 //	constructor
 //==================================================================================================
-XpUDP::XpUDP() {
+XpUDP::XpUDP(void(*callbackFunc)(uint8_t canId, float par))
+{
 	_newDataRef = 1;
+	_callbackFunc = callbackFunc;
 	//_listRefs = new QList<XpUDP::_DataRefs>() ;
 }
 
 XpUDP::~XpUDP()
-{
-}
+{}
 
 //==================================================================================================
 //	get beacon from X Plane server and store adres and port
 //==================================================================================================
-int XpUDP::GetBeacon() {
+int XpUDP::GetBeacon()
+{
 	int message_size;
 	int noBytes;
 
@@ -38,7 +48,8 @@ int XpUDP::GetBeacon() {
 	_LastError = XpUDP::SUCCESS;
 
 	noBytes = _Udp.parsePacket(); //// returns the size of the packet
-	if (noBytes > 0) {
+	if (noBytes > 0)
+	{
 		DPRINT(millis() / 1000);
 		DPRINT(":Packet of ");
 		DPRINT(noBytes);
@@ -48,17 +59,20 @@ int XpUDP::GetBeacon() {
 		DPRINTLN(_Udp.remotePort());
 		_XPlaneIP = _Udp.remoteIP();
 
-		if (noBytes < _UDP_MAX_PACKET_SIZE) {
+		if (noBytes < _UDP_MAX_PACKET_SIZE)
+		{
 			message_size = _Udp.read(_packetBuffer, noBytes); // read the packet into the buffer
 
-			if (message_size < sizeof(_becn_struct)) {
+			if (message_size < sizeof(_becn_struct))
+			{
 				// copy to breacon struct and compensate byte alignment at 8th byte
 
 				memcpy(&_becn_struct, _packetBuffer, 8);
 				memcpy(&((char*)&_becn_struct)[8], (_packetBuffer)+7, sizeof(_becn_struct) - 8);
 				;
 
-				if (strcmp(_becn_struct.header, XPMSG_BECN) == 0) {
+				if (strcmp(_becn_struct.header, XPMSG_BECN) == 0)
+				{
 					DPRINTLN("UDP beacon received");
 					DPRINT("beacon_major_version:");
 					DPRINTLN(_becn_struct.beacon_major_version);
@@ -79,7 +93,8 @@ int XpUDP::GetBeacon() {
 					DPRINT("computer_name:");
 					DPRINTLN(_becn_struct.computer_name);
 
-					if (_becn_struct.beacon_major_version != 1 || _becn_struct.beacon_minor_version != 1) {
+					if (_becn_struct.beacon_major_version != 1 || _becn_struct.beacon_minor_version != 1)
+					{
 						DPRINTLN("Beacon: Version wrong");
 						DPRINT("Version found: ");
 						DPRINT(_becn_struct.beacon_major_version);
@@ -91,26 +106,30 @@ int XpUDP::GetBeacon() {
 					// store listen port
 					_XpListenPort = _becn_struct.port;
 				}
-				else {
+				else
+				{
 					DPRINTLN("Beacon: Header wrong");
 					DPRINTLN(_becn_struct.header);
 
 					_LastError = XpUDP::WRONG_HEADER;
 				}
 			}
-			else {
+			else
+			{
 				DPRINTLN("Beacon: Message size to big for struct");
 
 				_LastError = XpUDP::BUFFER_OVERFLOW;
 			}
 		}
-		else {
+		else
+		{
 			DPRINTLN("Beacon: Message size to big for buffer");
 
 			_LastError = XpUDP::BUFFER_OVERFLOW;
 		}
 	}
-	else {
+	else
+	{
 		DPRINTLN("Beacon: Nothing to read");
 
 		_LastError = XpUDP::BEACON_NOT_FOUND;
@@ -133,12 +152,15 @@ int XpUDP::start(IPAddress ipOwn)
 	DPRINTLN(ipOwn);
 
 #ifdef ARDUINO_ARCH_ESP32
-	if (_Udp.beginMulticast(XpMulticastAdress, XpMulticastPort)) {
+	if (_Udp.beginMulticast(XpMulticastAdress, XpMulticastPort))
+	{
 #else
-	if (_Udp.beginMulticast(ipOwn, XpMulticastAdress, XpMulticastPort)) {
+	if (_Udp.beginMulticast(ipOwn, XpMulticastAdress, XpMulticastPort))
+	{
 #endif
 		DPRINTLN("Udp start ok");
-		do {
+		do
+		{
 			result = GetBeacon();
 #ifdef ARDUINO_ARCH_ESP8266
 			ESP.wdtFeed();
@@ -150,16 +172,18 @@ int XpUDP::start(IPAddress ipOwn)
 			DPRINT("Result:"); DPRINTLN(result);
 		} while (result != 0);
 	}
-	else {
+	else
+	{
 		DPRINTLN("Udp start failed");
 		return  -1;
 	}
 
 	return 0;
-}
+	}
 
 //==================================================================================================
 //	data reader for in loop() pols the udp port for new messages and dispaces them to controls
+// TODO: process arrays
 //==================================================================================================
 int XpUDP::dataReader()
 {
@@ -176,7 +200,8 @@ int XpUDP::dataReader()
 
 	noBytes = _Udp.parsePacket(); //// returns the size of the packet
 
-	if (noBytes > 0) {
+	if (noBytes > 0)
+	{
 		DPRINT(millis() / 1000);
 		DPRINT(":Packet of ");
 		DPRINT(noBytes);
@@ -191,9 +216,11 @@ int XpUDP::dataReader()
 		DPRINTBUFFER(_packetBuffer, noBytes);
 
 		// check if header is RREF
-		if (noBytes >= 4 && _packetBuffer[0] == 'R' && _packetBuffer[1] == 'R' && _packetBuffer[2] == 'E' && _packetBuffer[3] == 'F') {
+		if (noBytes >= 4 && _packetBuffer[0] == 'R' && _packetBuffer[1] == 'R' && _packetBuffer[2] == 'E' && _packetBuffer[3] == 'F')
+		{
 			// read the values into array
-			for (int idx = 5; idx < noBytes; idx += 8) {
+			for (int idx = 5; idx < noBytes; idx += 8)
+			{
 #if defined(ARDUINO_ARCH_ESP8266)
 				ESP.wdtFeed();
 #endif
@@ -210,49 +237,60 @@ int XpUDP::dataReader()
 				DPRINTLN(value);
 
 				// check if we know the dataref number
-				for (int i = 0; i < _listRefs.size(); i++) {
+				for (int i = 0; i < _listRefs.size(); i++)
+				{
 					tmpRef = _listRefs[i];
-					if (tmpRef->refID == en) {
+					if (tmpRef->refID == en)
+					{
 						curRef = _listRefs[i];
 						break;
 					}
 				}
 
 				// process data
-				if (curRef != NULL) {
+				if (curRef != NULL)
+				{
 					DPRINTLN("Code found in subscription list");
 					curRef->timestamp = millis();
-					if (curRef->value != value) {
+					if (curRef->value != value)
+					{
 						DPRINT("Updating value from:");
 						DPRINT(curRef->value);
 						DPRINT(":to:");
 						DPRINTLN(value);
 						// TODO: Call to update function
-						if (curRef->setdata) {
-							curRef->setdata(value);
-						}
-						curRef->value = value;
+						if (_callbackFunc != NULL)
+							_callbackFunc(curRef->CanId, value);
+						//if (curRef->setdata) {
+						//	curRef->setdata(value);
 					}
+					curRef->value = value;
 				}
-				else {
-					// TODO: Code for signing out of a RREF
-					DPRINTLN("Code not found in subscription list");
-				}
+			}
+		else
+		{
+			// signing out of a RREF
+			DPRINTLN("Code not found in subscription list");
+			sendRREF(0, en, "");
+		}
 		}
 	}
-		// test for other headers here
+	// test for other headers here
 }
-	else {
-		_LastError = XpUDP::NO_DATA;
+	else
+ {
+ _LastError = XpUDP::NO_DATA;
 	}
 
 	// now loop to check if we are receiving all data
 	//
 	unsigned long timeNow = millis();
 
-	for (int i = 0; i < _listRefs.size(); i++) {
+	for (int i = 0; i < _listRefs.size(); i++)
+	{
 		tmpRef = _listRefs[i];
-		if ((timeNow - tmpRef->timestamp) > _MAX_INTERVAL) {
+		if ((timeNow - tmpRef->timestamp) > _MAX_INTERVAL)
+		{
 			DPRINT("Item not receiving data:");
 			DPRINTLN(i);
 			sendRREF(_listRefs[i]);
@@ -267,7 +305,7 @@ int XpUDP::dataReader()
 //
 // int XpUDP::registerDataRef(int iFreq, const char *sCode ){
 ///==================================================================================================
-int XpUDP::registerDataRef(int iFreq, const char * sCode, uint8_t canId, void(*callbackFunc)(float par))
+int XpUDP::registerDataRef(int iFreq, CanasXplaneTrans* newItem)
 {
 	bool notFound = true;
 	int curRecord = -1;
@@ -277,36 +315,42 @@ int XpUDP::registerDataRef(int iFreq, const char * sCode, uint8_t canId, void(*c
 	DPRINT("RegisterDataRef:START:");
 
 	// first test if we already have the item.
-	for (int i = 0; i < _listRefs.size(); i++) {
+	for (int i = 0; i < _listRefs.size(); i++)
+	{
 		tmpRef = _listRefs[i];
-		if (strcmp(tmpRef->command, sCode) == 0) {
+		if (strcmp(tmpRef->paramInfo->xplaneId, newItem->xplaneId) == 0)
+		{
 			notFound = false;
 			curRecord = i;
 			break;
 		}
 	}
 
-	if (curRecord == -1) {
+	if (curRecord == -1)
+	{
 		//not found so create new item
 		DPRINT("New record");
 		newRef = new _DataRefs;
 		_listRefs.push_back(newRef);
 		newRef->refID = _listRefs.size();
-		strcpy(newRef->command, sCode);
-		newRef->setdata = callBack;
-		newRef->canId = canId;
+		newRef->paramInfo = newItem;
+		//strcpy(newRef->command, newItem->xplaneId);
+		//newRef->setdata = callBack;
 	}
-	else {
+	else
+	{
 		// found a record so update item
 		DPRINT("existing reccord");
 		newRef = _listRefs[curRecord];
 	}
 
 	// check if active and for last timestamp
-	if (!newRef->subscribed || (millis() - newRef->timestamp) > _MAX_INTERVAL) {
+	if (!newRef->subscribed || (millis() - newRef->timestamp) > _MAX_INTERVAL || newRef->frequency != iFreq)
+	{
 		// create new request
 		DPRINT("create x-plane request");
 		newRef->subscribed = true;
+		newRef->frequency = iFreq;
 		sendRREF(newRef);
 		// read first returned value
 		dataReader();
@@ -326,14 +370,42 @@ int XpUDP::unRegisterDataRef(const char * sCode)
 	return 0;
 }
 
+int XpUDP::unRegisterDataRef(uint8_t canID)
+{
+	bool notFound = true;
+	int curRecord = -1;
+	_DataRefs* newRef;
+	_DataRefs* tmpRef;
+
+	DPRINT("RegisterDataRef:START:");
+
+	// first test if we have the item.
+	for (int i = 0; i < _listRefs.size(); i++)
+	{
+		tmpRef = _listRefs[i];
+		if (tmpRef->canId == canID)
+		{
+			notFound = false;
+			curRecord = i;
+			tmpRef->active = false;
+			newRef->frequency = 0;
+			sendRREF(newRef);
+			break;
+		}
+	}
+
+	return 0;
+}
+
 ///==================================================================================================
 // send a data request to x-plane
 ///==================================================================================================
-int XpUDP::sendRREF(_DataRefs* newRef) {
+int XpUDP::sendRREF(int frequency, int refID, char* xplaneId)
+{
 	// fill Xplane struct array
-	_dref_struct_in.dref_freq = newRef->frequency;
-	_dref_struct_in.dref_en = newRef->refID;
-	strcpy(_dref_struct_in.dref_string, newRef->command);
+	_dref_struct_in.dref_freq = frequency;
+	_dref_struct_in.dref_en = refID;
+	strcpy(_dref_struct_in.dref_string, xplaneId);
 
 	DPRINT("Sendinf New Ref:");
 	DPRINT(newRef->refID);
@@ -349,11 +421,15 @@ int XpUDP::sendRREF(_DataRefs* newRef) {
 #endif
 	sendUDPdata(XPMSG_RREF, (byte *)&_dref_struct_in, sizeof(_dref_struct_in), _Xp_dref_in_msg_size);
 }
-
+int XpUDP::sendRREF(_DataRefs* newRef)
+{
+	sendRREF(newRef->frequency, newRef->refID, newRef->paramInfo->xplaneId);
+}
 //==================================================================================================
 //	Send a packet to X-Plane
 //==================================================================================================
-void XpUDP::sendUDPdata(const char *header, const byte *dataArr, const int arrSize, const int sendSize) {
+void XpUDP::sendUDPdata(const char *header, const byte *dataArr, const int arrSize, const int sendSize)
+{
 	DPRINTLN("sending XPlane packet...");
 
 	// set all bytes in the buffer to 0

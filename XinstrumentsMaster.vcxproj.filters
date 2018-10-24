@@ -170,6 +170,24 @@
     <ClInclude Include="__vm\.Xinstruments.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CanAs\Src\CANaero.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CanAs\Src\CanAeroMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CanAs\Src\canaerospace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CanAs\Src\CANAS_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CanAs\Src\CANbus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CanAs\Src\CANdriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\hardware\espressif\esp32\cores\esp32\base64.cpp">
@@ -218,6 +236,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\XLibs\src\Can2XPlane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CanAs\Src\CANaero.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CanAs\Src\CANAS_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CanAs\Src\CANdriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -312,7 +312,8 @@ int CANaero::ParamSubscribe(uint16_t msg_id, GenericIndicator* newIndicator)
 
 	curRecord = _findInList(msg_id);
 
-	if (curRecord == -1) {
+	if (curRecord == -1)
+	{
 		//not found so create new item
 		DPRINTLN("New record");
 		newRef = new _CanDataLinks;
@@ -400,7 +401,8 @@ int CANaero::ParamAdvertise(uint16_t msg_id, uint16_t intervalMs)
 	// check if we know this param id
 	curRecord = _findPublishedInList(msg_id);
 
-	if (curRecord == -1) {
+	if (curRecord == -1)
+	{
 		//not found so create new item
 		DPRINTLN("New record");
 		newRef = new _CanPublishLinks;
@@ -426,8 +428,16 @@ int CANaero::ParamAdvertise(uint16_t msg_id, uint16_t intervalMs)
 //-------------------------------------------------------------------------------------------------------------------
 int CANaero::ParamUnadvertise(uint16_t msg_id)
 {
+	int curRecord = -1;
 	DPRINTINFO("START");
 
+	// check if we know this param id
+	curRecord = _findPublishedInList(msg_id);
+	f(curRecord == -1)
+	{
+		return -CANAS_ERR_NO_SUCH_ENTRY;
+	}
+	//not found so create new item
 	// TODO: code ParamUnadvertise
 	DPRINTINFO("STOP");
 	return 0;
@@ -435,9 +445,23 @@ int CANaero::ParamUnadvertise(uint16_t msg_id)
 //-------------------------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------------------------
-int CANaero::ParamPublish(uint16_t msg_id, const CanasMessageData * pdata, uint8_t service_code)
+int CANaero::ParamPublish(uint16_t msg_id, const CanasMessageData * pdata)
 {
+	int curRecord = -1;
+	CanasMessage msg;
+
 	DPRINTINFO("START");
+
+	// check we have advertised this one
+	curRecord = _findPublishedInList(msg_id);
+	f(curRecord == -1)
+	{
+		return -CANAS_ERR_NO_SUCH_ENTRY;
+	}
+	// send message on bus
+	msg
+
+		return _genericSend((uint16_t)msg_id, MSGGROUP_PARAMETER, &msg);
 
 	// TODO: code ParamPublish
 	DPRINTINFO("STOP");
@@ -522,7 +546,8 @@ int CANaero::ServiceUnregister(uint8_t service_code)
 //-------------------------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------------------------
-int CANaero::ServiceSendRequest(const CanasMessage* pmsg, uint8_t service_channel) {
+int CANaero::ServiceSendRequest(const CanasMessage* pmsg, uint8_t service_channel)
+{
 	DPRINTINFO("START");
 	if (pmsg == NULL)
 		return -CANAS_ERR_ARGUMENT;
@@ -541,7 +566,8 @@ int CANaero::ServiceSendRequest(const CanasMessage* pmsg, uint8_t service_channe
 //-------------------------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------------------------
-int CANaero::ServiceSendResponse(const CanasMessage* pmsg, uint8_t service_channel) {
+int CANaero::ServiceSendResponse(const CanasMessage* pmsg, uint8_t service_channel)
+{
 	DPRINTINFO("START");
 	if (pmsg == NULL)
 		return -CANAS_ERR_ARGUMENT;
@@ -671,7 +697,8 @@ void CANaero::_CallBack(CAN_FRAME * message)
 //-------------------------------------------------------------------------------------------------------------------
 // helper function to find a item i the list of  subscribed items
 //-------------------------------------------------------------------------------------------------------------------
-int CANaero::_findInList(uint8_t toFind) {
+int CANaero::_findInList(uint8_t toFind)
+{
 	int curRecord = -1;
 	_CanDataLinks* tmpRef;
 
@@ -682,14 +709,16 @@ int CANaero::_findInList(uint8_t toFind) {
 	DPRINT("items in list:");
 	DPRINTLN(_listRefs.size());
 
-	for (int i = 0; i < _listRefs.size(); i++) {
+	for (int i = 0; i < _listRefs.size(); i++)
+	{
 		DPRINT("check item:"); DPRINTLN(i);
 		tmpRef = _listRefs[i];
 		DPRINT("Compaire:");
 		DPRINT(toFind);
 		DPRINT(":with:");
 		DPRINTLN(tmpRef->canAreoId);
-		if (toFind - tmpRef->canAreoId) {
+		if (toFind - tmpRef->canAreoId)
+		{
 			curRecord = i;
 			break;
 		}
@@ -704,7 +733,8 @@ int CANaero::_findInList(uint8_t toFind) {
 //-------------------------------------------------------------------------------------------------------------------
 // helper function to find a item i the list of  subscribed items
 //-------------------------------------------------------------------------------------------------------------------
-int CANaero::_findServiceInList(uint8_t toFind) {
+int CANaero::_findServiceInList(uint8_t toFind)
+{
 	int curRecord = -1;
 	_CanServiceLinks* tmpRef;
 
@@ -715,14 +745,16 @@ int CANaero::_findServiceInList(uint8_t toFind) {
 	DPRINT("items in list:");
 	DPRINTLN(_serviceRefs.size());
 
-	for (int i = 0; i < _serviceRefs.size(); i++) {
+	for (int i = 0; i < _serviceRefs.size(); i++)
+	{
 		DPRINT("check item:"); DPRINTLN(i);
 		tmpRef = _listRefs[i];
 		DPRINT("Compaire:");
 		DPRINT(toFind);
 		DPRINT(":with:");
 		DPRINTLN(tmpRef->canServiceCode);
-		if (toFind - tmpRef->canServiceCode) {
+		if (toFind - tmpRef->canServiceCode)
+		{
 			curRecord = i;
 			break;
 		}
@@ -750,14 +782,16 @@ int CANaero::_findPublishedInList(uint8_t toFind)
 	DPRINT("items in list:");
 	DPRINTLN(_serviceRefs.size());
 
-	for (int i = 0; i < _serviceRefs.size(); i++) {
+	for (int i = 0; i < _serviceRefs.size(); i++)
+	{
 		DPRINT("check item:"); DPRINTLN(i);
 		tmpRef = _listRefs[i];
 		DPRINT("Compaire:");
 		DPRINT(toFind);
 		DPRINT(":with:");
 		DPRINTLN(tmpRef->canAreoId);
-		if (toFind - tmpRef->canAreoId) {
+		if (toFind - tmpRef->canAreoId)
+		{
 			curRecord = i;
 			break;
 		}
@@ -879,7 +913,8 @@ int CANaero::_genericSend(uint16_t msg_id, uint8_t msggroup, const CanasMessage*
 	const int send_result = _canBus.writeMsg(&frame);
 	if (send_result == 1)
 		sent_successfully = true;            // At least one successful sending is enough to return success.
-	else {
+	else
+	{
 		DPRINTLN("send failed: result=");
 		DPRINTLN(send_result);
 	}
