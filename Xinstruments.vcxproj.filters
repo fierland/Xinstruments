@@ -24,93 +24,87 @@
     <ClInclude Include="Xinstruments.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CanAs\Src\CAN_ids.h">
+    <ClInclude Include="CANaero.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CanAs\Src\CANaero.h">
+    <ClInclude Include="CanAeroMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CanAs\Src\CANbus.h">
+    <ClInclude Include="CANdriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CanAs\Src\CANdriver.h">
+    <ClInclude Include="CAN_ids.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CanAs\Src\CANAS_service.h">
+    <ClInclude Include="GenericIndicator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\GenericIndicator.h">
+    <ClInclude Include="IndicatorDisplay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\IndicatorDisplay.h">
+    <ClInclude Include="IndicatorStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\IndicatorStepper.h">
+    <ClInclude Include="Instrument.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\Instrument.h">
+    <ClInclude Include="Stepper360.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\Stepper360.h">
+    <ClInclude Include="StepperPie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\StepperPie.h">
+    <ClInclude Include="VidStepper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Instruments\Src\VidStepper.h">
+    <ClInclude Include="mydebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\XLibs\Src\mydebug.h">
+    <ClInclude Include="XServo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\XLibs\Src\Xcomm.h">
+    <ClInclude Include="CANaeroBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\XLibs\Src\XPUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CanAs\Src\CanAeroMessage.h">
+    <ClInclude Include="CANAS_service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CanAs\Src\CANaero.cpp">
+    <ClCompile Include="CANaero.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CanAs\Src\CANdriver.cpp">
+    <ClCompile Include="CANAS_service.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\XLibs\Src\Xcomm.cpp">
+    <ClCompile Include="CANdriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\XLibs\Src\XPUtils.cpp">
+    <ClCompile Include="GenericIndicator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\GenericIndicator.cpp">
+    <ClCompile Include="IndicatorDisplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\IndicatorDisplay.cpp">
+    <ClCompile Include="IndicatorStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\IndicatorStepper.cpp">
+    <ClCompile Include="Instrument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\Instrument.cpp">
+    <ClCompile Include="Stepper360.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\Stepper360.cpp">
+    <ClCompile Include="StepperPie.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\StepperPie.cpp">
+    <ClCompile Include="VidStepper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\VidStepper.cpp">
+    <ClCompile Include="XServo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Instruments\Src\XServo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CanAs\Src\CANAS_service.cpp">
+    <ClCompile Include="CANaeroBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

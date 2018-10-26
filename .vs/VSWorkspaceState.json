@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src\\CanAs\\Src",
-    "\\src\\XLibs"
+    "\\src",
+    "\\src\\XLibs",
+    "\\src\\XLibs\\src"
   ],
-  "SelectedNode": "\\Xinstruments.h",
+  "SelectedNode": "\\Xinstruments.ino",
   "PreviewInSolutionExplorer": false
 }

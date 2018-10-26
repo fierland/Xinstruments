@@ -31,8 +31,8 @@
 // generic defines
 //===================================================================================================================
 constexpr auto XI_Software_Revision = 0x01;
-constexpr auto XI_Max_Indicators = 10;
-constexpr auto XI_Base_NodeID = 1;
+
+#define XI_Base_NodeID  1
 
 //===================================================================================================================
 // INSTRUMENT Selection: select one of this list comment out the rest

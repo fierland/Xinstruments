@@ -22,25 +22,23 @@
 #include <esp32_can.h>
 #include <stdlib.h>
 #include <CommandLine.h>
-#include <dummy.h>
-#include <QList.h>
+//#include <dummy.h>
 #include "Xinstruments.h"
-#include "src\XLibs\src\mydebug.h"
-#include "src\Instruments\src\Instrument.h"
-#include "src\Instruments\src\XServo.h"
-#include "src\Instruments\src\GenericIndicator.h"
-#include "src\Instruments\src\IndicatorStepper.h"
-#include "src\Instruments\src\StepperPie.h"
-#include "src\Instruments\src\Stepper360.h"
-#include "src\XLibs\src\XPUtils.h"
-#include "src\CanAs\src\CANaero.h"
-#include "src\XLibs\src\Xcomm.h"
+#include "mydebug.h"
+#include "Instrument.h"
+#include "GenericIndicator.h"
+#include "IndicatorStepper.h"
+#include "StepperPie.h"
+#include "Stepper360.h"
+#include <AccelStepper.h>
+#include <MultiStepper.h>
+#include <QList.h>
 
 //#ifdef USE_PWR_FLAG_SERVO
 //#include <ESP32_Servo.h>
 //#endif
 
-Instrument	myInstrument(XI_Instrument_Code, XI_Instrument_NodeID, XI_Instrument_Service_Chan, XI_LED_PIN, XI_INSTRUMENT_MAX_ELEMENTS);
+Instrument*	myInstrument=NULL;
 
 #ifdef XI_STEP1_PIE
 StepperPie _stepper_Pie_1(XI_DAIL1_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
@@ -151,7 +149,7 @@ void _InitiateSteppers()
 {
 	int(*funcPointer)(float);
 
-	DPRINTLN("Start Initiate steppers");
+	DPRINTINFO("START");
 
 	//-------------------------------------------------------------------------------------------------------------------
 	// first for for pie type steppers we can calibrate them at the same time
@@ -159,8 +157,10 @@ void _InitiateSteppers()
 
 #ifdef XI_STEP1_PIE
 	_stepper_Pie_1.setConversionFactor(XI_DAIL1_CONVERIONS_FACTOR);
-	myInstrument.addIndicator(&_stepper_Pie_1);
-	_stepper_Pie_1.moveToBackstop();
+ _stepper_Pie_1.setMaxSpeed(200);
+ _stepper_Pie_1.moveToBackstop();
+ myInstrument->addIndicator(_stepper_Pie_1);
+	
 
 #ifdef DEBUG
 	_stepper_Pie_1.setValue(26);
@@ -169,8 +169,9 @@ void _InitiateSteppers()
 #endif
 #ifdef XI_STEP2_PIE
 	_stepper_Pie_2.setConversionFactor(XI_DAIL2_CONVERIONS_FACTOR);
-	myInstrument.addIndicator(&_stepper_Pie_2);
+  _stepper_Pie_2.setMaxSpeed(200);
 	_stepper_Pie_2.moveToBackstop();
+	myInstrument->addIndicator(_stepper_Pie_2);
 
 #ifdef DEBUG
 	_stepper_Pie_2.setValue(26);
@@ -180,20 +181,21 @@ void _InitiateSteppers()
 #endif
 #ifdef XI_STEP3_PIE
 	_stepper_Pie_3.setConversionFactor(XI_DAIL3_CONVERIONS_FACTOR);
-	myInstrument.addIndicator(&_stepper_Pie_3);
+	myInstrument->addIndicator(&_stepper_Pie_3);
 	_stepper_Pie_3.moveToBackstop();
 
 #endif
 #ifdef XI_STEP4_PIE
 	_stepper_Pie_4.setConversionFactor(XI_DAIL4_CONVERIONS_FACTOR);
-	myInstrument.addIndicator(&_stepper_Pie_4);
+	myInstrument->addIndicator(&_stepper_Pie_4);
 	_stepper_Pie_4.moveToBackstop();
 
 #endif
 	// run all pie steppers to backstop
-	myInstrument.updateNow();
+	myInstrument->updateNow();
 
-	myInstrument.calibrate();
+	myInstrument->calibrate();
+DPRINTLN("PIE steppers done");
 
 	//-------------------------------------------------------------------------------------------------------------------
 	// for full 360 steppers they have their own calibartion routines
@@ -218,9 +220,10 @@ void _InitiateSteppers()
 	allSteppers.addStepper(_stepper_360_4);
 	dataConnection->addElement(XI_STEP4_ITEM, &_stepper_360_4, XI_STEP4_MAX_RANGE, X4_STEP1_MIN_RANGE, true);
 #endif
-
+DPRINTLN("360 steppers done");
 	// run all steppers to start position
-	myInstrument.updateNow();
+	myInstrument->updateNow();
+  DPRINTINFO("STOP");
 }
 
 //===================================================================================================================
@@ -228,7 +231,7 @@ void _InitiateSteppers()
 //===================================================================================================================
 void setup()
 {
-	DPRINT("***START SETUP***");
+	DPRINTINFO("START");
 	Serial.begin(115200);
 	// start communication with master
 #ifdef DEBUG_CLI
@@ -245,9 +248,10 @@ void setup()
 	// On-the-fly commands -- instance is allocated dynamically
 	commandLine.add("help", handleHelp);
 #endif
+  myInstrument = new  Instrument(XI_Instrument_Code, XI_Instrument_NodeID, XI_Instrument_Service_Chan, XI_LED_PIN, XI_INSTRUMENT_MAX_ELEMENTS);
 
 	// set up can bus communication
-	myInstrument.initiateCommunication();
+	myInstrument->initiateCommunication();
 
 #ifdef USE_PWR_FLAG_SERVO
 	// setup the power state flag
@@ -255,7 +259,7 @@ void setup()
 #endif
 
 	_InitiateSteppers();
-	DPRINT("***END SETUP***");
+	DPRINTINFO("STOP");
 }
 
 //===================================================================================================================
@@ -281,7 +285,7 @@ void loop()
 	//
 	// move commands for all steppers
 	//
-	myInstrument.update();
+	myInstrument->update();
 }
 
 /**
