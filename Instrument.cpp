@@ -17,16 +17,19 @@
 
 #include "Instrument.h"
 #include "Xinstruments.h"
+#define NO_DEBUG 1
+#include "mydebug.h"
 
-CANareoInterface* Instrument::myCANbus=NULL;
+
+CANareoInterface* Instrument::myCANbus = NULL;
 
 void Instrument::_canCallback(CAN_FRAME* pframe)
 {
-  DPRINTINFO("START");
-  
-  if (Instrument::myCANbus!= NULL)
-	  Instrument::myCANbus->CallBack(pframe);
-  DPRINTINFO("STOP");
+	DPRINTINFO("START");
+
+	if (Instrument::myCANbus != NULL)
+		Instrument::myCANbus->CallBack(pframe);
+	DPRINTINFO("STOP");
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -34,7 +37,7 @@ void Instrument::_canCallback(CAN_FRAME* pframe)
 //-------------------------------------------------------------------------------------------------
 Instrument::Instrument(char* newCode, uint8_t nodeId, uint8_t srv_channel, int ledPin, int maxIndicators)
 {
-  DPRINTINFO("START");
+	DPRINTINFO("START");
 	DPRINT("CREATE Instrument for:");
 	DPRINTLN(newCode);
 
@@ -53,7 +56,7 @@ Instrument::Instrument(char* newCode, uint8_t nodeId, uint8_t srv_channel, int l
 	ledcAttachPin(_ledPin, _ledChannel);
 	ledcWrite(_ledChannel, 0);
 
- DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 // destructor
@@ -72,15 +75,15 @@ Instrument::~Instrument()
 //-------------------------------------------------------------------------------------------------
 int Instrument::initiateCommunication()
 {
-  DPRINTINFO("START");
-	
+	DPRINTINFO("START");
+
 	/// TODO: Get instrument code
 	//myCANbus->setNodeId(_canasNodeID);
 	//myCANbus->setServiceChannel(_canasServiceChannel);
-  
-  int res = myCANbus->start();
-	
-  DPRINTINFO("STOP");
+
+	int res = myCANbus->start();
+
+	DPRINTINFO("STOP");
 	return res;
 }
 //-------------------------------------------------------------------------------------------------
@@ -88,96 +91,95 @@ int Instrument::initiateCommunication()
 //-------------------------------------------------------------------------------------------------
 int Instrument::addIndicator(GenericIndicator& newIndicator)
 {
-  DPRINTINFO("START");
+	DPRINTINFO("START");
 	if (_numIndicators == _maxIndicators)
 		return -INSTR_ERR_QUOTA_EXCEEDED;
 
 	myIndicators[_numIndicators].indicator = &newIndicator;
 	_numIndicators++;
-  
+
 	myCANbus->ParamSubscribe(&newIndicator);
-	
+
 	if (newIndicator.type() == IndicatorType::INDICATOR_STEPPER)
 	{
-    DPRINTLN("adding stepper to multistepper");
-		//AccelStepper* tempStepper = (AccelStepper *)newIndicator;
-		if (!allSteppers.addStepper((AccelStepper&)newIndicator))
-		  return -INSTR_ERR_LOGIC;
+		DPRINTLN("adding stepper to multistepper");
+		if (!allSteppers.addStepper(*(newIndicator.stepper())))
+			return -INSTR_ERR_LOGIC;
 	}
- 
-  
-  DPRINTINFO("STOP");
+
+	DPRINTINFO("STOP");
 	return INSTR_ERR_OK;
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void Instrument::calibrate()
-{  
-  DPRINTINFO("START");
+{
+	DPRINTINFO("START");
 	for (int i = 0; i < _numIndicators; i++)
 	{
-    DPRINT("Calibrating indicator:");
-    DPRINTLN(i);
+		DPRINT("Calibrating indicator:");
+		DPRINTLN(i);
 		myIndicators[i].indicator->calibrate();
 	}
- DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void Instrument::toZero()
 {
-  DPRINTINFO("START");
+	DPRINTINFO("START");
 	/// TODO: Code
-  DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void Instrument::update()
 {
-  DPRINTINFO("START");
-	
+	//DPRINTINFO("START");
+
 	myCANbus->Update();
-	allSteppers.run();
-  
-  DPRINTINFO("STOP");
+  int i = 0;
+	while ((i++ < XI_Max_Steps_Per_Cycle) &&  allSteppers.run());
+
+	//DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void Instrument::updateNow()
 {
-  DPRINTINFO("START");
-	
+	DPRINTINFO("START");
+
 	myCANbus->Update();
-  DPRINTLN("Start run speed");
-	allSteppers.runSpeedToPosition();
-  DPRINTLN("End run speed");
- 
-  DPRINTINFO("STOP");
+	DPRINTLN("Start run speed");  
+  allSteppers.runSpeedToPosition();
+	DPRINTLN("End run speed");
+
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void Instrument::powerState(boolean setOn)
 {
-    DPRINTINFO("START");
+	DPRINTINFO("START");
 	_powerOn = setOn;
 	for (int i = 0; i < _numIndicators; i++)
 	{
 		myIndicators[i].indicator->powerState(setOn);
 	}
- DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void Instrument::lightState(boolean setOn)
 {
-    DPRINTINFO("START");
+	DPRINTINFO("START");
 	_LightsOn = setOn;
 	ledcWrite(_ledChannel, (_LightsOn) ? 255 : 0);
-  DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 }

@@ -15,11 +15,9 @@
 #define IndicatorStepper_h_
 
 #include "mydebug.h"
-
 #include <stdlib.h>
-#include <AccelStepper.h>
-#include <MultiStepper.h>
 #include "GenericIndicator.h"
+#include <AccelStepper.h>
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -36,10 +34,10 @@
 // for VID29 and BKA30 steppers using a vid66 driver
 // theorecticlay 360*12
 #define XI_BKA30_STEPS_CIRCLE 4320
-#define XI_BKA30_STEPS_SPEED 500
-#define XI_BKA30_STEPS_MAXSPEED 15000
-#define XI_BKA30_STEPS_ACCELERATION 2000
-#define XI_BKA30_STEPS_MINPULSEWIDTH 500
+#define XI_BKA30_STEPS_SPEED 2000
+#define XI_BKA30_STEPS_MAXSPEED 10000
+#define XI_BKA30_STEPS_ACCELERATION 5000
+#define XI_BKA30_STEPS_MINPULSEWIDTH 400
 
 // for 28BYJ steppers
 #define XI_28BYJ_STEPS_CIRCLE 2400
@@ -48,10 +46,9 @@
 #define XI_28BYJ_STEPS_ACCELERATION 300
 #define XI_28BYJ_STEPS_MINPULSEWIDTH 200
 
-class IndicatorStepper : public AccelStepper, public GenericIndicator {
+class IndicatorStepper : public GenericIndicator {
 public:
-	typedef enum
-	{
+	typedef enum {
 		TYPE_BKA30 = 0, ///< VID6x or BKA30 type motor
 		TYPE_28BYJ = 1 ///< Stepper Driver, 2 driver pins required
 	} StepperMotorType;
@@ -82,6 +79,16 @@ public:
 	/// \param[in] reverseDir True for counter clockwise direction;CanasNodDefaultIDCanasNodDefaultID
 	virtual void setDirectionInverse(bool reverseDir = true);
 
+	/// Sets the maximum permitted speed. The run() function will accelerate
+	/// up to the speed set by this function.
+	/// Caution: the maximum speed achievable depends on your processor and clock speed.
+	/// \param[in] speed The desired maximum speed in steps per second. Must
+	/// be > 0. Caution: Speeds that exceed the maximum speed supported by the processor may
+	/// Result in non-linear accelerations and decelerations.
+	void    setMaxSpeed(float speed);
+
+	AccelStepper* stepper();
+
 protected:
 
 	//    virtual void   step1(long step);
@@ -97,6 +104,7 @@ protected:
 	float	_offValue = 0;
 	float	_backstop_pos = 0;
 	bool	_isInverse = false;
+	AccelStepper* _myStepper = NULL;
 
 private:
 };

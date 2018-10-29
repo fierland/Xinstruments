@@ -23,10 +23,10 @@
 #include "GenericIndicator.h"
 #include "CANaero.h"
 #include <MultiStepper.h>
-#include "mydebug.h"
 
 
 constexpr auto XI_Max_Indicators = 10;
+constexpr auto XI_Max_Steps_Per_Cycle = 25;
 
 class Instrument {
 public:
@@ -44,8 +44,8 @@ public:
 	virtual void updateNow();
 	virtual void powerState(boolean setOn);
 	virtual void lightState(boolean setOn);
- 
-  static CANareoInterface* myCANbus;
+
+	static CANareoInterface* myCANbus;
 private:
 	static void _canCallback(CAN_FRAME* pframe);
 	struct indicatorControl {
@@ -70,7 +70,5 @@ private:
 	int _ledFreq = 5000;
 	int _ledChannel = 0;
 	int _resolution = 8;
-
-	
 };
 #endif

@@ -11,29 +11,35 @@
 
 #include "IndicatorStepper.h"
 #include <AccelStepper.h>
-#include <MultiStepper.h>
+//#include <MultiStepper.h>
+#define NO_DEBUG 1
 
-IndicatorStepper::IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : AccelStepper(AccelStepper::DRIVER, pinStep, pinDir, 0, 0, true), GenericIndicator(canID)
+IndicatorStepper::IndicatorStepper(CanasNodDefaultID canID, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType) : GenericIndicator(canID)
 {
 	DPRINTLN("Start Instrument Stepper constructor");
+
+	_myStepper = new AccelStepper(AccelStepper::DRIVER, pinStep, pinDir, 0, 0, true);
 
 	_type = INDICATOR_STEPPER;
 	if (motorType == IndicatorStepper::TYPE_BKA30)
 	{
+	  DPRINTLN(">TYPE_BKA30");
 		_stepsPerRotation = XI_BKA30_STEPS_CIRCLE;
-		setMaxSpeed(XI_BKA30_STEPS_MAXSPEED);
-		setAcceleration(XI_BKA30_STEPS_ACCELERATION);
-		setSpeed(XI_BKA30_STEPS_SPEED);
-		setMinPulseWidth(XI_BKA30_STEPS_MINPULSEWIDTH);
+		_myStepper->setMaxSpeed(XI_BKA30_STEPS_MAXSPEED);
+		_myStepper->setAcceleration(XI_BKA30_STEPS_ACCELERATION);
+		_myStepper->setSpeed(XI_BKA30_STEPS_SPEED);
+		_myStepper->setMinPulseWidth(XI_BKA30_STEPS_MINPULSEWIDTH);
 	}
 	if (motorType == IndicatorStepper::TYPE_28BYJ)
 	{
+    DPRINTLN(">TYPE_28BYJ");
 		_stepsPerRotation = XI_28BYJ_STEPS_CIRCLE;
-		setMaxSpeed(XI_28BYJ_STEPS_MAXSPEED);
-		setAcceleration(XI_28BYJ_STEPS_ACCELERATION);
-		setSpeed(XI_28BYJ_STEPS_SPEED);
-		setMinPulseWidth(XI_28BYJ_STEPS_MINPULSEWIDTH);
+		_myStepper->setMaxSpeed(XI_28BYJ_STEPS_MAXSPEED);
+		_myStepper->setAcceleration(XI_28BYJ_STEPS_ACCELERATION);
+		_myStepper->setSpeed(XI_28BYJ_STEPS_SPEED);
+		_myStepper->setMinPulseWidth(XI_28BYJ_STEPS_MINPULSEWIDTH);
 	}
+
 	_stepsPerDegree = _stepsPerRotation / 360;
 
 	DPRINTLN("End IndicatorStepper constructor");
@@ -58,7 +64,7 @@ void IndicatorStepper::powerOff()
 	DPRINTLN("Start StepperPie powerOff");
 
 	_currentPos = (_offValue - _rangeMin) / _totalRange * _stepsPerItem;
-	moveTo(_currentPos);
+	_myStepper->moveTo(_offValue);
 	//runToPosition();
 	_powerOn = false;
 
@@ -92,8 +98,18 @@ float IndicatorStepper::setOffPosition(float newValue)
 
 void IndicatorStepper::setDirectionInverse(bool reverseDir)
 {
-	setPinsInverted(reverseDir);
+	_myStepper->setPinsInverted(reverseDir);
 	_isInverse = reverseDir;
+}
+
+void IndicatorStepper::setMaxSpeed(float speed)
+{
+	_myStepper->setMaxSpeed(speed);
+}
+
+AccelStepper * IndicatorStepper::stepper()
+{
+	return _myStepper;
 }
 
 //

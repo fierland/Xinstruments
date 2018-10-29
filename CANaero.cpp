@@ -151,14 +151,14 @@ int CANareoInterface::Update()
 	int ret = 0;
 	int curRecord = -1;
 
-	DPRINTINFO("START");
+	//DPRINTINFO("START");
 
 	if (!_running)
 		return -CANAS_ERR_NOT_RUNNING;
 
-	if (_canBus.receive(&frame)!=0)
+	if (_canBus.receive(&frame) != 0)
 	{
-		DPRINTINFO("STOP");
+//		DPRINTINFO("STOP");
 		return 0;
 	};
 
@@ -220,7 +220,7 @@ int CANareoInterface::Update()
 		}
 	}
 
-	DPRINTINFO("STOP");
+	//DPRINTINFO("STOP");
 	return 0;
 }
 

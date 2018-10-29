@@ -11,14 +11,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esp32_can", "..\libraries\e
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xinstruments", "Xinstruments.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QList", "..\libraries\QList\QList.vcxitems", "{1D33CECE-D64E-45ED-A72F-D6B710908AA9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QList", "..\libraries\QList\QList.vcxitems", "{100094BC-FB31-4583-829B-81A818E4A657}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AccelStepper", "..\libraries\AccelStepper\AccelStepper.vcxitems", "{0E6E3DD2-1140-44B6-829D-55681B98EE74}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\libraries\AccelStepper\AccelStepper.vcxitems*{0e6e3dd2-1140-44b6-829d-55681b98ee74}*SharedItemsImports = 9
-		..\libraries\QList\QList.vcxitems*{1d33cece-d64e-45ed-a72f-d6b710908aa9}*SharedItemsImports = 9
+		..\libraries\QList\QList.vcxitems*{100094bc-fb31-4583-829b-81a818e4a657}*SharedItemsImports = 9
 		..\libraries\esp32_can\esp32_can.vcxitems*{8e062620-504f-4a0b-8215-fd15aad6ad02}*SharedItemsImports = 9
 		..\libraries\ESP32Servo\ESP32Servo.vcxitems*{9d782436-d38e-4c48-ba14-95d0d127012e}*SharedItemsImports = 9
 		..\..\..\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\WiFi\WiFi.vcxitems*{bd3c98a9-7998-43ef-99bd-39b0481d664b}*SharedItemsImports = 9
@@ -26,6 +26,7 @@ Global
 		..\libraries\AccelStepper\AccelStepper.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		..\libraries\ESP32Servo\ESP32Servo.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 		..\libraries\esp32_can\esp32_can.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		..\libraries\QList\QList.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

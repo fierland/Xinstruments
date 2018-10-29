@@ -14,7 +14,6 @@
 #include "StepperPie.h"
 #include "mydebug.h"
 #include <AccelStepper.h>
-#include <MultiStepper.h>
 
 //-------------------------------------------------------------------------------------------------
 //	constructor
@@ -22,8 +21,8 @@
 StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, uint8_t pieSize, bool reverse, uint8_t pinStep, uint8_t pinDir, StepperMotorType motorType)
 	: IndicatorStepper(canID, pinStep, pinDir, motorType)
 {
-  DPRINTINFO("START");
-	
+	DPRINTINFO("START");
+
 	// set internal params
 	_rangeMin = rangeMin;
 	_rangeMax = rangeMax;
@@ -71,9 +70,9 @@ StepperPie::StepperPie(CanasNodDefaultID canID, float rangeMax, float rangeMin, 
 //-------------------------------------------------------------------------------------------------//
 StepperPie::~StepperPie()
 {
-  DPRINTINFO("START");
+	DPRINTINFO("START");
 	powerOff();
- DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 // set dail to 0 position
@@ -81,36 +80,40 @@ StepperPie::~StepperPie()
 
 void StepperPie::calibrate()
 {
-  DPRINTINFO("START");
-	
+	DPRINTINFO("START");
+
 	//move(- _stepsPerRotation);
 	//runToPosition();
 	_currentPos = 0;
-	setCurrentPosition(0);
+	_myStepper->setCurrentPosition(0);
 	_newPos = 0;
-  DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 };
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void StepperPie::moveToBackstop()
 {
-  DPRINTINFO("START");
-	move(-(_stepsPerRotation * 360 / _totalRange)*1.1);
-  DPRINTINFO("STOP");
+	DPRINTINFO("START");
+  long toMove = -(_stepsPerRotation / 360 * _totalRange)*1.2;
+  DPRINT("Moving:");
+  DPRINTLN(toMove);
+	_myStepper->move(toMove);
+	DPRINTINFO("STOP");
 }
 //-------------------------------------------------------------------------------------------------
 //
 //-------------------------------------------------------------------------------------------------
 void StepperPie::calibrate(float backstopPos)
 {
-  DPRINTINFO("START");
+	DPRINTINFO("START");
+  DPRINT("backstopPos:");
 	DPRINTLN(backstopPos);
 	//calibrate();
-	setCurrentPosition(backstopPos);
-	moveTo(0);
+	_myStepper->setCurrentPosition(backstopPos);
+	_myStepper->moveTo(0);
 	//runToPosition();
-  DPRINTINFO("STOP");
+	DPRINTINFO("STOP");
 };
 //-------------------------------------------------------------------------------------------------
 // power off actions;
@@ -121,7 +124,7 @@ void StepperPie::powerOff()
 	DPRINTINFO("START");
 
 	_currentPos = (_offValue - _rangeMin) / _totalRange * _stepsPerItem;
-	moveTo(_currentPos);
+	_myStepper->moveTo(_currentPos);
 	//runToPosition();
 	_powerOn = false;
 
@@ -180,7 +183,7 @@ int StepperPie::setValue(float newValue)
 	DPRINT("New position:");
 	DPRINTLN(newPosition);
 
-	moveTo(newPosition);
+	_myStepper->moveTo(newPosition);
 
 	DPRINTINFO("STOP");
 

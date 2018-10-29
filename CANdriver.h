@@ -17,7 +17,7 @@
 #ifdef ARDUINO_ARCH_ESP32
 # include <esp32_can.h>
 #else
-#include <can.h>
+# include <can.h>
 #endif
 
 #define XI_CANBUS_SPEED CAN_SPEED_500KBPS

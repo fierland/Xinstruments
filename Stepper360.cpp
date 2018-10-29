@@ -66,7 +66,7 @@ int Stepper360::setValue(float newPos)
 	long diffPos;
 	long actualPosition;
 
-	actualPosition = currentPosition() / _stepsPerItem;
+	actualPosition = _myStepper->currentPosition() / _stepsPerItem;
 
 	DPRINT("Start Stepper360 moveTo From:");
 	DPRINT(_currentPos);
@@ -119,7 +119,7 @@ int Stepper360::setValue(float newPos)
 		DPRINT("Reset position + full rotation:");
 		DPRINT(":New startpos:");
 		DPRINTLN(_currentPos + _totalRange);
-		setCurrentPosition((_currentPos + _totalRange) * _stepsPerItem);
+		_myStepper->setCurrentPosition((_currentPos + _totalRange) * _stepsPerItem);
 	}
 	// pointer moves via max thru 0
 	if ((_moveSize > 0) && ((_moveSize + _currentPos) >= _rangeMax))
@@ -127,7 +127,7 @@ int Stepper360::setValue(float newPos)
 		DPRINT("Reset position - full rotation:");
 		DPRINT(":New startpos:");
 		DPRINTLN(_currentPos - _totalRange);
-		setCurrentPosition((_currentPos - _totalRange) * _stepsPerItem);
+		_myStepper->setCurrentPosition((_currentPos - _totalRange) * _stepsPerItem);
 	}
 	DPRINTLN(":DONE");
 
@@ -136,7 +136,7 @@ int Stepper360::setValue(float newPos)
 
 	DPRINT(":Move  to new pos:");
 	DPRINTLN(newPos);
-	moveTo(newPos * _stepsPerItem);
+	_myStepper->moveTo(newPos * _stepsPerItem);
 	_currentPos = newPos;
 
 	DPRINTLN("End Stepper360 moveTo");
@@ -158,10 +158,10 @@ void Stepper360::halCallback(void)
 //-------------------------------------------------------------------------------------------------
 int Stepper360::calibrate(uint8_t pinHal, bool retainPos)
 {
-	long startPos = currentPosition();
-	long curSpeed = speed();
-	setSpeed(100);
-  DPRINTINFO("START");
+	long startPos = _myStepper->currentPosition();
+	long curSpeed = _myStepper->speed();
+	_myStepper->setSpeed(100);
+	DPRINTINFO("START");
 	// TODO: code to set zero pos using sensor or by moving to backstop
 
 	// set interupt to hal sensor
@@ -169,31 +169,31 @@ int Stepper360::calibrate(uint8_t pinHal, bool retainPos)
 	_atZero = false;
 	//runSpeedToPosition();
 	//move(-1);
-	move(-(_totalRange*_stepsPerItem + 10));
-	while (!_atZero&&run())
+	_myStepper->move(-(_totalRange*_stepsPerItem + 10));
+	while (!_atZero&&_myStepper->run())
 	{
 #if defined(ARDUINO_ARCH_ESP8266)
 		ESP.wdtFeed();
 #endif
 		//move(-1);
 		//run() ;
-};
+	};
 
-	stop();
+	_myStepper->stop();
 	detachInterrupt(pinHal);
-	long newPos = currentPosition();
+	long newPos = _myStepper->currentPosition();
 	_currentPos = 0;
-	setCurrentPosition(0);
+	_myStepper->setCurrentPosition(0);
 	if (retainPos)
 	{
 		DPRINTLN("Moving to old postition");
-		runToNewPosition(startPos - newPos);
+		_myStepper->runToNewPosition(startPos - newPos);
 		_currentPos = (startPos - newPos) / _stepsPerItem;
 	};
 
-	setSpeed(curSpeed);
-	
- DPRINTINFO("STOP");
+	_myStepper->setSpeed(curSpeed);
+
+	DPRINTINFO("STOP");
 	return 0;
 };
 //-------------------------------------------------------------------------------------------------

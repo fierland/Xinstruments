@@ -29,6 +29,7 @@
 #include "mydebug.h"
 #include "InstrumentMsg.h"
 #include "CAN_ids.h"
+#include <AccelStepper.h>
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
@@ -95,6 +96,7 @@ public:
 	 */
 	virtual void powerOn();
 	virtual bool powerState(bool setOn);
+	virtual AccelStepper* stepper() = 0;
 
 protected:
 	uint16_t		_CanAreoId = 0;

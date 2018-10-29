@@ -42,9 +42,9 @@
   CANAS_ERR_NOT_RUNNING,
   CANAS_INF_NO_DATA
  */
-//
-// These configuration parameters should be overriden by preprocessor definitions.
-//
+ //
+ // These configuration parameters should be overriden by preprocessor definitions.
+ //
 #ifndef CAN_RX_QUEUE_LEN
 #   define CAN_RX_QUEUE_LEN 20
 #endif
@@ -175,15 +175,16 @@ static int _marshal(CanasMessageData* pmsg)
 }
 void printFrame(CAN_FRAME *message)
 {
-  Serial.print(message->id, HEX);
-  if (message->extended) Serial.print(" X ");
-  else Serial.print(" S ");   
-  Serial.print(message->length, DEC);
-  for (int i = 0; i < message->length; i++) {
-    Serial.print(message->data.byte[i], HEX);
-    Serial.print(" ");
-  }
-  Serial.println();
+	Serial.print(message->id, HEX);
+	if (message->extended) Serial.print(" X ");
+	else Serial.print(" S ");
+	Serial.print(message->length, DEC);
+	for (int i = 0; i < message->length; i++)
+	{
+		Serial.print(message->data.byte[i], HEX);
+		Serial.print(" ");
+	}
+	Serial.println();
 }
 //-------------------------------------------------------------------------------------------------------------------
 // initiator
@@ -244,7 +245,7 @@ int CANdriver::setFilter(int msgID, void(*cbFunction)(CAN_FRAME *))
 	if (newMbx != -1)
 		CAN0.setCallback(newMbx, cbFunction);
 
-  return CANAS_ERR_OK;
+	return CANAS_ERR_OK;
 }
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
@@ -259,19 +260,19 @@ int64_t CANdriver::timeStamp()
 int _CanTryRead(CanasCanFrame * pframe)
 {
 	CAN_FRAME message;
-DPRINTINFO("START");
+	//DPRINTINFO("START");
 
-  memset(&message,0,sizeof(CAN_FRAME));
+	memset(&message, 0, sizeof(CAN_FRAME));
 	if (CAN0.read(message))
 	{
-    DPRINTLN("read success");
+		DPRINTLN("read success");
 #ifdef MACRO_DEBUG
-    printFrame(&message);
+		printFrame(&message);
 #endif
 		CANdriver::can2areo(pframe, &message);
 		return CANAS_ERR_OK;
 	}
-DPRINTINFO("STOP");
+	//DPRINTINFO("STOP");
 	return -CANAS_INF_NO_DATA;
 }
 //-------------------------------------------------------------------------------------------------------------------
@@ -281,7 +282,7 @@ DPRINTINFO("STOP");
 int CANdriver::receive(CanasCanFrame * pframe, unsigned int timeout_usec)
 {
 	int iTimer;
-DPRINTINFO("START");
+	//DPRINTINFO("START");
 
 	iTimer = millis() + timeout_usec;
 
@@ -290,15 +291,16 @@ DPRINTINFO("START");
 
 	while (iTimer < millis())
 	{
-		if (_CanTryRead(pframe)==0){
-      DPRINTLN("frame found");
-      return CANAS_ERR_OK;
+		if (_CanTryRead(pframe) == 0)
+		{
+			DPRINTLN("frame found");
+			return CANAS_ERR_OK;
 		}
-			
+
 		delayMicroseconds(10);
 	};
-  
-DPRINTINFO("STOP");
+
+	//DPRINTINFO("STOP");
 	return -CANAS_INF_NO_DATA;
 }
 //-------------------------------------------------------------------------------------------------------------------
@@ -306,12 +308,12 @@ DPRINTINFO("STOP");
 //-------------------------------------------------------------------------------------------------------------------
 int CANdriver::receive(CanasCanFrame * pframe)
 {
-  DPRINTINFO("START");
- 
- if (pframe == NULL)
+	//DPRINTINFO("START");
+
+	if (pframe == NULL)
 		return -CANAS_ERR_ARGUMENT;
-    
-  DPRINTINFO("STOP");
+
+	//DPRINTINFO("STOP");
 	return _CanTryRead(pframe);
 }
 
@@ -321,19 +323,19 @@ int CANdriver::receive(CanasCanFrame * pframe)
 int CANdriver::receive(CanasMessage* pframe)
 {
 	CanasCanFrame mframe;
- DPRINTINFO("START");
- 
+	DPRINTINFO("START");
+
 	if (pframe == NULL)
 		return -CANAS_ERR_ARGUMENT;
 
 	if (_CanTryRead(&mframe) == 0)
 	{
 		frame2msg(pframe, &mframe);
-    return CANAS_ERR_OK;
+		return CANAS_ERR_OK;
 	}
- 
- DPRINTINFO("STOP");
- return -CANAS_INF_NO_DATA;
+
+	DPRINTINFO("STOP");
+	return -CANAS_INF_NO_DATA;
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -341,8 +343,8 @@ int CANdriver::receive(CanasMessage* pframe)
 //-------------------------------------------------------------------------------------------------------------------
 int CANdriver::can2areo(CanasCanFrame * pframe, CAN_FRAME * message)
 {
-  DPRINTINFO("START");
-  
+	DPRINTINFO("START");
+
 	if (message == NULL || pframe == NULL)
 		return -CANAS_ERR_ARGUMENT;
 
@@ -366,8 +368,8 @@ int CANdriver::can2areo(CanasCanFrame * pframe, CAN_FRAME * message)
 
 	if (message->rtr == 1)
 		pframe->id |= CANAS_CAN_FLAG_RTR;
-   
-  DPRINTINFO("STOP");
+
+	DPRINTINFO("STOP");
 	return CANAS_ERR_OK;
 }
 
@@ -438,7 +440,6 @@ int CANdriver::canasHostToNetwork(uint8_t * pdata, const CanasMessageData * phos
 		return nwk.length;
 	}
 	return -CANAS_ERR_BAD_DATA_TYPE;
-	
 }
 //-------------------------------------------------------------------------------------------------------------------
 // convert CanAero message to canbus message

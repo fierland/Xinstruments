@@ -11,10 +11,11 @@
 #include "WProgram.h"
 #endif
 
+#define NO_DEBUG 0
 #define MACRO_DEBUG  //If you comment this line, the DPRINT & DPRINTLN lines are defined as blank.
 
 #ifdef MACRO_DEBUG    //Macros are usually in all capital letters.
-#define DPRINT(...)    	Serial.print(__VA_ARGS__)     //DPRINT is a macro, debug print
+#define DPRINT(...)    	Serial.print(__VA_ARGS__)    //DPRINT is a macro, debug print
 #define DPRINTLN(...)  	Serial.println(__VA_ARGS__)   //DPRINTLN is a macro, debug print with new line
 #define DPRINTBUFFER(x,y) DPRINT("Buffer:");for(int i=0;i<y;i++){DPRINT(x[i]);DPRINT(":");}	DPRINTLN("END");
 #define DPRINTINFO(...)    \

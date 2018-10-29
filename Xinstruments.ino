@@ -19,26 +19,26 @@
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-#include <esp32_can.h>
 #include <stdlib.h>
-#include <CommandLine.h>
-//#include <dummy.h>
 #include "Xinstruments.h"
 #include "mydebug.h"
 #include "Instrument.h"
-#include "GenericIndicator.h"
-#include "IndicatorStepper.h"
+//#include "GenericIndicator.h"
+//#include "IndicatorStepper.h"
 #include "StepperPie.h"
 #include "Stepper360.h"
+//generic includes for used libs
 #include <AccelStepper.h>
 #include <MultiStepper.h>
 #include <QList.h>
+#include <CommandLine.h>
+#include <esp32_can.h>
 
 //#ifdef USE_PWR_FLAG_SERVO
 //#include <ESP32_Servo.h>
 //#endif
 
-Instrument*	myInstrument=NULL;
+Instrument*	myInstrument = NULL;
 
 #ifdef XI_STEP1_PIE
 StepperPie _stepper_Pie_1(XI_DAIL1_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP1_MIN_RANGE, XI_STEP1_MAX_PIE, XI_STEP1_REVERSED, XI_STEP1_STP, XI_STEP1_DIR, XI_STEP1_MOTORTYPE);
@@ -66,6 +66,8 @@ Stepper360 _stepper_360_3(XI_DAIL3_CAN_ID, XI_STEP1_MAX_RANGE, XI_STEP1_STEPS_CI
 Stepper360 _stepper_360_4(XI_DAIL4_CAN_ID, XI_STEP4_MAX_RANGE, XI_STEP4_STEPS_CIRCLE, AccelStepper::DRIVER, XI_STEP4_STP, XI_STEP4_DIR, 0, 0, true);
 #endif
 
+#define DEBUG_CLI
+
 #ifdef DEBUG_CLI
 // CommandLine instance.
 CommandLine commandLine(Serial, "> ");
@@ -73,8 +75,6 @@ Command cmdUpdate = Command("set", &handleSet);
 Command cmdReset = Command("reset", &handleReset);
 Command cmdStatus = Command("status", &handleStatus);
 Command cmdPulse = Command("pulse", &handlePulse);
-Command cmdReverse = Command("reverse", &handleReverse);
-Command cmdForward = Command("forward", &handleForward);
 Command cmdOff = Command("off", &handleOff);
 Command cmdOn = Command("on", &handleOn);
 #endif
@@ -147,8 +147,6 @@ void _UpdateFlagStatus()
 //===================================================================================================================
 void _InitiateSteppers()
 {
-	int(*funcPointer)(float);
-
 	DPRINTINFO("START");
 
 	//-------------------------------------------------------------------------------------------------------------------
@@ -157,28 +155,22 @@ void _InitiateSteppers()
 
 #ifdef XI_STEP1_PIE
 	_stepper_Pie_1.setConversionFactor(XI_DAIL1_CONVERIONS_FACTOR);
- _stepper_Pie_1.setMaxSpeed(200);
- _stepper_Pie_1.moveToBackstop();
- myInstrument->addIndicator(_stepper_Pie_1);
-	
+	_stepper_Pie_1.setMaxSpeed(200);
+	_stepper_Pie_1.moveToBackstop();
+	myInstrument->addIndicator(_stepper_Pie_1);
 
-#ifdef DEBUG
-	_stepper_Pie_1.setValue(26);
-#endif
+
 
 #endif
+
 #ifdef XI_STEP2_PIE
 	_stepper_Pie_2.setConversionFactor(XI_DAIL2_CONVERIONS_FACTOR);
-  _stepper_Pie_2.setMaxSpeed(200);
+	_stepper_Pie_2.setMaxSpeed(200);
 	_stepper_Pie_2.moveToBackstop();
 	myInstrument->addIndicator(_stepper_Pie_2);
 
-#ifdef DEBUG
-	_stepper_Pie_2.setValue(26);
-	_stepper_Pie_2.runToPosition();
-	_stepper_Pie_2.setValue(10);
 #endif
-#endif
+
 #ifdef XI_STEP3_PIE
 	_stepper_Pie_3.setConversionFactor(XI_DAIL3_CONVERIONS_FACTOR);
 	myInstrument->addIndicator(&_stepper_Pie_3);
@@ -193,9 +185,18 @@ void _InitiateSteppers()
 #endif
 	// run all pie steppers to backstop
 	myInstrument->updateNow();
+  
+#ifdef XI_STEP1_PIE
+  _stepper_Pie_1.calibrate(XI_STEP1_MAX_BACKSTOP);
+#endif
 
-	myInstrument->calibrate();
-DPRINTLN("PIE steppers done");
+#ifdef XI_STEP2_PIE
+  _stepper_Pie_2.calibrate(XI_STEP2_MAX_BACKSTOP);
+#endif
+
+  myInstrument->updateNow();
+	//myInstrument->calibrate();
+	DPRINTLN("PIE steppers done");
 
 	//-------------------------------------------------------------------------------------------------------------------
 	// for full 360 steppers they have their own calibartion routines
@@ -220,10 +221,22 @@ DPRINTLN("PIE steppers done");
 	allSteppers.addStepper(_stepper_360_4);
 	dataConnection->addElement(XI_STEP4_ITEM, &_stepper_360_4, XI_STEP4_MAX_RANGE, X4_STEP1_MIN_RANGE, true);
 #endif
-DPRINTLN("360 steppers done");
+	DPRINTLN("360 steppers done");
 	// run all steppers to start position
 	myInstrument->updateNow();
-  DPRINTINFO("STOP");
+
+
+//#ifdef DEBUG
+//  _stepper_Pie_1.setValue(26);
+//  _stepper_Pie_2.setValue(26);
+//  myInstrument->updateNow();
+  _stepper_Pie_1.setValue(10);
+  _stepper_Pie_2.setValue(10);
+  myInstrument->updateNow();
+//#endif
+
+  
+	DPRINTINFO("STOP");
 }
 
 //===================================================================================================================
@@ -240,18 +253,15 @@ void setup()
 	commandLine.add(cmdReset);
 	commandLine.add(cmdStatus);
 	commandLine.add(cmdPulse);
-	commandLine.add(cmdReverse);
-	commandLine.add(cmdForward);
 	commandLine.add(cmdOff);
 	commandLine.add(cmdOn);
 
 	// On-the-fly commands -- instance is allocated dynamically
 	commandLine.add("help", handleHelp);
 #endif
-  myInstrument = new  Instrument(XI_Instrument_Code, XI_Instrument_NodeID, XI_Instrument_Service_Chan, XI_LED_PIN, XI_INSTRUMENT_MAX_ELEMENTS);
+	myInstrument = new  Instrument(XI_Instrument_Code, XI_Instrument_NodeID, XI_Instrument_Service_Chan, XI_LED_PIN, XI_INSTRUMENT_MAX_ELEMENTS);
 
-	// set up can bus communication
-	myInstrument->initiateCommunication();
+	
 
 #ifdef USE_PWR_FLAG_SERVO
 	// setup the power state flag
@@ -259,6 +269,10 @@ void setup()
 #endif
 
 	_InitiateSteppers();
+  
+  // set up can bus communication
+  myInstrument->initiateCommunication();
+  
 	DPRINTINFO("STOP");
 }
 
@@ -285,6 +299,7 @@ void loop()
 	//
 	// move commands for all steppers
 	//
+	//delay(10);
 	myInstrument->update();
 }
 
@@ -325,7 +340,10 @@ void handleSet(char* tokens)
 	DPRINTLN(":");
 
 	// call update
-	dataConnection->processInput(item, value);
+	//dataConnection->processInput(item, value);
+  _stepper_Pie_1.setValue(value);
+  _stepper_Pie_2.setValue(value);
+
 }
 
 void handlePulse(char* tokens)
@@ -349,10 +367,10 @@ void handlePulse(char* tokens)
 
 	// call update
 #ifdef XI_STEP1_PIE
-	_stepper_Pie_1.setMinPulseWidth(value);
+//	_stepper_Pie_1.stepper->setMinPulseWidth(value);
 #endif
 #ifdef XI_STEP2_PIE
-	_stepper_Pie_2.setMinPulseWidth(value);
+//	_stepper_Pie_2.stepper->setMinPulseWidth(value);
 #endif
 }
 
@@ -371,23 +389,12 @@ void handleHelp(char* tokens)
 	Serial.println("Use the commands 'help', 'update <item> <value>', or 'reset'.");
 }
 
-void handleReverse(char* tokens)
-{
-	_stepper_Pie_2.setDirectionInverse(true);
-	Serial.println("Reverse DONE");
-}
-
-void handleForward(char* tokens)
-{
-	_stepper_Pie_2.setDirectionInverse(false);
-	Serial.println("Forward DONE");
-}
 
 void handleOff(char* tokens)
 {
 	_stepper_Pie_1.powerOff();
 	_stepper_Pie_2.powerOff();
-	ledcWrite(ledChannel, 0);
+	//ledcWrite(ledChannel, 0);
 	Serial.println("PowerOFF DONE");
 }
 
@@ -395,7 +402,7 @@ void handleOn(char* tokens)
 {
 	_stepper_Pie_1.powerOn();
 	_stepper_Pie_2.powerOn();
-	ledcWrite(ledChannel, 255);
+	//ledcWrite(ledChannel, 255);
 	Serial.println("PowerON DONE");
 }
 

@@ -41,6 +41,7 @@
     <Import Project="..\..\..\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\WiFi\WiFi.vcxitems" Label="Shared" />
     <Import Project="..\libraries\QList\QList.vcxitems" Label="Shared" />
     <Import Project="..\libraries\AccelStepper\AccelStepper.vcxitems" Label="Shared" />
+    <Import Project="..\libraries\AccelStepper\AccelStepper.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
