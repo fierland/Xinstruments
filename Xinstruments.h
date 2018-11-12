@@ -25,28 +25,33 @@
 #ifndef _XINSTRUMENTS_H_
 #define _XINSTRUMENTS_H_
 
+#include <Instrument.h>
+#include <InstrumentMsg.h>
+#include <Arduino.h>
 //#define DEBUG_CLI
 
 //===================================================================================================================
 // generic defines
 //===================================================================================================================
-constexpr auto XI_Software_Revision = 0x01;
+constexpr uint8_t XI_Software_Revision = 0x01;
 
-#define XI_Base_NodeID  1
+//#define XI_Base_NodeID  1
 
 //===================================================================================================================
 // INSTRUMENT Selection: select one of this list comment out the rest
 //===================================================================================================================
 
+// 2,5" instruments
 #define XI_INSTRUMENT_FUEL_GAUGE
 //#define XI_INSTRUMENT_OIL_GAUGE
 //#define XI_INSTRUMENT_EXHFLOW_GAUGE
 //#define XI_INSTRUMENT_VACAM_GAUGE
 
-// @TODO Support gauges below
+//TODO: Support gauges below
 
 //#define XI_INSTRUMENT_DIG_CLOCK
 
+// 3,25" instruments
 //#define XI_INSTRUMENT_AIRSPEED_IND
 //#define XI_INSTRUMENT_MAG_COMPASS
 //#define XI_INSTRUMENT_ATTITUDE_IND
@@ -59,81 +64,188 @@ constexpr auto XI_Software_Revision = 0x01;
 //#define XI_INSTRUMENT_TACHOMETER
 //#define XI_INSTRUMENT_ADF_BEARING_IND
 
-//#define XI_INSTRUMENT_MAIN_CONTROLER
-
-//===================================================================================================================
-// data element definitions for communication (maybe not needed)
-//===================================================================================================================
-#define XP_WET_COMPASS		"CMPWET"
-// 0/360
-#define XP_GYRO_DIRECTION	"GYRDIR"
-// 0/360
-#define XP_GYRO_HEADING		"GIRHEA"
-// 0/360
-#define XP_ALTITUTE			"ALTITU"
-// 0/??
-#define XP_ALT_BARO			"ALTBAR"
-// ??/??
-#define XP_FUEL_RIGHT		"FUELRI"
-//	0/32
-#define XP_FUEL_LEFT		"FUELLE"
-//	0/32
-#define XP_OIL_PRESSURE		"OILPRE"
-//	0/115
-#define XP_OIL_TEMP			"OILTMP"
-//	75/245
-#define XP_EGT_TEMP			"EGTTMP"
-//	0/400
-#define XP_FUEL_FLOW		"FUELFL"
-//	0/19
-#define XP_VACUEM			"VACUM"
-//	3/7
-#define XP_AMPERES			"PWRAMP"
-//	-60/60
-
-//===================================================================================================================
-// INSTRUMENT SPECIFIC SETTINGS - HARDWARE
-//===================================================================================================================
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef XI_INSTRUMENT_FUEL_GAUGE
-#define XI_CONTROLER_25
-#define XI_DUAL_STEPPER_25
+
+XI_instrumentDescription myInstrumentInfo = {
+	"FEULG",
+	XI_CONTROLER_25,
+	1,
+	XI_DUAL_STEPPER_25,
+	1,
+	1,
+	1,
+	0,
+	{
+		{CANAS_NOD_DEF_FUEL_TANK_1_QUANTITY,XI_INDICATOR_STEPPER_PIE,1,120,0,26,0.3674371033,-10},
+		{CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY,XI_INDICATOR_STEPPER_PIE,2,120,0,26,0.3674371033,-10},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0}
+	}
+};
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef  XI_INSTRUMENT_OIL_GAUGE
-#define XI_CONTROLER_25
-#define XI_DUAL_STEPPER_25
+
+XI_instrumentDescription myInstrumentInfo = {
+	"OILGA",
+	XI_CONTROLER_25,
+	1,
+	XI_DUAL_STEPPER_25,
+	1,
+	1,
+	8,
+	0,
+	{
+		{CANAS_NOD_DEF_ENGINE_1_OIL_PRESSURE_ECS_CHANNEL_A,	XI_INDICATOR_STEPPER_360,1,120, 0,115,1,-10},
+		{CANAS_NOD_DEF_ENGINE_1_OIL_TEMPERATURE_ECS_CHANNEL_A,	XI_INDICATOR_STEPPER_360,2,120,75,245,1,-10},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0}
+	}
+};
+
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef  XI_INSTRUMENT_EXHFLOW_GAUGE
-#define XI_CONTROLER_25
-#define XI_DUAL_STEPPER_25
+
+XI_instrumentDescription myInstrumentInfo = {
+	"EXHFL",
+	XI_CONTROLER_25,
+	1,
+	XI_DUAL_STEPPER_25,
+	1,
+	1,
+	8,
+	0,
+	{
+		{CANAS_NOD_DEF_FUEL_PUMP_1_FLOW_RATE,								XI_INDICATOR_STEPPER_360,1,120,0, 19,1,-10},
+		{CANAS_NOD_DEF_ENGINE_1_TURBINE_OUTLET_TEMPERATURE_ECS_CHANNEL_A,	XI_INDICATOR_STEPPER_360,2,120,0,400,1,-10},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0}
+	}
+};
+
 #endif
 
+//-------------------------------------------------------------------------------------------------------------------
 #ifdef  XI_INSTRUMENT_VACAM_GAUGE
-#define XI_CONTROLER_25
-#define XI_DUAL_STEPPER_25
+
+XI_instrumentDescription myInstrumentInfo = {
+	"VACAM",
+	XI_CONTROLER_25,
+	1,
+	XI_DUAL_STEPPER_25,
+	1,
+	1,
+	1,
+	0,
+	{
+		{CANAS_NOD_DEF_AC_SYSTEM_1_CURRENT,						XI_INDICATOR_STEPPER,1,120,-60,60,1,-10},
+		{CANAS_NOD_DEF_ENGINE_1_MANIFOLD_PRESSURE_ECS_CHANNEL_A,XI_INDICATOR_STEPPER,2,120,  3, 7,1,-10},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0}
+}
+};
+
+#endif
+//-------------------------------------------------------------------------------------------------------------------
+#ifdef  XI_INSTRUMENT_DIG_CLOCK
+
+// TODO : make definition
+XI_instrumentDescription myInstrumentInfo = {
+	"DICLK",
+	XI_CONTROLER_25,
+	1,
+	XI_DUAL_STEPPER_25,
+	1,
+	1,
+	1,
+	0,
+	{
+		{CANAS_NOD_DEF_DATE,XI_INDICATOR_DISPLAY,1,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0},
+		{CANAS_NOD_NOVALUE,XI_INDICATOR_NONE,0,0,0,0,0,0}
+	 }
+};
+
 #endif
 
 //-------------------------------------------------------------------------------------------------------------------
-// define all hardware interfaces for the pins
-//	Curently i have designed 2 controler boards one for 3,5" instruments and one for 2,5" instruments
+// codes not used in instruments yet :-)
 //-------------------------------------------------------------------------------------------------------------------
 
-// controler type used
-//#define XI_CONTROLER_35
-//#define XI_CONTROLER_25
+// set these flags if the instrument has a Power and ready indication flag controled by a servo
+//#define USE_PWR_FLAG_SERVO
 
-//-------------------------------------------------------------------------------------------------------------------
-// define which stepper board is used
-//-------------------------------------------------------------------------------------------------------------------
+//#define PWR_FLAG_SERVO_PIN		XI_SERVO1_PIN
+//#define PWR_FLAG_SERVO_MAXPOS	50
 
-//#define XI_QUAD_STEPPER_35
-//#define XI_DUAL_STEPPER_35
-//#define XI_DUAL_STEPPER_25
+//#define XI_STEP3_360
+//#define XI_STEP3_PIE
+//#define XI_STEP3_MIN_PIE 0
+//#define XI_STEP3_MAX_PIE 180
+//#define XI_STEP3_MIN_RANGE 0
+//#define XI_STEP3_MAX_RANGE 360
+//#define XI_STEP3_ITEM "GYRO_HEADING"
+
+//#define XI_STEP4_360
+//#define XI_STEP4_PIE
+//#define XI_STEP4_MIN_PIE 0
+//#define XI_STEP4_MAX_PIE 180
+//#define XI_STEP4_MIN_RANGE 0
+//#define XI_STEP4_MAX_RANGE 360
+//#define XI_STEP4_ITEM "GYRO_HEADING"
+
+//define XI_RE1_ITEM "GYRO_HEADING"
+//define XI_RE2_ITEM "GYRO_HEADING"
 
 //===================================================================================================================
-// BOARD SPECIFIC SETTINGS - HARDWARE - should need no modification
+// HARDWARE CONFIGURATION VALIDATION SECTION
 //===================================================================================================================
+/*
+#if (defined(XI_CONTROLER_35) && defined(XI_CONTROLER_25)) ||\
+	(defined(XI_CONTROLER_35) && defined(XI_CONTROLER_MAIN)) ||\
+	(defined(XI_CONTROLER_MAIN) && defined(XI_CONTROLER_25))
+#error Only one controler board type can be selected
+#endif
+
+#if (defined(XI_QUAD_STEPPER_35) && defined(XI_DUAL_STEPPER_35)) || \
+	(defined(XI_QUAD_STEPPER_35) && defined(XI_DUAL_STEPPER_25)) || \
+	(defined(XI_DUAL_STEPPER_25) && defined(XI_DUAL_STEPPER_35))
+#error Only one stepper board type can be selected
+#endif
+
+#if	(defined(XI_CONTROLER_25) && defined(XI_DUAL_STEPPER_35)) || \
+	(defined(XI_CONTROLER_25) && defined(XI_QUAD_STEPPER_35)) || \
+	(defined(XI_CONTROLER_35) && defined(XI_DUAL_STEPPER_25))
+#error wrong mix of stepper board & controler
+#endif
+
+#endif
+*/
 
 //-------------------------------------------------------------------------------------------------------------------
 //
@@ -141,8 +253,11 @@ constexpr auto XI_Software_Revision = 0x01;
 //
 //-------------------------------------------------------------------------------------------------------------------
 
-#ifdef XI_CONTROLER_35
-constexpr auto XI_Hardware_Revision = 0x01;  //revision always first byte 0;
+#ifdef __XI_CONTROLER_35
+constexpr uint8_t XI_Hardware_Revision = 0x01;  //revision always first byte 0;
+
+#define XI_CANBUS_RX 16
+#define XI_CANBUS_TX 17
 
 //set the max numbers of stepper motors and servos in the instrument
 #define XI_MAX_STEPPERS		4
@@ -150,16 +265,6 @@ constexpr auto XI_Hardware_Revision = 0x01;  //revision always first byte 0;
 #define XI_MAX_HAL			2
 #define XI_MAX_RE		    2
 #define XI_LED_PIN			GPIO_NUM_12
-
-// set the pin mappings for the stepper motors
-#define XI_STEP1_DIR 1
-#define XI_STEP1_STP 2
-#define XI_STEP2_DIR 3
-#define XI_STEP2_STP 4
-#define XI_STEP3_DIR 5
-#define XI_STEP3_STP 6
-#define XI_STEP4_DIR 7
-#define XI_STEP4_STP 8
 
 #define XI_SERVO1_PIN 18
 #define XI_SERVO2_PIN 19
@@ -184,8 +289,11 @@ constexpr auto XI_Hardware_Revision = 0x01;  //revision always first byte 0;
 //	Settings for the 2,5" controler board
 //-------------------------------------------------------------------------------------------------------------------
 
-#ifdef XI_CONTROLER_25
-constexpr auto XI_Hardware_Revision = 0x11;  //revision always first byte 1;
+#ifdef __XI_CONTROLER_25
+constexpr uint8_t XI_Hardware_Revision = 0x11;  //revision always first byte 1;
+
+#define XI_CANBUS_TX 16
+#define XI_CANBUS_RX 17
 
 //set the max numbers of stepper motors and servos in the instrument
 #define XI_MAX_STEPPERS		2
@@ -236,7 +344,7 @@ constexpr auto XI_Hardware_Revision = 0x11;  //revision always first byte 1;
 
 // generic hardware settings
 
-#ifdef XI_QUAD_STEPPER_35
+#ifdef __XI_QUAD_STEPPER_35
 // specs voor quad stepper board
 #define	XI_STEP1_MOTORTYPE IndicatorStepper::TYPE_BKA30
 #define	XI_STEP2_MOTORTYPE IndicatorStepper::TYPE_BKA30
@@ -248,7 +356,7 @@ constexpr auto XI_Hardware_Revision = 0x11;  //revision always first byte 1;
 #define XI_STEP4_REVERSED false
 #endif
 
-#ifdef XI_DUAL_STEPPER_35
+#ifdef __XI_DUAL_STEPPER_35
 // specs voor quad stepper board
 #define	XI_STEP1_MOTORTYPE IndicatorStepper::TYPE_BKA30
 #define	XI_STEP2_MOTORTYPE IndicatorStepper::TYPE_BKA30
@@ -257,7 +365,7 @@ constexpr auto XI_Hardware_Revision = 0x11;  //revision always first byte 1;
 
 #endif
 
-#ifdef XI_DUAL_STEPPER_25
+#ifdef __XI_DUAL_STEPPER_25
 // specs voor 2'5" dual stepper board
 #define	XI_STEP1_MOTORTYPE IndicatorStepper::TYPE_BKA30
 #define	XI_STEP2_MOTORTYPE IndicatorStepper::TYPE_BKA30
@@ -265,286 +373,69 @@ constexpr auto XI_Hardware_Revision = 0x11;  //revision always first byte 1;
 #define XI_STEP1_REVERSED false
 #define XI_STEP2_REVERSED true
 #endif
-
 //===================================================================================================================
-// INSTRUMENT SPECIFIC SETTINGS - FUNCTIONAL CONFIGURATION
+// INSTRUMENT SPECIFIC SETTINGS - HARDWARE
 //===================================================================================================================
+#ifdef __XI_INSTRUMENT_FUEL_GAUGE
+#define XI_CONTROLER_25
+#define XI_DUAL_STEPPER_25
+#endif
 
-#ifdef XI_INSTRUMENT_MAIN_CONTROLER
-constexpr char XI_Instrument_Code[] = "MAIN_";
-constexpr auto XI_Instrument_NodeID = 1;
-constexpr auto XI_Instrument_Service_Chan = 100;
-constexpr auto XI_Instrument_Redun_Chan = 0;
+#ifdef  __XI_INSTRUMENT_OIL_GAUGE
+#define XI_CONTROLER_25
+#define XI_DUAL_STEPPER_25
+#endif
 
-#define XI_INSTRUMENT_MAX_ELEMENTS 0
+#ifdef  __XI_INSTRUMENT_EXHFLOW_GAUGE
+#define XI_CONTROLER_25
+#define XI_DUAL_STEPPER_25
+#endif
 
-// define # of steppers used in this instrument
-#define XI_STEPPERS_USED	0
-#define XI_INDICATORS_USED	0
-#define XI_DISPLAYS_USED	1
-#define XI_BUTTONS_USED		0
-#define XI_ENCODERS_USED	0
+#ifdef  __XI_INSTRUMENT_VACAM_GAUGE
+#define XI_CONTROLER_25
+#define XI_DUAL_STEPPER_25
+#endif
 
+#ifdef  __XI_INSTRUMENT_MAIN_CONTROLER
+#define XI_CONTROLER_MAIN
 #endif
 //-------------------------------------------------------------------------------------------------------------------
-#ifdef XI_INSTRUMENT_FUEL_GAUGE
-
-#define XI_Instrument_Code "FEULG"
-constexpr auto XI_Instrument_NodeID = 14;
-constexpr auto XI_Instrument_Service_Chan = 90 + XI_Instrument_NodeID;
-constexpr auto XI_Instrument_Redun_Chan = 0;
-
-// max data elements to share with XPlane
-#define XI_INSTRUMENT_MAX_ELEMENTS 2
-
-// define # of steppers used in this instrument
-#define XI_STEPPERS_USED	2
-#define XI_INDICATORS_USED	2
-#define XI_DISPLAYS_USED	0
-#define XI_BUTTONS_USED		0
-#define XI_ENCODERS_USED	0
-
-// define type of stepper range and info item they display
-//#define XI_STEP1_360
-#define XI_STEP1_PIE
-#define XI_STEP1_MIN_PIE 0
-#define XI_STEP1_MAX_PIE 120
-#define XI_STEP1_MIN_RANGE 0
-#define XI_STEP1_MAX_RANGE 26
-#define XI_STEP1_MAX_BACKSTOP -60
-#define XI_STEP1_ITEM XP_FUEL_RIGHT
-	/**
-	 * Types: FLOAT SHORT2
-	 * Units: kg
-	 * Notes:
-	 */
-#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_FUEL_TANK_1_QUANTITY
-constexpr float XI_DAIL1_CONVERIONS_FACTOR = 0.3674371033;
-
-//#define XI_STEP2_360
-#define XI_STEP2_PIE
-#define XI_STEP2_MIN_PIE 0
-#define XI_STEP2_MAX_PIE 120
-#define XI_STEP2_MIN_RANGE 0
-#define XI_STEP2_MAX_RANGE 26
-#define XI_STEP2_MAX_BACKSTOP -65
-#define XI_STEP2_ITEM XP_FUEL_LEFT
-#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_FUEL_TANK_2_QUANTITY
-constexpr float XI_DAIL2_CONVERIONS_FACTOR = 0.3674371033;
-
-#endif
-
-//-------------------------------------------------------------------------------------------------------------------
-#ifdef  XI_INSTRUMENT_OIL_GAUGE
-
-constexpr char XI_Instrument_Code[] = "OILGA";
-constexpr auto XI_Instrument_NodeID = 11;
-constexpr auto XI_Instrument_Service_Chan = 90 + XI_Instrument_NodeID;
-constexpr auto XI_Instrument_Redun_Chan = 0;
-
-// max data elements to share with XPlane
-#define XI_INSTRUMENT_MAX_ELEMENTS 2
-
-// define # of steppers used in this instrument
-#define XI_STEPPERS_USED	2
-#define XI_INDICATORS_USED	2
-#define XI_DISPLAYS_USED	0
-#define XI_BUTTONS_USED		0
-#define XI_ENCODERS_USED	0
-
-// oilpresure
-#define XI_STEP1_PIE
-#define XI_STEP1_MIN_PIE 0
-#define XI_STEP1_MAX_PIE 120
-#define XI_STEP1_MIN_RANGE 0
-#define XI_STEP1_MAX_RANGE 115
-#define XI_STEP1_MAX_BACKSTOP -10
-#define XI_STEP1_ITEM XP_OIL_PRESSURE
-	/**
-	 * Types: FLOAT SHORT2
-	 * Units: hPa
-	 * Notes:
-	 */
-#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_ENGINE_1_OIL_PRESSURE_ECS_CHANNEL_A
-	 //oil temp
-#define XI_STEP2_PIE
-#define XI_STEP2_MIN_PIE 0
-#define XI_STEP2_MAX_PIE 120
-#define XI_STEP2_MIN_RANGE 75
-#define XI_STEP2_MAX_RANGE 245
-#define XI_STEP2_MAX_BACKSTOP -10
-#define XI_STEP2_ITEM XP_OIL_TEMP
-	/**
-	 * Types: FLOAT SHORT2
-	 * Units: K
-	 * Notes:
-	 */
-#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_OIL_TEMPERATURE_ECS_CHANNEL_A
-#endif
-
-	 //-------------------------------------------------------------------------------------------------------------------
-#ifdef  XI_INSTRUMENT_EXHFLOW_GAUGE
-
-constexpr char XI_Instrument_Code[] = "EXHFL";
-constexpr auto XI_Instrument_NodeID = 12;
-constexpr auto XI_Instrument_Service_Chan = 90 + XI_Instrument_NodeID;
-constexpr auto XI_Instrument_Redun_Chan = 0;
-
-// max data elements to share with XPlane
-#define XI_INSTRUMENT_MAX_ELEMENTS 2
-
-// define # of steppers used in this instrument
-#define XI_STEPPERS_USED	2
-#define XI_INDICATORS_USED	2
-#define XI_DISPLAYS_USED	0
-#define XI_BUTTONS_USED		0
-#define XI_ENCODERS_USED	0
-
-//Fuel flow
-#define XI_STEP1_PIE
-#define XI_STEP1_MIN_PIE 0
-#define XI_STEP1_MAX_PIE 120
-#define XI_STEP1_MIN_RANGE 0
-#define XI_STEP1_MAX_RANGE 19
-#define XI_STEP1_MAX_BACKSTOP -10
-#define XI_STEP1_ITEM XP_FUEL_FLOW
-/**
-	 * Types: FLOAT SHORT2
-	 * Units: l/h
-	 * Notes:
-	 */
-#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_FUEL_PUMP_1_FLOW_RATE
-	 //exh
-#define XI_STEP2_PIE
-#define XI_STEP2_MIN_PIE 0
-#define XI_STEP2_MAX_PIE 120
-#define XI_STEP2_MIN_RANGE 0
-#define XI_STEP2_MAX_RANGE 400
-#define XI_STEP2_MAX_BACKSTOP -10
-#define XI_STEP2_ITEM XP_OIL_EXH
-	/**
-	 * Types: FLOAT SHORT2
-	 * Units: K
-	 * Notes: TOT
-	 */
-#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_TURBINE_OUTLET_TEMPERATURE_ECS_CHANNEL_A
-
-#endif
-
-	 //-------------------------------------------------------------------------------------------------------------------
-#ifdef  XI_INSTRUMENT_VACAM_GAUGE
-
-constexpr char XI_Instrument_Code[] = "VACAM";
-constexpr auto XI_Instrument_NodeID = 13;
-constexpr auto XI_Instrument_Service_Chan = 90 + XI_Instrument_NodeID;
-constexpr auto XI_Instrument_Redun_Chan = 0;
-
-// max data elements to share with XPlane
-#define XI_INSTRUMENT_MAX_ELEMENTS 2
-
-// define # of steppers used in this instrument
-#define XI_STEPPERS_USED	2
-#define XI_INDICATORS_USED	2
-#define XI_DISPLAYS_USED	0
-#define XI_BUTTONS_USED		0
-#define XI_ENCODERS_USED	0
-
-//Amperage
-#define XI_STEP1_PIE
-#define XI_STEP1_MIN_PIE 0
-#define XI_STEP1_MAX_PIE 120
-#define XI_STEP1_MIN_RANGE -60
-#define XI_STEP1_MAX_RANGE 60
-#define XI_STEP1_MAX_BACKSTOP -10
-#define XI_STEP1_ITEM XP_AMPERES
-	/**
-	 * Types: FLOAT SHORT2
-	 * Units: ampere
-	 * Notes:
-	 */
-#define XI_DAIL1_CAN_ID	CANAS_NOD_DEF_AC_SYSTEM_1_CURRENT
-	 //VAC
-#define XI_STEP2_PIE
-#define XI_STEP2_MIN_PIE 0
-#define XI_STEP2_MAX_PIE 120
-#define XI_STEP2_MIN_RANGE 3
-#define XI_STEP2_MAX_RANGE 7
-#define XI_STEP2_MAX_BACKSTOP -10
-#define XI_STEP2_ITEM XP_VACUEM
-	/**
-	 * Types: FLOAT SHORT2
-	 * Units: hPa
-	 * Notes: piston engines only
-	 */
-#define XI_DAIL2_CAN_ID	CANAS_NOD_DEF_ENGINE_1_MANIFOLD_PRESSURE_ECS_CHANNEL_A
-
-#endif
-	 //-------------------------------------------------------------------------------------------------------------------
-#ifdef  XI_INSTRUMENT_DIG_CLOCK
-
-constexpr char XI_Instrument_Code[] = "DIGCLK";
-constexpr auto XI_Instrument_NodeID = 14;
-constexpr auto XI_Instrument_Service_Chan = 90 + XI_Instrument_NodeID;
-constexpr auto XI_Instrument_Redun_Chan = 0;
-
-// max data elements to share with XPlane
-#define XI_INSTRUMENT_MAX_ELEMENTS 4
-
-// define # of steppers used in this instrument
-#define XI_STEPPERS_USED	0
-#define XI_INDICATORS_USED	0
-#define XI_DISPLAYS_USED	6
-#define XI_BUTTONS_USED		3
-#define XI_ENCODERS_USED	0
-
-#endif
-
-//-------------------------------------------------------------------------------------------------------------------
-// codes not used in instruments yet :-)
+// define all hardware interfaces for the pins
+//	Curently i have designed 2 controler boards one for 3,5" instruments and one for 2,5" instruments
 //-------------------------------------------------------------------------------------------------------------------
 
-// set these flags if the instrument has a Power and ready indication flag controled by a servo
-//#define USE_PWR_FLAG_SERVO
+// controler type used
+//#define XI_CONTROLER_35
+//#define XI_CONTROLER_25
 
-//#define PWR_FLAG_SERVO_PIN		XI_SERVO1_PIN
-//#define PWR_FLAG_SERVO_MAXPOS	50
+//-------------------------------------------------------------------------------------------------------------------
+// define which stepper board is used
+//-------------------------------------------------------------------------------------------------------------------
 
-//#define XI_STEP3_360
-//#define XI_STEP3_PIE
-//#define XI_STEP3_MIN_PIE 0
-//#define XI_STEP3_MAX_PIE 180
-//#define XI_STEP3_MIN_RANGE 0
-//#define XI_STEP3_MAX_RANGE 360
-//#define XI_STEP3_ITEM "GYRO_HEADING"
-
-//#define XI_STEP4_360
-//#define XI_STEP4_PIE
-//#define XI_STEP4_MIN_PIE 0
-//#define XI_STEP4_MAX_PIE 180
-//#define XI_STEP4_MIN_RANGE 0
-//#define XI_STEP4_MAX_RANGE 360
-//#define XI_STEP4_ITEM "GYRO_HEADING"
-
-//define XI_RE1_ITEM "GYRO_HEADING"
-//define XI_RE2_ITEM "GYRO_HEADING"
+//#define XI_QUAD_STEPPER_35
+//#define XI_DUAL_STEPPER_35
+//#define XI_DUAL_STEPPER_25
 
 //===================================================================================================================
-// HARDWARE CONFIGURATION VALIDATION SECTION
+// BOARD SPECIFIC SETTINGS - HARDWARE - should need no modification
 //===================================================================================================================
-#if defined(XI_CONTROLER_35) && defined(XI_CONTROLER_25)
-#error Only one controler board type can be selected
-#endif
+//-------------------------------------------------------------------------------------------------------------------
+//
+//  Settings for the OLIMEX ESP32-EVB controler
+//
+//-------------------------------------------------------------------------------------------------------------------
 
-#if (defined(XI_QUAD_STEPPER_35) && defined(XI_DUAL_STEPPER_35)) || \
-	(defined(XI_QUAD_STEPPER_35) && defined(XI_DUAL_STEPPER_25)) || \
-	(defined(XI_DUAL_STEPPER_25) && defined(XI_DUAL_STEPPER_35))
-#error Only one stepper board type can be selected
-#endif
+#ifdef __XI_CONTROLER_MAIN
+constexpr uint8_t XI_Hardware_Revision = 0XF1;
 
-#if	(defined(XI_CONTROLER_25) && defined(XI_DUAL_STEPPER_35)) || \
-	(defined(XI_CONTROLER_25) && defined(XI_QUAD_STEPPER_35)) || \
-	(defined(XI_CONTROLER_35) && defined(XI_DUAL_STEPPER_25))
-#error wrong mix of stepper board & controler
+#define XI_CANBUS_TX  5
+#define XI_CANBUS_RX 35
+
+#define XI_MAX_STEPPERS 0
+#define XI_MAX_SERVO    0
+#define XI_MAX_HAL      0
+#define XI_MAX_RE       0
+
 #endif
 
 #endif

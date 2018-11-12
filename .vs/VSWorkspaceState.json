@@ -2,9 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\XLibs",
+    "\\src\\XLibs\\examples",
+    "\\src\\XLibs\\extras",
     "\\src\\XLibs\\src"
   ],
-  "SelectedNode": "\\Xinstruments.ino",
+  "SelectedNode": "\\Xinstruments.vcxproj.user",
   "PreviewInSolutionExplorer": false
 }
