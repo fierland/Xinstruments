@@ -42,7 +42,7 @@ constexpr uint8_t XI_Software_Revision = 0x01;
 //===================================================================================================================
 
 // 2,5" instruments
-#define XI_INSTRUMENT_FUEL_GAUGE
+//#define XI_INSTRUMENT_FUEL_GAUGE
 //#define XI_INSTRUMENT_OIL_GAUGE
 //#define XI_INSTRUMENT_EXHFLOW_GAUGE
 //#define XI_INSTRUMENT_VACAM_GAUGE

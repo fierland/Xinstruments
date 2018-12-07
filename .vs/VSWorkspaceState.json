@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\XLibs\\examples",
-    "\\src\\XLibs\\extras",
-    "\\src\\XLibs\\src"
+    "\\src"
   ],
-  "SelectedNode": "\\Xinstruments.vcxproj.user",
+  "SelectedNode": "\\.gitattributes",
   "PreviewInSolutionExplorer": false
 }

@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP32Servo", "..\libraries\ESP32Servo\ESP32Servo.vcxitems", "{9D782436-D38E-4C48-BA14-95D0D127012E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WiFi", "..\..\..\Appdata\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\WiFi\WiFi.vcxitems", "{BD3C98A9-7998-43EF-99BD-39B0481D664B}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esp32_can", "..\libraries\esp32_can\esp32_can.vcxitems", "{8E062620-504F-4A0B-8215-FD15AAD6AD02}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xinstruments", "Xinstruments.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
@@ -30,14 +28,6 @@ Global
 		C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\EEPROM\EEPROM.vcxitems*{5349b288-5e89-4580-baf3-3aae8c11a6c2}*SharedItemsImports = 9
 		..\libraries\esp32_can\esp32_can.vcxitems*{8e062620-504f-4a0b-8215-fd15aad6ad02}*SharedItemsImports = 9
 		..\libraries\ESP32Servo\ESP32Servo.vcxitems*{9d782436-d38e-4c48-ba14-95d0d127012e}*SharedItemsImports = 9
-		..\..\..\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\WiFi\WiFi.vcxitems*{bd3c98a9-7998-43ef-99bd-39b0481d664b}*SharedItemsImports = 9
-		..\..\..\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\WiFi\WiFi.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		..\libraries\AccelStepper\AccelStepper.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		..\libraries\ESP32Servo\ESP32Servo.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		..\libraries\esp32_can\esp32_can.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		..\libraries\ICanBus\ICanBus.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		..\libraries\Instrument\Instrument.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
-		..\libraries\QList\QList.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86

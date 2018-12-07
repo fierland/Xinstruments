@@ -21,14 +21,13 @@
 // TODO: move setup to eeprom
 // TODO: OTA software update
 
-#include <Instrument.h>
 #include <stdlib.h>
+#include <ICanBase.h>
+#include <Instrument.h>
 
 #include "Xinstruments.h"
 #include "mydebug.h"
-#include <ICanInstrument.h>
-#include <StepperPie.h>
-#include <Stepper360.h>
+#include "ICanInstrument.h"
 
 //generic includes for used libs
 #include <AccelStepper.h>
@@ -43,13 +42,13 @@
 
 Instrument*	 myInstrument = NULL;
 
-//EEPROMClass  SETUPINFO("eeprom", sizeof(XI_instrumentDescription+XI_runtimeInfo)); //implement later
+/* will move to instrument code
 
 #ifdef USE_PWR_FLAG_SERVO
 boolean _powerIsOn = false;
 boolean _communicationIsOn = false;
 boolean _flagIsUp = true;
-XServo *flagServo; // create servo object to control a servo
+//XServo *flagServo; // create servo object to control a servo
 
 #endif
 
@@ -107,7 +106,7 @@ void _UpdateFlagStatus()
 	}
 }
 #endif
-
+*/
 //===================================================================================================================
 // MAIN SETUP PROC
 //===================================================================================================================
@@ -119,11 +118,6 @@ void setup()
 	// start communication with master
 
 	myInstrument = new Instrument("eeprom");
-
-#ifdef USE_PWR_FLAG_SERVO
-	// setup the power state flag
-	_InitiateFlagStatus();
-#endif
 
 	// set up can bus communication
 	myInstrument->initiateCommunication();
@@ -140,7 +134,8 @@ void loop()
 	//
 	// check for new commands ad set instrument to latest values
 	//
-	//DPRINT("***LOOP***");
+
+//Serial.println("***LOOP***");
 
 #ifdef DEBUG_CLI
 	commandLine.update();
