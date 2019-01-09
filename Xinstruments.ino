@@ -21,26 +21,9 @@
 // TODO: move setup to eeprom
 // TODO: OTA software update
 
-#include <stdlib.h>
-#include <ICanBase.h>
-#include <Instrument.h>
-
-#include "Xinstruments.h"
-#include "mydebug.h"
-#include "ICanInstrument.h"
-
-//generic includes for used libs
-#include <AccelStepper.h>
-#include <MultiStepper.h>
-#include <QList.h>
-#include <esp32_can.h>
-#include "EEPROM.h"
-
 //#ifdef USE_PWR_FLAG_SERVO
 //#include <ESP32_Servo.h>
 //#endif
-
-Instrument*	 myInstrument = NULL;
 
 /* will move to instrument code
 
@@ -110,20 +93,9 @@ void _UpdateFlagStatus()
 //===================================================================================================================
 // MAIN SETUP PROC
 //===================================================================================================================
+#include <Instrument.h>
 void setup()
-{
-	Serial.begin(115200);
-	DPRINTINFO("START");
-
-	// start communication with master
-
-	myInstrument = new Instrument("eeprom");
-
-	// set up can bus communication
-	myInstrument->initiateCommunication();
-
-	DPRINTINFO("STOP");
-}
+{}
 
 //===================================================================================================================
 // MAIN LOOP
@@ -137,18 +109,10 @@ void loop()
 
 //Serial.println("***LOOP***");
 
-#ifdef DEBUG_CLI
-	commandLine.update();
-#endif
-
 	// section to control a power/ready flag by a servo
-#ifdef USE_PWR_FLAG_SERVO
-	_UpdateFlagStatus();
-#endif
 
 	//
 	// move commands for all steppers
 	//
 	//delay(10);
-	myInstrument->update();
 }

@@ -127,32 +127,63 @@ C:\Users\Frank\AppData\Local\Temp\VMBuilds\Xinstruments\esp32_lolin32\Debug\Xins
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\cores\esp32/Esp.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\cores\esp32/Arduino.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\variants\lolin32/pins_arduino.h \
+ H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/Instrument.h \
+ H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/GenericDefs.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/freertos/freertos/queue.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_event_loop.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_event.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_wifi_types.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/rom/queue.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_interface.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/tcpip_adapter/tcpip_adapter.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/rom/queue.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_wifi_types.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/ip_addr.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/opt.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwipopts.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/time.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/machine/time.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/unistd.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/unistd.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/time.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/fcntl.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/_default_fcntl.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/stat.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/vfs/sys/ioctl.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/select.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_task.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/debug.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/arch.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/arch/cc.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/errno.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/newlib/sys/errno.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/arch/sys_arch.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/arch/vfs_lwip.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/def.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/ip4_addr.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/lwip/ip6_addr.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/lwip/apps/dhcpserver.h \
+ C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp32/esp_task_wdt.h \
+ H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/InstrumentMsg.h \
+ H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/GenericIndicator.h \
+ H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/CanasId.h \
+ H:\Users\Frank\Documents\Arduino\libraries\AccelStepper\src/AccelStepper.h \
+ H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanInstrument.h \
+ H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanBaseSrv.h \
  H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanBase.h \
+ H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/GenericDefs.h \
  H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/CANdriver.h \
  H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/XPCAN_messages.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/esp32_can.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/esp32_can_builtin.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/can_common.h \
- C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/freertos/freertos/queue.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/driver/driver/adc.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/soc/soc/adc_channel.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp_adc_cal/esp_adc_cal.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/esp32_can_builtin_lowlevel.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/can_config.h \
+ H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/mcp2517fd.h \
+ H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/mcp2517fd_defines.h \
  H:\Users\Frank\Documents\Arduino\libraries\QList\src/QList.h \
- H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/Instrument.h \
- H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/InstrumentMsg.h \
- H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/GenericIndicator.h \
- H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/CanasId.h \
- H:\Users\Frank\Documents\Arduino\libraries\AccelStepper\src/AccelStepper.h \
- H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/ICanInstrument.h \
- H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanBaseSrv.h \
- H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanBase.h \
  H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanService.h \
- H:\Users\Frank\Documents\Arduino\libraries\AccelStepper\src/MultiStepper.h \
- C:\Users\Frank\AppData\Local\Temp\VMBuilds\Xinstruments\esp32_lolin32\Debug\Xinstruments.h \
- C:\Users\Frank\AppData\Local\Temp\VMBuilds\Xinstruments\esp32_lolin32\Debug\mydebug.h \
- C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\EEPROM/EEPROM.h \
- C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/spi_flash/esp_partition.h \
- C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/spi_flash/esp_spi_flash.h \
- c:\program\ files\ (x86)\microsoft\ visual\ studio\2017\community\common7\ide\extensions\ktpce3c3.a4z\Micro\ Platforms\default\debuggers\VM_DBG/VM_DBG.h
+ H:\Users\Frank\Documents\Arduino\libraries\AccelStepper\src/MultiStepper.h

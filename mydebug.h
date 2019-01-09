@@ -5,11 +5,6 @@
 #ifndef DEBUG_MACROS_H_
 #define DEBUG_MACROS_H_
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
 #define NO_DEBUG 0
 #define MACRO_DEBUG  //If you comment this line, the DPRINT & DPRINTLN lines are defined as blank.

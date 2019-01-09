@@ -139,4 +139,6 @@ C:\Users\Frank\AppData\Local\Temp\VMBuilds\Xinstruments\esp32_lolin32\Debug\esp3
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/esp_adc_cal/esp_adc_cal.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src\esp32_can_builtin_lowlevel.h \
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src\can_config.h \
- H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src\esp32_can.h
+ H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src\esp32_can.h \
+ H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src\mcp2517fd.h \
+ H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src\mcp2517fd_defines.h

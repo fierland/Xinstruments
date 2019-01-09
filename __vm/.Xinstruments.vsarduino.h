@@ -14,11 +14,11 @@
 #define _VSARDUINO_H_
 #define __ESP32_ESp32__
 #define __ESP32_ESP32__
-#define _VMDEBUG 1
+#define ICAN_INSTRUMENT
 #define ESP_PLATFORM
 #define HAVE_CONFIG_H
 #define F_CPU 240000000L
-#define ARDUINO 10801
+#define ARDUINO 10807
 #define ARDUINO_LOLIN32
 #define ARDUINO_ARCH_ESP32
 #define ESP32

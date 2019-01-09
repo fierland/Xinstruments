@@ -27,7 +27,7 @@
 
 #include <Instrument.h>
 #include <InstrumentMsg.h>
-#include <Arduino.h>
+//#include <Arduino.h>
 //#define DEBUG_CLI
 
 //===================================================================================================================
