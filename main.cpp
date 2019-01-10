@@ -81,11 +81,11 @@ extern "C" void app_main()
 	//vprintf("TEST OUTPUT %s", "test");
 
 	esp_log_level_set("*", ESP_LOG_VERBOSE);
-	esp_log_level_set("ICanService", ESP_LOG_INFO);
-	esp_log_level_set("ICanBase", ESP_LOG_INFO);
-	esp_log_level_set("ICanInstrument", ESP_LOG_INFO);
-	esp_log_level_set("ICanDriver", ESP_LOG_INFO);
-	esp_log_level_set("ICanBaseSrv", ESP_LOG_INFO);
+	//esp_log_level_set("ICanService", ESP_LOG_INFO);
+	//esp_log_level_set("ICanBase", ESP_LOG_INFO);
+	//esp_log_level_set("ICanInstrument", ESP_LOG_INFO);
+	//esp_log_level_set("ICanDriver", ESP_LOG_INFO);
+	//esp_log_level_set("ICanBaseSrv", ESP_LOG_INFO);
 
 	//esp_task_wdt_init(254, false);
 	esp_task_wdt_deinit();
