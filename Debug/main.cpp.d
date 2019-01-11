@@ -186,6 +186,7 @@ C:\Users\Frank\AppData\Local\Temp\VMBuilds\Xinstruments\esp32_lolin32\Debug\main
  H:\Users\Frank\Documents\Arduino\libraries\esp32_can\src/mcp2517fd_defines.h \
  H:\Users\Frank\Documents\Arduino\libraries\QList\src/QList.h \
  H:\Users\Frank\Documents\Arduino\libraries\ICanBus\src/ICanService.h \
+ H:\Users\Frank\Documents\Arduino\libraries\Instrument\src/indicatorLed.h \
  H:\Users\Frank\Documents\Arduino\libraries\AccelStepper\src/MultiStepper.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0\libraries\EEPROM/EEPROM.h \
  C:\Users\Frank\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.0/tools/sdk/include/spi_flash/esp_partition.h \
